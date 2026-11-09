@@ -1,12 +1,13 @@
-import { Award, Anchor, Coins, Gift, Lock } from 'lucide-react'
+import { Award, Anchor, Coins, Gift, Lock, Trophy } from 'lucide-react'
 import { Callout, PageHeader, ProgressBar } from '../components/ui'
 import { formatDate, useApp } from '../context/AppContext'
-import { demoUser } from '../data/team'
+import { useLeaderboard } from '../lib/shared'
 import { mileageRules, rewardPlaceholder } from '../data/classes'
 import { TOTAL_WEEKS } from '../data/journey'
 
 export default function CompletionPage() {
-  const { state, totalMileage, isLeader, progress } = useApp()
+  const { state, totalMileage, isLeader, progress, profile, auth } = useApp()
+  const board = useLeaderboard()
   const week = state.demoWeek
 
   return (
@@ -21,7 +22,7 @@ export default function CompletionPage() {
                 <div className="flex h-32 w-32 items-center justify-center rounded-full bg-safety-500 shadow-xl ring-8 ring-safety-500/30"><Award size={64} /></div>
                 <div>
                   <p className="text-sm text-navy-200">CC · Captain Class 수료</p>
-                  <h2 className="mt-1 text-3xl font-black">{demoUser.name} <span className="text-safety-400">리더</span></h2>
+                  <h2 className="mt-1 text-3xl font-black">{profile.name} <span className="text-safety-400">리더</span></h2>
                   <p className="mt-2 text-navy-100">직책만 받은 캡틴에서 사람을 이끄는 리더로. 사후 진단 통과 · 360 피드백 완료.</p>
                   <div className="mt-4 flex gap-2 text-xs">
                     <span className="badge bg-white/15 text-white">공감 축 {progress.compassion}%</span>
@@ -82,6 +83,28 @@ export default function CompletionPage() {
             <ul className="mt-3 space-y-1.5 text-sm text-slate-600">
               {mileageRules.map((r) => <li key={r.id} className="flex justify-between"><span>{r.label}</span><b>{r.points} M</b></li>)}
             </ul>
+          </div>
+          <div className="card p-6">
+            <div className="flex items-center justify-between">
+              <p className="flex items-center gap-2 font-bold text-navy-800"><Trophy size={16} className="text-safety-500" /> 캡틴 랭킹</p>
+              <span className="text-[11px] text-slate-400">{auth.online ? '서버 기준 · 마일리지 순' : '서버 연결 시 표시'}</span>
+            </div>
+            {board && board.length > 0 ? (
+              <ol className="mt-3 space-y-1.5">
+                {board.slice(0, 8).map((r, i) => (
+                  <li key={r.display + i} className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm ${auth.user && r.display === (auth.user.display) ? 'bg-safety-50' : 'bg-slate-50'}`}>
+                    <span className="flex items-center gap-2">
+                      <span className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-black ${i === 0 ? 'bg-safety-500 text-white' : 'bg-white text-slate-500'}`}>{i + 1}</span>
+                      <span className="font-semibold text-slate-800">{r.display}</span>
+                      <span className="text-[11px] text-slate-400">{r.role === 'leader' ? '리더' : `캡틴 · ${r.week}주차`}</span>
+                    </span>
+                    <span className="text-xs text-slate-500">기록 {r.records} · <b className="text-safety-600">{r.mileage} M</b></span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="mt-3 rounded-xl border border-dashed border-slate-200 px-4 py-5 text-center text-xs text-slate-400">{auth.online ? '아직 기록이 저장된 캡틴이 없습니다. 로그인하면 내 기록이 서버에 저장되고 랭킹에 오릅니다.' : '서버에 연결되면 모든 캡틴의 마일리지 랭킹이 여기에 표시됩니다.'}</p>
+            )}
           </div>
           <Callout tone="info">마일리지는 활동 기록용 목업입니다. 실제 포상 연계는 리워드 체계 확정 후 반영됩니다.</Callout>
         </aside>

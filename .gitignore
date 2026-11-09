@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 dist-single
+
+# 로컬 DB
+server/data/
+.env
+.env.production

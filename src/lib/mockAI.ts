@@ -80,10 +80,10 @@ function tokenize(text: string): string[] {
     .filter((w) => w.length >= 2)
 }
 
-export function matchCases(query: string): { item: CaseItem; score: number }[] {
+export function matchCases<T extends CaseItem>(query: string, list: readonly T[] = cases as unknown as readonly T[]): { item: T; score: number }[] {
   const q = query.toLowerCase()
   const tokens = tokenize(query)
-  return cases
+  return list
     .map((item) => {
       let score = 0
       for (const kw of item.keywords) {

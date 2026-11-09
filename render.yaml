@@ -1,0 +1,17 @@
+# Render.com 블루프린트: 저장소를 연결하면 이 설정으로 웹 서비스가 만들어진다.
+# 프론트(dist)와 API를 한 서비스에서 서빙한다. 무료 플랜은 디스크가 초기화될 수 있어 DB는 재배포 시 시드 상태로 돌아간다.
+services:
+  - type: web
+    name: captain-class
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: ADMIN_KEY
+        generateValue: true

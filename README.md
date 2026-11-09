@@ -4,7 +4,10 @@
 > "AI는 데이터의 맥락을, 리더는 마음의 맥락을 읽는다"
 
 대학 수업 팀 프로젝트 **「AI 시대의 공감 리더십 솔루션 기획」** 발표 시연용 PC 웹 포털 프로토타입입니다.
-백엔드와 실제 AI API는 쓰지 않습니다. 모든 AI 기능은 **미리 짠 시나리오·규칙 기반 목업**(`src/lib/mockAI.ts`)이며, 상태는 브라우저 `localStorage`에 저장됩니다.
+실제 AI API는 쓰지 않습니다. 모든 AI 기능은 **규칙 기반 목업**(`src/lib/mockAI.ts`, 서버판 `server/rules.mjs`)입니다.
+
+- **프론트만 띄우면 로컬 모드**: 기록은 브라우저 `localStorage`에만 저장됩니다. (GitHub Pages 배포가 이 상태)
+- **백엔드(`server/`)를 함께 띄우면 서버 모드**: 이름+PIN 로그인, 사용자별 기록 서버 저장·동기화, P난처 사례·리더 솔루션 공유, 익명 브릿지 고충 보내기·답변 공유, 캡틴 랭킹이 켜집니다. 헤더 왼쪽 구름 아이콘이 연결 상태를 보여 줍니다.
 
 - 기술 스택: React 19 + Vite + TypeScript + Tailwind CSS v4 + react-router-dom, 아이콘 lucide-react, 폰트 Pretendard(CDN)
 - 화면 기준: 1440px (최소 1280px) PC 전용. 모바일 대응 없음.
@@ -15,8 +18,18 @@
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
+npm run dev        # 프론트 http://localhost:5173 (로컬 모드)
 ```
+
+백엔드까지 함께 실행하려면 터미널을 하나 더 열어 서버를 띄웁니다. Vite가 `/api` 요청을 8787 포트로 넘겨 주므로 프론트 주소는 그대로입니다.
+
+```bash
+npm run server     # API http://localhost:8787/api/health  (Node 22.13+ 또는 24, 내장 SQLite 사용)
+```
+
+- 로그인: 헤더 오른쪽 **로그인** 버튼 → 이름 + 숫자 4자리 PIN. 처음 쓰는 이름이면 자동 가입됩니다.
+- 데모 계정(PIN 0000): `이하영`(캡틴), `정소장`·`윤팀장`·`한팀장`(리더). 리더만 P난처 솔루션·커뮤니티 글을 쓸 수 있습니다.
+- API 통합 테스트: 서버를 띄운 뒤 `node server/test-api.mjs` (27개 항목).
 
 ```bash
 npm run build      # 타입 체크 + 프로덕션 빌드 (dist/)
@@ -55,10 +68,18 @@ npm run preview    # 빌드 결과 미리보기
 ## 3. 폴더 구조
 
 ```
+server/
+  index.mjs       # Express 5 API + 정적 프론트 서빙 (dist/ 있을 때)
+  rules.mjs       # 규칙 기반 목업 AI (서버판) — 실제 AI로 바꾸려면 이 파일만 교체
+  seed.json       # 초기 데이터 (npm run seed:export 로 src/data 에서 재생성)
+  test-api.mjs    # API 통합 테스트
+  data/           # SQLite 파일 (git 제외)
 src/
   data/           # 모든 콘텐츠 (코드와 분리). 팀원은 이 폴더만 수정하면 됩니다.
   context/        # AppContext — 진척도·기록·마일리지 (localStorage 저장)
   lib/mockAI.ts   # 규칙 기반 목업 AI (유형 분류, 코칭 체크, 사례 매칭)
+  lib/api.ts      # 백엔드 API 클라이언트 (주소 결정·토큰)
+  lib/shared.ts   # 공유 데이터 훅 — 서버 있으면 서버, 없으면 로컬 목업을 같은 모양으로 반환
   components/     # Layout(헤더·우측 하단 피난처 버튼·전환), Curriculum(주차 스트립·표), HeroScene/ForestScene(SVG 장면), ui(SectionHead·Reveal 등)
   pages/          # 화면
     compassion/   # Reframing, 관점 렌즈, 전문가 수업
@@ -89,13 +110,42 @@ src/
 
 ---
 
-## 5. 디자인 노트
+## 5. 백엔드 API
+
+| 메서드 | 경로 | 설명 |
+|---|---|---|
+| GET | `/api/health` | 서버 상태·버전·건수 |
+| POST | `/api/auth/login` | `{name, pin, initialState?}` → 토큰. 없는 이름은 자동 가입(캡틴) |
+| POST | `/api/auth/logout` | 토큰 폐기 |
+| GET / PUT | `/api/me`, `/api/me/state` | 내 정보, 내 기록 상태(JSON 블롭) 저장·복원 |
+| GET / POST | `/api/cases` | P난처 사례 목록(시드+사용자) / 새 상황 등록 |
+| POST | `/api/cases/:id/helpful` | 도움돼요 토글 |
+| POST | `/api/cases/:id/solutions` | 리더 전용 솔루션 등록 |
+| GET / POST | `/api/posts` | 커뮤니티 글 / 리더 전용 글쓰기 |
+| GET / POST | `/api/grievances` | 익명 고충 목록 / 고충 보내기 (작성자 식별 정보는 응답에 포함되지 않음) |
+| POST | `/api/grievances/:id/answers` | 익명 답변 (본인 고충에는 불가, 코칭 포인트 3가지 자동 점검) |
+| GET | `/api/leaderboard` | 마일리지·기록 수 기준 캡틴 랭킹 |
+| POST | `/api/ai/classify`, `/api/ai/coach` | 규칙 기반 AI 서버판 |
+| POST | `/api/admin/reset` | `x-admin-key` 헤더(ADMIN_KEY) 필요. DB를 시드 상태로 초기화 |
+
+보안 수준은 수업 데모용입니다. PIN은 scrypt 해시로 저장하고 토큰은 랜덤 세션이지만, 요청 제한·이메일 인증 같은 운영 수준 보호는 없습니다.
+
+### 백엔드 배포 (Render 무료 플랜 기준)
+
+1. GitHub에 push 되어 있어야 합니다 (`render.yaml`, `.node-version` 포함).
+2. https://dashboard.render.com → **New → Blueprint** → 이 저장소 선택 → Apply. 빌드 `npm ci && npm run build`, 시작 `npm start`가 자동 설정됩니다.
+3. 배포가 끝나면 `https://<서비스이름>.onrender.com` 하나로 프론트와 API가 함께 열립니다. 이 주소를 공유하면 됩니다.
+4. GitHub Pages 주소를 계속 쓰고 싶으면 `.env.production`에 `VITE_API_URL=https://<서비스이름>.onrender.com`을 적고 `npm run deploy`를 다시 실행합니다. 그러면 Pages 프론트가 Render API에 붙습니다.
+
+알아 둘 점: 무료 플랜은 15분 동안 요청이 없으면 잠들어 첫 접속이 30초쯤 느릴 수 있고, 재배포·재시작 시 디스크가 초기화되어 DB가 시드 상태로 돌아갑니다. 영구 보관이 필요하면 유료 디스크를 붙여 `DATABASE_PATH`를 그 경로로 지정합니다. Docker를 쓰는 곳이라면 `Dockerfile`을 그대로 쓰면 됩니다.
+
+## 6. 디자인 노트
 
 - 참고: 섹션 제목은 콘덴스드 영문(Barlow Condensed) + 짧은 포인트 밑줄 + 한국어 부제. 밝은 회청색 배경, 넉넉한 여백, 스크롤 진입 시 등장(`Reveal`).
 - 팔레트: 남색 #1E2A4A(캡틴), 안전 주황 #F28C28(현장), 청록 #1F9E8F(공감), 피난처 전용 숲/불씨 톤(`forest-*`, `ember-*`).
 - 이미지는 쓰지 않고 SVG 장면(`HeroScene`, `ForestScene`)과 CSS 애니메이션으로만 그렸습니다.
 
-## 6. 모든 AI 목업에 적용한 공통 원칙
+## 7. 모든 AI 목업에 적용한 공통 원칙
 
 1. AI는 대리자가 아니라 조력자다. 메시지 대필, 자동 발송, 감정 확정 진단 기능은 없다.
 2. AI 결과물에는 항상 **"참고용 · 최종 판단은 리더가"** 표시가 붙는다.

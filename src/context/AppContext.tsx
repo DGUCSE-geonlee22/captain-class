@@ -1,8 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { DEFAULT_DEMO_WEEK, journey } from '../data/journey'
 import { courses } from '../data/courses'
 import { mileageRules } from '../data/classes'
+import { demoUser } from '../data/team'
+import { api, ApiError, getApiBase, getToken, setApiBase as persistApiBase, setToken, type ApiUser } from '../lib/api'
 
 export interface SignalNote {
   id: string
@@ -138,17 +140,63 @@ function load(): AppState {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return initialState
     const parsed = JSON.parse(raw) as Partial<AppState>
-    return { ...initialState, ...parsed }
+    return sanitizeState({ ...initialState, ...parsed })
   } catch {
     return initialState
+  }
+}
+
+/** 서버에서 온 상태를 안전한 모양으로 정리한다 (배열은 id 있는 객체만, 문자열 배열은 문자열만, 주차는 0~13) */
+function sanitizeState(raw: Partial<AppState>): AppState {
+  const objArr = <T extends { id: string }>(v: unknown, fallback: T[]): T[] =>
+    Array.isArray(v) ? (v.filter((x) => x && typeof x === 'object' && typeof (x as { id?: unknown }).id === 'string') as T[]) : fallback
+  const strArr = (v: unknown, fallback: string[]): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : fallback)
+  const week = Number(raw.demoWeek)
+  return {
+    demoWeek: Number.isFinite(week) ? Math.max(0, Math.min(13, Math.round(week))) : initialState.demoWeek,
+    mileage: objArr(raw.mileage, initialState.mileage),
+    missionsDone: strArr(raw.missionsDone, initialState.missionsDone),
+    completedLessons: strArr(raw.completedLessons, initialState.completedLessons),
+    enrolledClasses: strArr(raw.enrolledClasses, []),
+    helpfulVoted: strArr(raw.helpfulVoted, []),
+    quizDone: strArr(raw.quizDone, []),
+    signalNotes: objArr(raw.signalNotes, initialState.signalNotes),
+    beforeAfters: objArr(raw.beforeAfters, []),
+    practiceLogs: objArr(raw.practiceLogs, []),
+    interviewNotes: objArr(raw.interviewNotes, []),
+    agreements: objArr(raw.agreements, []),
+    practiceResults: objArr(raw.practiceResults, []),
+    consultAnswers: objArr(raw.consultAnswers, []),
+    newCases: objArr(raw.newCases, []),
   }
 }
 
 export const uid = () => Math.random().toString(36).slice(2, 10)
 export const now = () => new Date().toISOString()
 
+export type SyncStatus = 'idle' | 'saving' | 'saved' | 'error'
+
+export interface AuthInfo {
+  /** 서버 연결 여부 (health 체크) */
+  online: boolean
+  /** 첫 health 체크 진행 중 */
+  checking: boolean
+  user: ApiUser | null
+  sync: SyncStatus
+  lastSyncAt: string | null
+  apiBase: string
+  serverInfo: { version: string; users: number; cases: number; grievances: number } | null
+  login: (name: string, pin: string) => Promise<{ created: boolean }>
+  logout: () => Promise<void>
+  setApiBase: (url: string) => Promise<void>
+  recheck: () => Promise<boolean>
+}
+
 interface AppContextValue {
   state: AppState
+  auth: AuthInfo
+  /** 화면에 표시할 현재 사용자 (로그인 시 서버 계정, 아니면 데모 사용자) */
+  profile: { name: string; title: string; org: string }
   setDemoWeek: (w: number) => void
   addMileage: (ruleId: string) => void
   totalMileage: number
@@ -174,10 +222,121 @@ const AppContext = createContext<AppContextValue | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(load)
+  const [online, setOnline] = useState(false)
+  const [checking, setChecking] = useState(true)
+  const [user, setUser] = useState<ApiUser | null>(null)
+  const [sync, setSync] = useState<SyncStatus>('idle')
+  const [lastSyncAt, setLastSyncAt] = useState<string | null>(null)
+  const [apiBase, setApiBaseState] = useState(getApiBase())
+  const [serverInfo, setServerInfo] = useState<AuthInfo['serverInfo']>(null)
+  /** 서버에서 받은 상태를 적용하는 동안에는 되돌려 올리지 않는다 */
+  const skipNextSync = useRef(false)
+  const syncTimer = useRef<number | null>(null)
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
   }, [state])
+
+  const applyServerState = useCallback((s: unknown) => {
+    if (!s || typeof s !== 'object') return
+    skipNextSync.current = true
+    setState(sanitizeState(s as Partial<AppState>))
+  }, [])
+
+  const recheck = useCallback(async () => {
+    setChecking(true)
+    try {
+      const h = await api.health()
+      setOnline(true)
+      setServerInfo({ version: h.version, ...h.counts })
+      return true
+    } catch {
+      setOnline(false)
+      setServerInfo(null)
+      return false
+    } finally {
+      setChecking(false)
+    }
+  }, [])
+
+  // 최초: 서버 확인 → 토큰이 있으면 내 정보·상태 복원
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const ok = await recheck()
+      if (!ok || cancelled || !getToken()) return
+      try {
+        const me = await api.me()
+        if (cancelled) return
+        setUser(me.user)
+        if (me.state) applyServerState(me.state)
+        else await api.putState(load())
+        setLastSyncAt(me.stateUpdatedAt)
+      } catch (e) {
+        if (e instanceof ApiError && e.status === 401) setToken(null)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [recheck, applyServerState])
+
+  // 상태가 바뀌면 (로그인·온라인일 때) 디바운스 저장
+  useEffect(() => {
+    if (!user || !online) return
+    if (skipNextSync.current) {
+      skipNextSync.current = false
+      return
+    }
+    if (syncTimer.current) window.clearTimeout(syncTimer.current)
+    setSync('saving')
+    syncTimer.current = window.setTimeout(async () => {
+      try {
+        const r = await api.putState(state)
+        setSync('saved')
+        setLastSyncAt(r.updatedAt)
+      } catch {
+        setSync('error')
+      }
+    }, 900)
+    return () => {
+      if (syncTimer.current) window.clearTimeout(syncTimer.current)
+    }
+  }, [state, user, online])
+
+  const login = useCallback(
+    async (name: string, pin: string) => {
+      const r = await api.login(name, pin, state)
+      setToken(r.token)
+      setUser(r.user)
+      if (r.state) applyServerState(r.state)
+      setLastSyncAt(r.stateUpdatedAt ?? now())
+      setSync('saved')
+      return { created: r.created }
+    },
+    [state, applyServerState],
+  )
+
+  const logout = useCallback(async () => {
+    try {
+      await api.logout()
+    } catch {
+      /* 토큰이 이미 무효여도 로컬은 정리 */
+    }
+    setToken(null)
+    setUser(null)
+    setSync('idle')
+    setLastSyncAt(null)
+  }, [])
+
+  const setApiBase = useCallback(
+    async (url: string) => {
+      persistApiBase(url)
+      setApiBaseState(getApiBase())
+      await recheck()
+    },
+    [recheck],
+  )
 
   const update = useCallback((fn: (s: AppState) => AppState) => setState((s) => fn(s)), [])
 
@@ -206,10 +365,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const activityLead = Math.min(1, (state.practiceResults.length + state.practiceLogs.length + state.agreements.length) / 6)
     const leadership = Math.round((weekFrac(leadershipWeeks) * 0.5 + weekFrac(linkWeeks) * 0.2) * 100 + activityLead * 30)
 
+    const isLeader = user?.role === 'leader' || w >= 13
+    const profile = user
+      ? { name: user.name, title: user.role === 'leader' ? user.rank : user.rank || '신임 리더', org: user.role === 'leader' ? '리더 (수료)' : '캡틴 (수강 중)' }
+      : { name: demoUser.name, title: demoUser.title, org: demoUser.org }
+
     return {
       state,
+      auth: { online, checking, user, sync, lastSyncAt, apiBase, serverInfo, login, logout, setApiBase, recheck },
+      profile,
       totalMileage,
-      isLeader: w >= 13,
+      isLeader,
       progress: { compassion: Math.min(100, compassion), leadership: Math.min(100, leadership), foundation: 'TBD' },
       setDemoWeek: (demoWeek) => update((s) => ({ ...s, demoWeek })),
       addMileage,
@@ -265,7 +431,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setState(initialState)
       },
     }
-  }, [state, update, addMileage])
+  }, [state, update, addMileage, online, checking, user, sync, lastSyncAt, apiBase, serverInfo, login, logout, setApiBase, recheck])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
-import { Anchor, Award, Coins, Flame, RotateCcw } from 'lucide-react'
+import { Anchor, Award, Cloud, CloudOff, Coins, Flame, LogIn, LogOut, RotateCcw } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { demoUser } from '../data/team'
 import { stageForWeek } from '../data/journey'
 import ForestScene from './ForestScene'
+import LoginDialog from './LoginDialog'
 
 const menu = [
   { to: '/', label: '홈', en: 'HOME', end: true },
@@ -16,7 +16,7 @@ const menu = [
 ]
 
 export default function Layout() {
-  const { state, setDemoWeek, totalMileage, isLeader, resetAll } = useApp()
+  const { state, setDemoWeek, totalMileage, isLeader, resetAll, auth, profile } = useApp()
   const stage = stageForWeek(state.demoWeek)
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -24,6 +24,7 @@ export default function Layout() {
   const isRefuge = pathname.startsWith('/pnancheo')
   const [scrolled, setScrolled] = useState(false)
   const [entering, setEntering] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -51,46 +52,63 @@ export default function Layout() {
   const navActive = transparent ? 'text-white' : dark ? 'text-ember-300' : 'text-navy-800'
   const pill = transparent || dark ? 'border-white/20 text-white/90' : 'border-slate-200 text-slate-700'
 
+  const syncLabel = auth.checking ? '서버 확인 중' : !auth.online ? '로컬 모드' : !auth.user ? '서버 연결됨 · 로그인 안 함' : auth.sync === 'saving' ? '저장 중…' : auth.sync === 'error' ? '저장 실패' : '서버 동기화'
+
   return (
     <div className={`min-h-full ${dark ? 'bg-forest-900 text-white' : ''}`}>
       {isRefuge && <ForestScene className="pointer-events-none fixed inset-0 h-full w-full" />}
 
       <header className={`fixed inset-x-0 top-0 z-40 border-b transition-colors duration-500 ${headerCls}`}>
-        <div className="mx-auto flex h-[72px] max-w-[1400px] items-center gap-10 px-8">
+        <div className="mx-auto flex h-[72px] max-w-[1400px] items-center gap-6 px-6">
           <Link to="/" className="flex items-center gap-3">
             <span className={`flex h-10 w-10 items-center justify-center rounded-xl font-display text-lg font-bold tracking-tight ${transparent || dark ? 'bg-white/10 text-safety-400' : 'bg-navy-700 text-safety-400'}`}>CC</span>
             <span className="leading-tight">
-              <span className="block font-display text-[17px] uppercase tracking-[0.08em]">Captain Class</span>
-              <span className={`block text-[11px] ${transparent || dark ? 'text-white/60' : 'text-slate-500'}`}>공감 리더십 사내 교육 포털</span>
+              <span className="block whitespace-nowrap font-display text-[17px] uppercase tracking-[0.08em]">Captain Class</span>
+              <span className={`block whitespace-nowrap text-[11px] ${transparent || dark ? 'text-white/60' : 'text-slate-500'}`}>공감 리더십 사내 교육 포털</span>
             </span>
           </Link>
-          <nav className="flex items-center gap-7">
+          <nav className="flex items-center gap-5">
             {menu.map((m) => (
               <NavLink key={m.to} to={m.to} end={m.end} className={({ isActive }) => `group flex flex-col items-center leading-none transition ${isActive ? navActive : navIdle}`}>
                 {({ isActive }) => (
                   <>
-                    <span className="font-display text-[13px] uppercase tracking-[0.14em]">{m.en}</span>
-                    <span className="mt-1 text-[11px]">{m.label}</span>
+                    <span className="whitespace-nowrap font-display text-[13px] uppercase tracking-[0.12em]">{m.en}</span>
+                    <span className="mt-1 whitespace-nowrap text-[11px]">{m.label}</span>
                     <span className={`mt-1 h-px w-full transition-all ${isActive ? 'bg-current opacity-100' : 'opacity-0 group-hover:opacity-60 bg-current'}`} />
                   </>
                 )}
               </NavLink>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-3">
-            <Link to="/completion" className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold ${pill} hover:opacity-80`}>
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            {/* 서버 연결 상태 */}
+            <button
+              onClick={() => setShowLogin(true)}
+              title={auth.online ? `API: ${auth.apiBase || '같은 주소'} · ${auth.lastSyncAt ? '마지막 저장 ' + new Date(auth.lastSyncAt).toLocaleTimeString() : ''}` : '서버에 연결되지 않았습니다. 눌러서 서버 주소를 설정하거나 로컬 모드로 계속 사용하세요.'}
+              className={`flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1.5 text-[11px] ${pill} hover:opacity-80`}
+            >
+              {auth.online ? <Cloud size={13} className="text-teal-400" /> : <CloudOff size={13} className="opacity-60" />}
+              {syncLabel}
+            </button>
+            <Link to="/completion" className={`flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold ${pill} hover:opacity-80`}>
               <Coins size={15} className="text-safety-400" /> {totalMileage.toLocaleString()} M
             </Link>
-            <div className={`flex items-center gap-2 rounded-full border py-1 pl-1 pr-3 ${pill}`}>
+            <div className={`flex items-center gap-2 rounded-full border py-1 pl-1 pr-2 ${pill}`}>
               <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${isLeader ? 'bg-safety-500' : 'bg-navy-600'}`}>
                 {isLeader ? <Award size={14} /> : <Anchor size={14} />}
               </span>
-              <span className="text-sm">
-                <span className="font-semibold">{demoUser.name}</span>
-                <span className="ml-1 text-xs opacity-70">{isLeader ? '리더' : '캡틴'} · {demoUser.title}</span>
+              <span className="flex items-center whitespace-nowrap text-sm" title={`${profile.name} · ${profile.title}`}>
+                <span className="font-semibold">{profile.name}</span>
+                <span className="ml-1 text-xs opacity-70">{isLeader ? '리더' : '캡틴'}</span>
+                <span className="ml-1 hidden max-w-[150px] truncate text-xs opacity-60 2xl:inline">· {profile.title}</span>
               </span>
+              {auth.user ? (
+                <button onClick={() => auth.logout()} className="ml-1 rounded-full p-1 opacity-60 hover:opacity-100" title="로그아웃"><LogOut size={13} /></button>
+              ) : (
+                <button onClick={() => setShowLogin(true)} className="ml-1 flex items-center gap-1 rounded-full bg-teal-500 px-2 py-0.5 text-[11px] font-semibold text-white hover:bg-teal-600" title="로그인"><LogIn size={11} /> 로그인</button>
+              )}
             </div>
-            <label className={`flex items-center gap-2 rounded-full border border-dashed px-3 py-1.5 text-xs ${pill}`}>
+            <label className={`flex items-center gap-2 whitespace-nowrap rounded-full border border-dashed px-3 py-1.5 text-xs ${pill}`}>
               데모 주차
               <select
                 value={state.demoWeek}
@@ -104,7 +122,7 @@ export default function Layout() {
               </select>
               <span className="opacity-60">· {stage.name}</span>
             </label>
-            <button onClick={() => { if (confirm('데모 데이터(기록·마일리지·진척도)를 초기화할까요?')) resetAll() }} className="rounded-lg p-2 opacity-60 hover:opacity-100" title="데모 데이터 초기화">
+            <button onClick={() => { if (confirm('데모 데이터(기록·마일리지·진척도)를 초기화할까요? 로그인 중이면 서버에도 초기 상태가 저장됩니다.')) resetAll() }} className="rounded-lg p-2 opacity-60 hover:opacity-100" title="데모 데이터 초기화">
               <RotateCcw size={15} />
             </button>
           </div>
@@ -116,7 +134,7 @@ export default function Layout() {
       </main>
 
       <footer className={`relative z-10 mx-auto max-w-[1400px] px-8 pb-10 pt-4 text-center text-xs ${dark ? 'text-white/40' : 'text-slate-400'}`}>
-        CC · Captain Class — "AI는 데이터의 맥락을, 리더는 마음의 맥락을 읽는다" · 발표 시연용 프로토타입 (목업 데이터, 실제 AI API 미사용)
+        CC · Captain Class — "AI는 데이터의 맥락을, 리더는 마음의 맥락을 읽는다" · 발표 시연용 프로토타입 (규칙 기반 목업 AI{auth.online ? ` · 서버 v${auth.serverInfo?.version ?? ''}` : ' · 로컬 모드'})
       </footer>
 
       {/* 우측 하단 피난처(P난처) 버튼 */}
@@ -148,6 +166,8 @@ export default function Layout() {
           </div>
         </div>
       )}
+
+      {showLogin && <LoginDialog onClose={() => setShowLogin(false)} />}
     </div>
   )
 }

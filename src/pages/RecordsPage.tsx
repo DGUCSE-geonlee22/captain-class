@@ -19,7 +19,7 @@ const baseline = { compassion: 38, leadership: 44 }
 
 export default function RecordsPage() {
   const [params, setParams] = useSearchParams()
-  const { state, progress } = useApp()
+  const { state, progress, auth } = useApp()
   const raw = params.get('tab') as Tab | null
   const tab: Tab = raw && tabs.some((t) => t.id === raw) ? raw : 'diagnosis'
 
@@ -38,7 +38,7 @@ export default function RecordsPage() {
         en="My Records"
         eyebrow={<span className="badge bg-navy-50 text-navy-700">내 기록</span>}
         title="캡틴의 항해 일지"
-        description="훈련과 현장에서 남긴 기록이 쌓입니다. 사전 진단과 지금을 비교해 보세요."
+        description={`훈련과 현장에서 남긴 기록이 쌓입니다. 사전 진단과 지금을 비교해 보세요. ${auth.user ? `(${auth.user.display} 계정에 서버 저장 중 · 다른 기기에서 로그인해도 이어집니다)` : auth.online ? "(로그인하면 기록이 서버에 저장됩니다)" : "(로컬 모드 · 이 브라우저에만 저장)"}`}
         right={<Link to="/completion" className="btn-ghost">수료·리워드 보기</Link>}
       />
       <Tabs tabs={tabs.map((t) => ({ id: t.id, label: counts[t.id] ? `${t.label} ${counts[t.id]}` : t.label }))} value={tab} onChange={(t) => setParams({ tab: t })} />

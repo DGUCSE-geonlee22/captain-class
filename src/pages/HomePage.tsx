@@ -4,14 +4,14 @@ import HeroScene from '../components/HeroScene'
 import { CurriculumTable, WeekStrip } from '../components/Curriculum'
 import { AiNotice, ProgressBar, Reveal, SectionHead } from '../components/ui'
 import { useApp } from '../context/AppContext'
-import { demoUser, organization } from '../data/team'
+import { organization } from '../data/team'
 import { construction, stageForWeek, TOTAL_WEEKS, weekPlanFor } from '../data/journey'
 import { safetyLogs } from '../data/logs'
 import { grievances } from '../data/bridge'
 import { axisMeta, courses } from '../data/courses'
 
 export default function HomePage() {
-  const { state, toggleMission, progress, isLeader } = useApp()
+  const { state, toggleMission, progress, isLeader, profile } = useApp()
   const week = state.demoWeek
   const stage = stageForWeek(week)
   const plan = weekPlanFor(week)
@@ -37,7 +37,7 @@ export default function HomePage() {
         </div>
         <div className="absolute bottom-10 left-10 text-white/85">
           <p className="text-xs uppercase tracking-[0.2em] text-white/50">Now sailing</p>
-          <p className="mt-1 text-lg font-semibold">{demoUser.name} {isLeader ? '리더' : '캡틴'} · {week === 0 ? '출항 전' : week >= 13 ? '13주+ 유지 단계' : `${week}주차 · ${stage.name} 단계`}</p>
+          <p className="mt-1 text-lg font-semibold">{profile.name} {isLeader ? '리더' : '캡틴'} · {week === 0 ? '출항 전' : week >= 13 ? '13주+ 유지 단계' : `${week}주차 · ${stage.name} 단계`}</p>
         </div>
         <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center text-white/70">
           <span className="font-display text-[11px] uppercase tracking-[0.3em]">Scroll</span>
@@ -77,8 +77,8 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1400px] px-8">
           <SectionHead
             en="My Voyage"
-            ko={isLeader ? <>{demoUser.name} 리더, 리더 직급을 획득했어요</> : weeksLeft === 0 ? <>{demoUser.name} 캡틴, 이번 주가 마지막 항해예요</> : <>{demoUser.name} 캡틴, 리더까지 <span className="text-safety-500">{weeksLeft}주</span> 남았어요</>}
-            sub={`${demoUser.org} · ${demoUser.title} · 현재 ${stage.order}. ${stage.name} 단계 (${stage.weekLabel})`}
+            ko={isLeader ? <>{profile.name} 리더, 리더 직급을 획득했어요</> : weeksLeft === 0 ? <>{profile.name} 캡틴, 이번 주가 마지막 항해예요</> : <>{profile.name} 캡틴, 리더까지 <span className="text-safety-500">{weeksLeft}주</span> 남았어요</>}
+            sub={`${profile.org} · ${profile.title} · 현재 ${stage.order}. ${stage.name} 단계 (${stage.weekLabel})`}
           />
           <Reveal className="mt-12" delay={100}><WeekStrip /></Reveal>
           <Reveal className="mt-6 grid grid-cols-5 gap-6" delay={200}>
