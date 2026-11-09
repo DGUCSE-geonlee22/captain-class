@@ -8,6 +8,7 @@
  *
  * 환경 변수
  *   PORT            기본 8787
+ *   HOST            기본 0.0.0.0 (공용 서버에서는 127.0.0.1 권장)
  *   DATABASE_PATH   기본 server/data/cc.sqlite
  *   CORS_ORIGIN     기본 * (예: https://dgucse-geonlee22.github.io)
  *   ADMIN_KEY       설정 시 POST /api/admin/reset 허용 (x-admin-key 헤더)
@@ -24,6 +25,7 @@ import { classifyReply, coachingCheck, tokenize } from './rules.mjs'
 const here = dirname(fileURLToPath(import.meta.url))
 const root = join(here, '..')
 const PORT = Number(process.env.PORT ?? 8787)
+const HOST = process.env.HOST ?? '0.0.0.0'
 const DB_PATH = process.env.DATABASE_PATH ?? join(here, 'data', 'cc.sqlite')
 const CORS_ORIGIN = process.env.CORS_ORIGIN ?? '*'
 const ADMIN_KEY = process.env.ADMIN_KEY ?? ''
@@ -324,6 +326,6 @@ if (existsSync(join(dist, 'index.html'))) {
   app.get('/', (_req, res) => res.type('text').send('captain-class api · dist/ 가 없어 프론트는 서빙하지 않습니다. npm run build 후 다시 시작하세요.'))
 }
 
-app.listen(PORT, () => {
-  console.log(`[captain-class] API http://localhost:${PORT}/api/health  · DB ${DB_PATH}  · CORS ${CORS_ORIGIN}`)
+app.listen(PORT, HOST, () => {
+  console.log(`[captain-class] API http://${HOST}:${PORT}/api/health  · DB ${DB_PATH}  · CORS ${CORS_ORIGIN}`)
 })
