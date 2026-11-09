@@ -29,5 +29,5 @@ if ! tmux list-windows -t cc -F '#W' | grep -qx tunnel; then
   tmux new-window -t cc -n tunnel
   tmux send-keys -t cc:tunnel "'$CLOUDFLARED' tunnel --no-autoupdate --url http://127.0.0.1:$PORT 2>&1 | tee '$LOG_DIR/tunnel.log'" Enter
 fi
-for i in $(seq 1 40); do URL=$(grep -oE 'https://[a-z0-9-]+\.trycloudflare\.com' "$LOG_DIR/tunnel.log" 2>/dev/null | tail -1); [ -n "${URL:-}" ] && break; sleep 1; done
+for i in $(seq 1 40); do URL=$(grep -oE 'https://[a-z0-9-]+\.trycloudflare\.com' "$LOG_DIR/tunnel.log" 2>/dev/null | tail -1 || true); [ -n "${URL:-}" ] && break; sleep 1; done
 echo "public address: ${URL:-(아직 없음 · tmux attach -t cc 로 tunnel 창 확인)}"
