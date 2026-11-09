@@ -28,6 +28,28 @@ const diagrams: Record<string, { title: string; steps: { n: string; label: strin
     ],
     note: '목표는 언제나 부드럽게 말하는 것이 아니라, 존중하면서 기준을 분명히 전달하는 것이다.',
   },
+  'charisma-character': {
+    title: '질문형 리더 AI · 리더에게 질문을 던지는 구조',
+    steps: [
+      { n: '1', label: '상황', desc: '협력사의 작업 중지 요청 vs 본사의 공기 재촉. 리더가 상황을 입력한다' },
+      { n: '2', label: '안내자의 질문', desc: "'선원이 위험을 말했을 때, 흰수염은 항로보다 무엇을 먼저 확인했을까?' — 답이 아니라 질문" },
+      { n: '3', label: '참고 자료', desc: '삼성물산 작업중지권 운영(손실 보전·계약 반영) 같은 근거를 함께 제시. 판단은 대신하지 않는다' },
+      { n: '4', label: '내 방향', desc: '리더가 직접 방향을 정한다' },
+      { n: '5', label: '영향 되묻기', desc: "'작업이 멈췄을 때 비용과 일정 영향은 누가 부담할까?' — 협력사·본사·작업자 관점으로 다시 질문" },
+    ],
+    note: '먼저 묻는 습관, 상대 입장부터 고려하는 태도, 스스로 근거를 갖고 판단하는 모습이 믿고 따를 수 있는 카리스마의 바탕이 된다.',
+  },
+  coaching: {
+    title: '리더가 팀원에게 질문하는 구조 · 인증과 실행의 구분',
+    steps: [
+      { n: '1', label: '지시 대신 질문', desc: "'야근해서라도 맞추세요' 대신 '제일 먼저 풀어야 할 매듭은 뭐예요?'" },
+      { n: '2', label: '팀원이 길을 찾는다', desc: '리더는 길을 정해 주지 않고 팀원의 답을 듣는다' },
+      { n: '3', label: '성취 경험 기록', desc: '문제 정의 · 근거 설명 · 도전 행동 · 다음 한 걸음으로 남긴다' },
+      { n: '4', label: '경력으로', desc: '기록이 쌓여 팀원의 경력이 되고, 리더에게는 코칭의 증거가 된다' },
+      { n: '5', label: '인증 연계', desc: '한국코치협회 인증은 자격, 현장 코칭은 실행. 둘을 구분해 평가한다' },
+    ],
+    note: 'Charisma+Character가 리더에게 질문을 제시하는 구조였다면, Coaching은 리더가 팀원에게 질문하며 방향을 제시하는 구조다.',
+  },
 }
 
 export default function CourseDetailPage() {
@@ -80,7 +102,7 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
         </Reveal>
       )}
 
-      {fw && (
+      {fw && course.axis === 'compassion' && (
         <Reveal className="flex items-center justify-center gap-2 text-sm" delay={80}>
           <span className="text-slate-500">공감 축 흐름</span>
           {stepIdx.map((label, i) => {

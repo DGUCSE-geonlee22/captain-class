@@ -1,10 +1,11 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowLeftRight, CheckCircle2, Circle, FileText, Handshake, MessageSquareText, Radio, Users } from 'lucide-react'
+import { ArrowLeftRight, CheckCircle2, Circle, Compass, FileText, Handshake, MessageSquareText, Radio, Users } from 'lucide-react'
+import { delegationChoices, delegationTasks } from '../data/leaderAI'
 import { EmptyState, PageHeader, Tabs } from '../components/ui'
 import { formatDate, useApp } from '../context/AppContext'
 import { axisMeta } from '../data/courses'
 
-type Tab = 'diagnosis' | 'signal' | 'beforeafter' | 'practice' | 'interview' | 'agreement'
+type Tab = 'diagnosis' | 'signal' | 'beforeafter' | 'practice' | 'interview' | 'agreement' | 'judgment' | 'coaching'
 const tabs: { id: Tab; label: string }[] = [
   { id: 'diagnosis', label: '2축 진단' },
   { id: 'signal', label: '신호 노트' },
@@ -12,6 +13,8 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'practice', label: '실천 Log' },
   { id: 'interview', label: '면담 준비 노트' },
   { id: 'agreement', label: '협업 합의서' },
+  { id: 'judgment', label: '판단·위임 기준' },
+  { id: 'coaching', label: '코칭·성취' },
 ]
 
 /** 2축 사전 진단 점수 (목업, 0주차 자가진단) */
@@ -30,6 +33,8 @@ export default function RecordsPage() {
     practice: state.practiceLogs.length,
     interview: state.interviewNotes.length,
     agreement: state.agreements.length,
+    judgment: state.judgments.length + (state.delegationNote ? 1 : 0),
+    coaching: state.coachingNotes.length + state.achievements.length,
   }
 
   return (
@@ -68,6 +73,8 @@ export default function RecordsPage() {
                 <li className="flex justify-between"><span>면담 준비 노트</span><b>{counts.interview}</b></li>
                 <li className="flex justify-between"><span>협업 합의서</span><b>{counts.agreement}</b></li>
                 <li className="flex justify-between"><span>대화 연습 완주</span><b>{state.practiceResults.length}</b></li>
+                <li className="flex justify-between"><span>리더 AI 판단 기록</span><b>{state.judgments.length}</b></li>
+                <li className="flex justify-between"><span>코칭 노트 · 성취 기록</span><b>{state.coachingNotes.length} · {state.achievements.length}</b></li>
               </ul>
             </div>
           </div>
@@ -169,6 +176,87 @@ export default function RecordsPage() {
                 {a.checkMethod && <p className="mt-1 text-sm text-slate-600">확인 방법 · {a.checkMethod}</p>}
               </div>
             ))}
+          </div>
+        ))}
+
+      {tab === 'judgment' && (
+        <div className="space-y-6">
+          <div className="card p-5">
+            <div className="flex items-center justify-between">
+              <p className="font-bold text-navy-800">나의 AI 위임 기준표</p>
+              <Link to="/course/charisma-character/delegation" className="text-xs font-semibold text-navy-600">수정하기</Link>
+            </div>
+            {Object.keys(state.delegation).length === 0 ? (
+              <p className="mt-2 text-sm text-slate-500">아직 분류한 업무가 없습니다. Charisma+Character 레슨 B에서 만듭니다.</p>
+            ) : (
+              <>
+                <div className="mt-3 grid grid-cols-3 gap-3">
+                  {delegationChoices.map((c) => (
+                    <div key={c.id} className="rounded-xl bg-slate-50 p-3">
+                      <p className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ${c.color}`}>{c.label}</p>
+                      <ul className="mt-2 space-y-1 text-xs text-slate-700">
+                        {delegationTasks.filter((t) => state.delegation[t.id] === c.id).map((t) => <li key={t.id}>· {t.task}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                {state.delegationNote && <p className="mt-3 rounded-xl bg-navy-50 px-4 py-3 text-sm text-navy-800"><b>내 기준 · </b>{state.delegationNote}</p>}
+              </>
+            )}
+          </div>
+          {state.judgments.length === 0 ? (
+            <EmptyState icon={<Compass size={36} />} title="리더 AI 판단 기록이 없습니다" desc="질문형 리더 AI에서 안내자의 질문에 답하며 방향을 정하고 저장하면 여기에 쌓입니다." action={<Link to="/course/charisma-character/leader-ai" className="btn-primary">질문형 리더 AI로</Link>} />
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              {state.judgments.map((j) => (
+                <div key={j.id} className="card p-5">
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span className="font-semibold text-navy-800">{j.scenarioTitle}</span>
+                    <span>{formatDate(j.createdAt)}</span>
+                  </div>
+                  {j.question && <p className="mt-2 text-sm text-slate-600">{j.guideName}의 질문 · "{j.question}"</p>}
+                  <div className="mt-3 rounded-xl bg-navy-50 p-3 text-sm text-navy-800"><span className="font-semibold">내 방향 · </span>{j.direction}</div>
+                  <ul className="mt-3 space-y-1.5 text-xs text-slate-600">
+                    {j.followUpAnswers.filter((f) => f.answer).map((f) => <li key={f.party}><b className="text-slate-700">{f.party}</b> · {f.answer}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab === 'coaching' &&
+        (state.coachingNotes.length === 0 && state.achievements.length === 0 ? (
+          <EmptyState icon={<MessageSquareText size={36} />} title="코칭 노트와 성취 기록이 없습니다" desc="Coaching 코스에서 코칭 질문을 연습하거나 팀원의 성취 경험을 기록하면 여기에 쌓입니다." action={<Link to="/course/coaching" className="btn-primary">Coaching 코스로</Link>} />
+        ) : (
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <p className="label">코칭 질문 노트 {state.coachingNotes.length}</p>
+              {state.coachingNotes.map((n) => (
+                <div key={n.id} className="card p-5">
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span className="font-semibold text-navy-800">{n.memberName} · {n.topic}</span>
+                    <span>{formatDate(n.createdAt)} · 점검 {n.score}/9</span>
+                  </div>
+                  <ul className="mt-2 space-y-1 text-sm text-slate-700">{n.questions.map((q) => <li key={q}>" {q}</li>)}</ul>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-3">
+              <p className="label">팀원 성취 기록 {state.achievements.length}</p>
+              {state.achievements.map((a) => (
+                <div key={a.id} className="card p-5">
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span className="font-semibold text-navy-800">{a.memberName}</span>
+                    <span>{formatDate(a.createdAt)}</span>
+                  </div>
+                  <p className="mt-2 text-sm font-semibold text-slate-800">{a.problem}</p>
+                  <p className="text-xs text-slate-600">근거 · {a.reasoning || '—'} / 행동 · {a.action}</p>
+                  {a.next && <p className="text-xs text-navy-700">다음 → {a.next}</p>}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
     </div>

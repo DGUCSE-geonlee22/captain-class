@@ -94,10 +94,9 @@ src/
 |---|---|---|---|
 | **주우상** | Construction 코스 (기초 역량) | `src/data/courses.ts` → `id: 'construction'` | `status`를 `'ready'`로, `lessons` 3개를 실제 레슨(title/summary/path)으로 교체, `description` 작성 |
 | 주우상 | Construction 배치 주차 | `src/data/journey.ts` → `construction`, `weekPlan` | `weeks: 'TBD'`를 실제 주차로 바꾸고 `weekPlan`에 해당 주차 행을 추가 |
-| 장한이 | 4~6주·11주 수업 내용 | `src/data/journey.ts` → `weekPlan` | `status: 'skeleton'` 행의 `topics`를 채우고 `'ready'`로 변경 |
 | 장한이 | 코스 프레임(목표·핵심 질문·교육 목적·중심/보조 요소) | `src/data/courses.ts` → `framework` | 공감 축 코스와 같은 형식으로 채우면 코스 상세 상단에 표시됨 |
-| **장한이** | Charisma+Character 코스 | `src/data/courses.ts` → `id: 'charisma-character'` | 위와 동일 |
-| 장한이 | Coaching 코스 | `src/data/courses.ts` → `id: 'coaching'` | 위와 동일 |
+| **장한이** | Charisma+Character (구현됨) | `src/data/leaderAI.ts`, `src/data/courses.ts` | 안내자(guides)·시나리오·참고 자료·되묻기 질문 추가, AI 위임 업무 목록 수정 |
+| 장한이 | Coaching (구현됨) | `src/data/coaching.ts` | 코칭 면담 주제, 질문 점검 규칙, 성취 기록 항목, KCA 안내 수정 |
 | 장한이 | 대화 연습실 **힌트 문구**(질문형 리더 AI) | `src/data/hints.ts` | 시나리오 id(`helmet`/`peer`/`delay`)별 배열에 질문 추가. 원칙: 답을 주지 않고 질문만 |
 | **곽경은** | 공감 축 콘텐츠 보강 | `src/data/logs.ts`(Reframing 로그), `lensPresets.ts`(관점 렌즈), `pulseCards.ts`(면담 카드), `quiz.ts`(퀵 테스트), `voice.ts`(음성 제보), `classes.ts`(전문가 수업) | 배열에 항목 추가 |
 | 공통 | P난처 사례 DB · 커뮤니티 글 | `src/data/cases.ts` | `keywords`가 매칭 키. `scenarioId`를 넣으면 연습실로 연결 |

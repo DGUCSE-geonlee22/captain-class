@@ -40,6 +40,10 @@ export const mileageRules: MileageRule[] = [
   { id: 'm-solution', label: 'P난처 솔루션 등록 (리더 전용)', points: 50 },
   { id: 'm-quiz', label: '퀵 테스트 완료', points: 5 },
   { id: 'm-interview', label: '면담 준비 노트 저장', points: 5 },
+  { id: 'm-judgment', label: '리더 AI 판단 기록', points: 15 },
+  { id: 'm-delegation', label: 'AI 위임 기준표 작성', points: 20 },
+  { id: 'm-coaching', label: '코칭 질문 연습', points: 10 },
+  { id: 'm-achievement', label: '팀원 성취 경험 기록', points: 10 },
 ]
 
 export const rewardPlaceholder = {

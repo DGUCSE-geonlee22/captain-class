@@ -83,6 +83,40 @@ export interface NewCase {
   text: string
 }
 
+/** 질문형 리더 AI · 판단 기록 (Charisma+Character) */
+export interface Judgment {
+  id: string
+  createdAt: string
+  scenarioTitle: string
+  guideName: string
+  question: string
+  direction: string
+  followUpAnswers: { party: string; question: string; answer: string }[]
+}
+
+/** 코칭 질문 연습 노트 (Coaching) */
+export interface CoachingNote {
+  id: string
+  createdAt: string
+  memberId: string
+  memberName: string
+  topic: string
+  questions: string[]
+  score: number
+}
+
+/** 팀원 성취 경험 기록 (Coaching) */
+export interface Achievement {
+  id: string
+  createdAt: string
+  memberId: string
+  memberName: string
+  problem: string
+  reasoning: string
+  action: string
+  next: string
+}
+
 interface AppState {
   demoWeek: number
   mileage: MileageEntry[]
@@ -99,6 +133,13 @@ interface AppState {
   practiceResults: PracticeResult[]
   consultAnswers: ConsultAnswer[]
   newCases: NewCase[]
+  judgments: Judgment[]
+  /** AI 위임 기준표: 업무 id → 'ai' | 'both' | 'me' */
+  delegation: Record<string, 'ai' | 'both' | 'me'>
+  delegationNote: string
+  coachingNotes: CoachingNote[]
+  achievements: Achievement[]
+  kcaStep: number
 }
 
 const STORAGE_KEY = 'cc-captain-class-v1'
@@ -133,6 +174,12 @@ const initialState: AppState = {
   practiceResults: [],
   consultAnswers: [],
   newCases: [],
+  judgments: [],
+  delegation: {},
+  delegationNote: '',
+  coachingNotes: [],
+  achievements: [],
+  kcaStep: 0,
 }
 
 function load(): AppState {
@@ -168,6 +215,14 @@ function sanitizeState(raw: Partial<AppState>): AppState {
     practiceResults: objArr(raw.practiceResults, []),
     consultAnswers: objArr(raw.consultAnswers, []),
     newCases: objArr(raw.newCases, []),
+    judgments: objArr(raw.judgments, []),
+    delegation: raw.delegation && typeof raw.delegation === 'object' && !Array.isArray(raw.delegation)
+      ? Object.fromEntries(Object.entries(raw.delegation).filter(([, v]) => v === 'ai' || v === 'both' || v === 'me')) as AppState['delegation']
+      : {},
+    delegationNote: typeof raw.delegationNote === 'string' ? raw.delegationNote : '',
+    coachingNotes: objArr(raw.coachingNotes, []),
+    achievements: objArr(raw.achievements, []),
+    kcaStep: Number.isFinite(Number(raw.kcaStep)) ? Math.max(0, Math.min(4, Math.round(Number(raw.kcaStep)))) : 0,
   }
 }
 
@@ -213,6 +268,12 @@ interface AppContextValue {
   addPracticeResult: (r: Omit<PracticeResult, 'id' | 'createdAt'>) => void
   addConsultAnswer: (c: Omit<ConsultAnswer, 'id' | 'createdAt'>) => void
   addNewCase: (text: string) => void
+  addJudgment: (j: Omit<Judgment, 'id' | 'createdAt'>) => void
+  setDelegation: (taskId: string, choice: 'ai' | 'both' | 'me') => void
+  saveDelegationNote: (note: string) => void
+  addCoachingNote: (n: Omit<CoachingNote, 'id' | 'createdAt'>) => void
+  addAchievement: (a: Omit<Achievement, 'id' | 'createdAt'>) => void
+  setKcaStep: (step: number) => void
   resetAll: () => void
   progress: { compassion: number; leadership: number; foundation: 'TBD' }
   isLeader: boolean
@@ -362,7 +423,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const lessonFrac = compassionLessons.length ? state.completedLessons.filter((l) => compassionLessons.some((x) => x.id === l)).length / compassionLessons.length : 0
     const activityComp = Math.min(1, (state.signalNotes.length + state.beforeAfters.length + state.interviewNotes.length + state.consultAnswers.length) / 8)
     const compassion = Math.round((weekFrac(compassionWeeks) * 0.5 + weekFrac(linkWeeks) * 0.2) * 100 * 1 + (lessonFrac * 0.15 + activityComp * 0.15) * 100)
-    const activityLead = Math.min(1, (state.practiceResults.length + state.practiceLogs.length + state.agreements.length) / 6)
+    const activityLead = Math.min(1, (state.practiceResults.length + state.practiceLogs.length + state.agreements.length + state.judgments.length + state.coachingNotes.length + state.achievements.length + (Object.keys(state.delegation).length >= 4 ? 1 : 0)) / 8)
     const leadership = Math.round((weekFrac(leadershipWeeks) * 0.5 + weekFrac(linkWeeks) * 0.2) * 100 + activityLead * 30)
 
     const isLeader = user?.role === 'leader' || w >= 13
@@ -426,6 +487,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
         addMileage('m-consult')
       },
       addNewCase: (text) => update((s) => ({ ...s, newCases: [{ id: uid(), createdAt: now(), text }, ...s.newCases] })),
+      addJudgment: (j) => {
+        update((s) => ({ ...s, judgments: [{ ...j, id: uid(), createdAt: now() }, ...s.judgments] }))
+        addMileage('m-judgment')
+      },
+      setDelegation: (taskId, choice) => update((s) => ({ ...s, delegation: { ...s.delegation, [taskId]: choice } })),
+      saveDelegationNote: (note) => {
+        update((s) => ({ ...s, delegationNote: note }))
+        addMileage('m-delegation')
+      },
+      addCoachingNote: (n) => {
+        update((s) => ({ ...s, coachingNotes: [{ ...n, id: uid(), createdAt: now() }, ...s.coachingNotes] }))
+        addMileage('m-coaching')
+      },
+      addAchievement: (a) => {
+        update((s) => ({ ...s, achievements: [{ ...a, id: uid(), createdAt: now() }, ...s.achievements] }))
+        addMileage('m-achievement')
+      },
+      setKcaStep: (step) => update((s) => ({ ...s, kcaStep: Math.max(0, Math.min(4, step)) })),
       resetAll: () => {
         localStorage.removeItem(STORAGE_KEY)
         setState(initialState)

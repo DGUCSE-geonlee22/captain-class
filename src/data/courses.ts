@@ -3,7 +3,7 @@ import type { Course } from './types'
 /**
  * 5C 코스 데이터.
  *
- * ▶ 뼈대 코스(Construction, Charisma+Character, Coaching) 내용을 채우는 방법
+ * ▶ 뼈대 코스(Construction) 내용을 채우는 방법 — 리더십 축 두 코스는 장한이 님 문서 기준으로 채워짐
  *   1. 해당 코스의 `status`를 'skeleton' → 'ready'로 바꾼다.
  *   2. `lessons` 배열의 빈 카드(title: '레슨 N (준비 중)')를 실제 레슨으로 교체한다.
  *      - `path`를 지정하면 레슨 카드가 해당 라우트로 연결된다. 새 화면이 필요하면 src/pages에 만들고
@@ -101,15 +101,23 @@ export const courses: Course[] = [
     name: 'Charisma + Character',
     nameKo: '카리스마·품격',
     axis: 'leadership',
-    axisLabel: '리더십 축',
+    axisLabel: '리더십 축 · 스스로 판단하고 책임지는 리더',
     tagline: '다양한 리더의 관점에서 질문을 배우는 질문형 리더 AI',
-    description: '',
-    status: 'skeleton',
+    description:
+      '리더 AI와의 대화가 일방적으로 방향과 조언을 주는 구조라면 AI의 답을 받아 적는 데 그쳐 리더의 품성을 배우는 방향에서 멀어진다. 카리스마는 남이 준 답을 따르는 데서가 아니라 스스로 판단하고 그 판단에 책임지고 실행하는 경험에서 쌓인다. 그래서 리더 AI는 유지하되, 위인·캐릭터를 정답을 주는 존재가 아니라 질문을 떠올리게 하는 안내자로 두고, 판단에 필요한 배경 지식과 참고 자료를 함께 제시한다.',
+    status: 'ready',
     owner: '장한이',
+    framework: {
+      goal: '서둘러 결론 내리기 전에 먼저 묻고, 스스로 근거를 갖고 판단하기',
+      keyQuestion: '흰수염이라면 무엇을 먼저 물었을까?',
+      purpose: 'AI에 전적으로 기대지 않는 태도와 독립적으로 사고하는 능력 기르기',
+      coreLessonIds: ['ch-a'],
+      supportLessonIds: ['ch-b'],
+      flow: ['판단'],
+    },
     lessons: [
-      { id: 'ch-1', title: '레슨 1 (준비 중)', summary: '' },
-      { id: 'ch-2', title: '레슨 2 (준비 중)', summary: '' },
-      { id: 'ch-3', title: '레슨 3 (준비 중)', summary: '' },
+      { id: 'ch-a', title: '레슨 A. 질문형 리더 AI', summary: '상황을 적으면 흰수염·이순신 같은 안내자가 해결책 대신 먼저 물어야 할 것을 묻는다. 참고 자료(삼성물산 작업중지권 사례 등)를 함께 보고 리더가 방향을 정하면, 그 방향이 협력사·본사·작업자에게 미칠 영향을 다시 되묻는다.', path: '/course/charisma-character/leader-ai' },
+      { id: 'ch-b', title: "레슨 B. 'AI에 맡길 일 / 내가 할 일' 기준표", summary: '이번 주 업무를 AI 위임 · AI 초안+확인 · 직접 수행으로 분류해 나의 AI 위임 기준표를 만든다. (Evaluate 단계 산출물)', path: '/course/charisma-character/delegation' },
     ],
   },
   {
@@ -117,15 +125,25 @@ export const courses: Course[] = [
     name: 'Coaching',
     nameKo: '코칭',
     axis: 'leadership',
-    axisLabel: '리더십 축',
+    axisLabel: '리더십 축 · 올바른 길로 이끌기',
     tagline: '한국코치협회 연계 코칭 역량, 면담 전 정서적 질문 카드, 구성원의 성취 경험 기록',
-    description: '',
-    status: 'skeleton',
+    description:
+      "리더십 축에서 Coaching이 맡는 역할의 핵심은 '올바른 길로 이끄는 것'이다. 이끈다는 것은 가야 할 길을 대신 정해 주는 것이 아니라, 팀원이 스스로 길을 찾도록 질문하고 찾아낸 길을 토대로 경험을 쌓아 경력으로 자리 잡게 하는 것이다. 한국코치협회 인증 연계는 유지하되 인증(자격)과 현장 코칭(실행)을 구분해, 리더가 실제 면담에서 코칭을 연습하고 쌓아 가는 기능을 둔다.",
+    status: 'ready',
     owner: '장한이',
+    framework: {
+      goal: '팀원이 스스로 길을 찾도록 질문으로 이끌기',
+      keyQuestion: '팀원이 스스로 답을 찾게 하려면 나는 무엇을 물어야 할까?',
+      purpose: '인증과 현장 코칭을 구분해, 실제 면담에서 코칭 질문을 연습하고 성취 경험을 기록으로 쌓기',
+      coreLessonIds: ['co-a', 'co-b'],
+      supportLessonIds: ['co-c', 'co-d'],
+      flow: ['이끌기'],
+    },
     lessons: [
-      { id: 'co-1', title: '레슨 1 (준비 중)', summary: '' },
-      { id: 'co-2', title: '레슨 2 (준비 중)', summary: '' },
-      { id: 'co-3', title: '레슨 3 (준비 중)', summary: '' },
+      { id: 'co-a', title: '레슨 A. 코칭 질문 연습', summary: "'야근해서라도 맞추세요' 같은 지시 대신, 팀원이 스스로 길을 찾게 하는 질문 3개를 쓴다. 질문인가·열린 질문인가·답을 정해 주지 않았는가를 점검한다.", path: '/course/coaching/questions' },
+      { id: 'co-b', title: '레슨 B. 팀원 성취 경험 기록', summary: '팀원이 찾아낸 길을 문제 정의 · 근거 설명 · 도전 행동 · 다음 한 걸음으로 기록해 경력으로 이어 준다.', path: '/course/coaching/achievements' },
+      { id: 'co-c', title: '레슨 C. 한국코치협회 인증 연계', summary: '인증 취득 시 CC 수료 가산점. 인증 준비 단계를 체크하며 질문 연습·성취 기록 누적을 근거로 삼는다.', path: '/course/coaching/achievements' },
+      { id: 'co-d', title: '레슨 D. 면담 전 정서적 질문 카드', summary: '팀원 지표와 함께 정서적 질문 카드 3장을 고른다. (Collaboration+Communication 레슨 C와 공유)', path: '/course/collab-comm/pulse' },
     ],
   },
 ]
