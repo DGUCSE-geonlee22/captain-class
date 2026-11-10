@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, CheckCircle2, Circle, Flame, HardHat, MessageSquareText, Mic, PenLine, Radio, Users, Waypoints } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Circle, Flame, HardHat, MessageSquareText, Mic, PlayCircle, Radio, Users, Waypoints } from 'lucide-react'
 import HeroScene from '../components/HeroScene'
-import { CurriculumTable, WeekStrip } from '../components/Curriculum'
+import { WeekStrip } from '../components/Curriculum'
+import { VideoThumb } from '../components/Video'
+import { weekLecturesFor } from '../data/lectures'
+import { weekProgress } from '../lib/weekProgress'
 import { AiNotice, ProgressBar, Reveal, SectionHead } from '../components/ui'
 import { useApp } from '../context/AppContext'
 import { organization } from '../data/team'
@@ -15,6 +18,8 @@ export default function HomePage() {
   const week = state.demoWeek
   const stage = stageForWeek(week)
   const plan = weekPlanFor(week)
+  const wl = weekLecturesFor(week)
+  const wp = weekProgress(state, week)
   const weeksLeft = Math.max(0, TOTAL_WEEKS - week)
   const missionDone = state.missionsDone.includes(stage.id)
   const todaysLogs = [...safetyLogs].slice(week % 2, (week % 2) + 3)
@@ -85,15 +90,15 @@ export default function HomePage() {
             <div className="card col-span-3 flex items-center gap-6 p-6">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-safety-50 text-safety-600"><Waypoints size={26} /></div>
               <div className="flex-1">
-                <p className="label">이번 주 수업 · {plan.courseLabel}</p>
-                <p className="mt-0.5 text-lg font-bold text-navy-800">{plan.title}</p>
+                <p className="label">이번 주 강의 · {plan.courseLabel}</p>
+                <p className="mt-0.5 text-lg font-bold text-navy-800">{weekLecturesFor(week).theme}</p>
                 <p className="mt-1 text-sm text-slate-600"><span className="font-semibold text-slate-500">현업 미션 · </span>{stage.mission}</p>
                 <p className="text-xs text-slate-400">산출물: {stage.output}</p>
               </div>
               <button onClick={() => toggleMission(stage.id)} className={missionDone ? 'btn-teal' : 'btn-ghost'}>
                 {missionDone ? <CheckCircle2 size={16} /> : <Circle size={16} />} {missionDone ? '미션 완료함' : '미션 완료 체크'}
               </button>
-              <Link to="/records?tab=practice" className="btn-primary"><PenLine size={16} /> 기록 작성</Link>
+              <Link to={`/curriculum/week/${week}`} className="btn-primary"><PlayCircle size={16} /> 강의 이어 듣기</Link>
             </div>
             <div className="card col-span-2 p-6">
               <p className="label mb-4">2축 진척도</p>
@@ -119,10 +124,24 @@ export default function HomePage() {
 
       {/* CURRICULUM */}
       <section className="mx-auto max-w-[1400px] px-8 py-20">
-        <SectionHead en="Curriculum" ko={<>12주 주차별 수강 코스</>} sub="매주 하나의 코스 수업과 하나의 현업 미션. 수업에서 배운 것을 그 주에 현장에서 적용하고 기록해야 다음 주로 넘어갑니다." />
-        <Reveal className="mt-12" delay={100}><CurriculumTable compact /></Reveal>
-        <Reveal className="mt-6 text-center" delay={200}>
-          <Link to="/curriculum" className="btn-primary">주차별 수업 내용·레슨 전체 보기 <ArrowRight size={16} /></Link>
+        <SectionHead en="Curriculum" ko={<>이번 주 강의</>} sub="매주 강의 영상을 듣고, 5C 확인 활동으로 잘 받아들였는지 확인하고, 현업 과제로 현장에 적용합니다." />
+        <Reveal className="mt-12 grid grid-cols-3 gap-5" delay={100}>
+          {wl.lectures.map((l, i) => (
+            <Link key={l.id} to={`/curriculum/week/${week}?lecture=${l.id}`} className="group block">
+              <VideoThumb courseId={wl.courseId} lecture={l} index={i} watched={wp.isLectureDone(l.id)} />
+              <p className="mt-2 text-sm font-semibold text-navy-800 group-hover:underline">{String(i + 1).padStart(2, '0')}강. {l.title}</p>
+              <p className="text-xs text-slate-500">{l.instructor} · {l.duration}</p>
+            </Link>
+          ))}
+          <Link to={wl.check.path} className="card flex flex-col justify-center p-6 transition hover:border-teal-300">
+            <p className="text-xs font-bold uppercase tracking-wider text-teal-700">확인 활동 · 완료하면 통과</p>
+            <p className="mt-2 text-lg font-bold text-navy-800">{wl.check.label}</p>
+            <p className="mt-1 text-sm text-slate-600">{wl.check.desc}</p>
+            <span className={`mt-3 text-sm font-semibold ${wp.checkDone ? 'text-teal-600' : 'text-navy-600'}`}>{wp.checkDone ? '✓ 통과' : '하러 가기 →'}</span>
+          </Link>
+        </Reveal>
+        <Reveal className="mt-8 text-center" delay={200}>
+          <Link to="/curriculum" className="btn-primary">0~13주 전체 강의 커리큘럼 보기 <ArrowRight size={16} /></Link>
         </Reveal>
       </section>
 

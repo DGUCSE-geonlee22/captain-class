@@ -26,7 +26,7 @@ export default function CoursesPage() {
         title="2축 프레임워크 위에 세운 5C"
         description={
           <>
-            공감 축(Compassion, Collaboration+Communication)과 리더십 축(Charisma+Character, Coaching)이 두 기둥이고, 그 아래에 현장 업종의 기초 역량 Construction이 깔립니다.
+            각 코스는 주차별 강의를 제공하고(커리큘럼), 여기 있는 확인·실습 활동으로 강의 내용을 잘 받아들였는지 확인합니다. 공감 축(Compassion, Collaboration+Communication)과 리더십 축(Charisma+Character, Coaching)이 두 기둥이고, 그 아래에 현장 업종의 기초 Construction이 깔립니다.
             <br />철학: <b>"AI는 데이터의 맥락을, 리더는 마음의 맥락을 읽는다"</b>
           </>
         }

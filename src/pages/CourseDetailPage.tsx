@@ -2,6 +2,9 @@ import { Link, useParams } from 'react-router-dom'
 import { ArrowRight, CheckCircle2, Construction, FileCode2, HelpCircle, Sparkles, Target, Wrench } from 'lucide-react'
 import { AxisBadge, Callout, PageHeader, Reveal } from '../components/ui'
 import { courseById, compassionAxisPhilosophy } from '../data/courses'
+import { weekLectures } from '../data/lectures'
+import { VideoThumb } from '../components/Video'
+import { weekProgress } from '../lib/weekProgress'
 import { useApp } from '../context/AppContext'
 import NotFoundPage from './NotFoundPage'
 import type { Course, Lesson } from '../data/types'
@@ -93,6 +96,9 @@ export default function CourseDetailPage() {
 }
 
 function ReadyBody({ course, completed }: { course: Course; completed: string[] }) {
+  const { state } = useApp()
+  const weeks = weekLectures.filter((w) => w.courseId === course.id)
+  const checkWeeks = (lessonId: string) => weekLectures.filter((w) => w.check.lessonId === lessonId).map((w) => w.week)
   const fw = course.framework
   const diagram = diagrams[course.id]
   const byId = (ids: string[]) => ids.map((i) => course.lessons.find((l) => l.id === i)).filter((l): l is Lesson => Boolean(l))
@@ -144,24 +150,41 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
         </Reveal>
       )}
 
+      {weeks.length > 0 && (
+        <Reveal delay={140}>
+          <div className="mb-3 flex items-center gap-2">
+            <h3 className="text-base font-bold text-navy-800">이 코스의 강의</h3>
+            <span className="badge bg-navy-50 text-navy-700">{weeks.map((w) => (w.week === 13 ? '13주+' : `${w.week}주차`)).join(' · ')} · {weeks[0].provider}</span>
+          </div>
+          <div className="grid grid-cols-4 gap-4">
+            {weeks.flatMap((w) => w.lectures.map((l, i) => (
+              <Link key={l.id} to={`/curriculum/week/${w.week}?lecture=${l.id}`} className="group block">
+                <VideoThumb courseId={w.courseId} lecture={l} index={i} watched={weekProgress(state, w.week).isLectureDone(l.id)} />
+                <p className="mt-1.5 line-clamp-2 text-xs font-semibold text-navy-800 group-hover:underline">{w.week === 13 ? '13주+' : `${w.week}주`} · {l.title}</p>
+              </Link>
+            )))}
+          </div>
+        </Reveal>
+      )}
+
       <Reveal delay={160}>
         <div className="mb-3 flex items-center gap-2">
-          <h3 className="text-base font-bold text-navy-800">중심 교육 요소</h3>
-          <span className="badge bg-teal-500 text-white">핵심</span>
+          <h3 className="text-base font-bold text-navy-800">확인·실습 활동</h3>
+          <span className="badge bg-teal-500 text-white">강의를 잘 받아들였는지 확인</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {core.map((l) => <LessonCard key={l.id} lesson={l} done={completed.includes(l.id)} big />)}
+          {core.map((l) => <LessonCard key={l.id} lesson={l} done={completed.includes(l.id)} weeks={checkWeeks(l.id)} big />)}
         </div>
       </Reveal>
 
       {support.length > 0 && (
         <Reveal delay={200}>
           <div className="mb-3 flex items-center gap-2">
-            <h3 className="text-base font-bold text-navy-800">보조 수단</h3>
+            <h3 className="text-base font-bold text-navy-800">함께 쓰는 활동</h3>
             <span className="badge bg-slate-100 text-slate-600"><Wrench size={11} /> 중심 요소를 뒷받침</span>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            {support.map((l) => <LessonCard key={l.id} lesson={l} done={completed.includes(l.id)} />)}
+            {support.map((l) => <LessonCard key={l.id} lesson={l} done={completed.includes(l.id)} weeks={checkWeeks(l.id)} />)}
           </div>
         </Reveal>
       )}
@@ -178,7 +201,7 @@ function Tile({ icon, label, value, accent }: { icon: React.ReactNode; label: st
   )
 }
 
-function LessonCard({ lesson, done, big }: { lesson: Lesson; done: boolean; big?: boolean }) {
+function LessonCard({ lesson, done, big, weeks = [] }: { lesson: Lesson; done: boolean; big?: boolean; weeks?: number[] }) {
   const letter = lesson.title.match(/레슨 ([A-Z])/)?.[1] ?? '·'
   return (
     <Link to={lesson.path ?? '#'} className={`card group flex items-start gap-4 transition hover:-translate-y-0.5 hover:shadow-md ${big ? 'p-6' : 'p-4'}`}>
@@ -187,6 +210,7 @@ function LessonCard({ lesson, done, big }: { lesson: Lesson; done: boolean; big?
       </span>
       <span className="flex-1">
         <span className={`block font-bold text-navy-800 ${big ? 'text-base' : 'text-sm'}`}>{lesson.title.replace(/^레슨 [A-Z]\. /, '')}</span>
+        {weeks.length > 0 && <span className="mt-1 inline-block rounded-full bg-teal-50 px-2 py-0.5 text-[11px] font-semibold text-teal-700">{weeks.map((w) => (w === 13 ? '13주+' : `${w}주차`)).join(' · ')} 강의 확인 활동</span>}
         <span className={`mt-1 block leading-relaxed text-slate-600 ${big ? 'text-sm' : 'text-xs'}`}>{lesson.summary}</span>
       </span>
       <ArrowRight size={16} className="mt-1 text-slate-300 transition group-hover:text-teal-500" />

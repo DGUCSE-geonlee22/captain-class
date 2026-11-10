@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import CoursesPage from './pages/CoursesPage'
 import CurriculumPage from './pages/CurriculumPage'
+import WeekPage from './pages/WeekPage'
 import CourseDetailPage from './pages/CourseDetailPage'
 import ReframingPage from './pages/compassion/ReframingPage'
 import LensPage from './pages/compassion/LensPage'
@@ -39,6 +40,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/curriculum" element={<CurriculumPage />} />
+          <Route path="/curriculum/week/:week" element={<WeekPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/course/compassion/reframing" element={<ReframingPage />} />
           <Route path="/course/compassion/lens" element={<LensPage />} />

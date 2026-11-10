@@ -177,6 +177,12 @@ interface AppState {
   diagnosis: Diagnosis | null
   dilemma: Dilemma | null
   fieldReport: FieldReport | null
+  /** 수강 완료한 강의 id */
+  lecturesDone: string[]
+  /** 확인 활동을 직접 완료 표시한 주차 */
+  checksDone: number[]
+  /** 현업 과제를 완료한 주차 */
+  weekMissions: number[]
 }
 
 const STORAGE_KEY = 'cc-captain-class-v1'
@@ -217,6 +223,9 @@ const initialState: AppState = {
   diagnosis: null,
   dilemma: null,
   fieldReport: null,
+  lecturesDone: [],
+  checksDone: [],
+  weekMissions: [],
 }
 
 function load(): AppState {
@@ -258,6 +267,9 @@ function sanitizeState(raw: Partial<AppState>): AppState {
     diagnosis: raw.diagnosis && typeof raw.diagnosis === 'object' && typeof (raw.diagnosis as Diagnosis).empathy === 'number' ? (raw.diagnosis as Diagnosis) : null,
     dilemma: raw.dilemma && typeof raw.dilemma === 'object' && typeof (raw.dilemma as Dilemma).scenarioId === 'string' ? (raw.dilemma as Dilemma) : null,
     fieldReport: raw.fieldReport && typeof raw.fieldReport === 'object' && typeof (raw.fieldReport as FieldReport).reaction === 'string' ? (raw.fieldReport as FieldReport) : null,
+    lecturesDone: strArr(raw.lecturesDone, []),
+    checksDone: Array.isArray(raw.checksDone) ? raw.checksDone.filter((x): x is number => typeof x === 'number') : [],
+    weekMissions: Array.isArray(raw.weekMissions) ? raw.weekMissions.filter((x): x is number => typeof x === 'number') : [],
   }
 }
 
@@ -311,6 +323,9 @@ interface AppContextValue {
   saveDiagnosis: (d: Omit<Diagnosis, 'completedAt'>) => void
   saveDilemma: (d: Omit<Dilemma, 'completedAt'>) => void
   saveFieldReport: (r: Omit<FieldReport, 'completedAt'>) => void
+  markLecture: (id: string) => void
+  markCheck: (week: number) => void
+  toggleWeekMission: (week: number) => void
   resetAll: () => void
   progress: { compassion: number; leadership: number; foundation: number }
   isLeader: boolean
@@ -544,6 +559,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
         update((s) => ({ ...s, dilemma: { ...d, completedAt: now() } }))
         addMileage('m-dilemma')
       },
+      markLecture: (id) => update((s) => (s.lecturesDone.includes(id) ? s : { ...s, lecturesDone: [...s.lecturesDone, id] })),
+      markCheck: (week) => update((s) => (s.checksDone.includes(week) ? s : { ...s, checksDone: [...s.checksDone, week] })),
+      toggleWeekMission: (week) =>
+        update((s) => {
+          const done = s.weekMissions.includes(week)
+          const rule = mileageRules.find((r) => r.id === 'm-mission')!
+          return {
+            ...s,
+            weekMissions: done ? s.weekMissions.filter((w) => w !== week) : [...s.weekMissions, week],
+            mileage: done ? s.mileage : [{ id: uid(), createdAt: now(), label: rule.label, points: rule.points }, ...s.mileage],
+          }
+        }),
       saveFieldReport: (r) => {
         update((s) => ({ ...s, fieldReport: { ...r, completedAt: now() }, missionsDone: s.missionsDone.includes('diagnose') ? s.missionsDone : [...s.missionsDone, 'diagnose'] }))
         addMileage('m-field')
