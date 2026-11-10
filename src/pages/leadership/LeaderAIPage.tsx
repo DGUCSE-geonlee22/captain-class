@@ -1,56 +1,76 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ArrowRight, BookOpen, Compass, HelpCircle, Save, Sparkles } from 'lucide-react'
-import { AiNotice, Callout, PageHeader, PrivacyWarning, Toast } from '../../components/ui'
-import { guides, leaderAIPrinciple, leaderAIScenarios, matchLeaderScenario, type Guide, type LeaderAIScenario } from '../../data/leaderAI'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { ArrowLeft, ArrowRight, BookOpen, Layers, MessageCircle, RotateCcw, Save, Sparkles, Swords } from 'lucide-react'
+import { AiNotice, PageHeader, PrivacyWarning, Toast } from '../../components/ui'
+import { LeaderDeck, LeaderPortrait } from '../../components/LeaderCard'
+import { categoryMeta, leaderById, leaders, type LeaderCategory, type LeaderProfile } from '../../data/leaders'
+import { makeAdvice, situationLabel, type Advice } from '../../lib/leaderAdvice'
 import { useApp } from '../../context/AppContext'
 
-type Step = 1 | 2 | 3 | 4
+const presets = [
+  '협력사가 위험을 이유로 작업 중지를 요청했는데 본사는 공기를 재촉합니다.',
+  '승진에서 밀린 입사동기에게 작업 지시를 해야 하는데 너무 어색합니다.',
+  '공정 지연 경고를 세 번 받은 팀원이 점점 말이 없어집니다.',
+  '본사가 현장 확인 없이 AI 로그만 보고 지적 공문을 보냈습니다.',
+]
+
+type Step = 'concern' | 'deck' | 'advice'
 
 export default function LeaderAIPage() {
+  const [params] = useSearchParams()
   const { addJudgment, completeLesson } = useApp()
-  const [step, setStep] = useState<Step>(1)
-  const [text, setText] = useState('')
-  const [scenario, setScenario] = useState<LeaderAIScenario | null>(null)
-  const [guide, setGuide] = useState<Guide | null>(null)
-  const [direction, setDirection] = useState('')
-  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [concern, setConcern] = useState(params.get('q') ?? '')
+  const [step, setStep] = useState<Step>(params.get('q') ? 'deck' : 'concern')
+  const [filter, setFilter] = useState<'all' | LeaderCategory>('all')
+  const [picked, setPicked] = useState<LeaderProfile | null>(leaderById(params.get('leader') ?? '') ?? null)
+  const [history, setHistory] = useState<Advice[]>([])
+  const [active, setActive] = useState(0)
+  const [thinking, setThinking] = useState(false)
+  const [decision, setDecision] = useState('')
   const [toast, setToast] = useState<string | null>(null)
 
-  const situationText = scenario?.situation ?? text
-  const followUps = useMemo(() => scenario?.followUps ?? [
-    { party: '구성원', question: '이 방향을 들은 구성원은 무엇을 먼저 걱정할까?' },
-    { party: '상대 부서', question: '이 방향이 상대 부서에 주는 영향은 무엇이고, 그쪽은 어떤 자료를 요구할까?' },
-    { party: '나', question: '이 판단의 근거를 한 문장으로 말한다면 무엇인가?' },
-  ], [scenario])
+  const deck = useMemo(() => {
+    const list = filter === 'all' ? leaders : leaders.filter((l) => l.category === filter)
+    return [...list].sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
+  }, [filter])
 
-  const choosePreset = (s: LeaderAIScenario) => {
-    setScenario(s)
-    setText(s.situation)
-    setStep(2)
-  }
-  const useFreeText = () => {
-    setScenario(matchLeaderScenario(text) ?? null)
-    setStep(2)
+  useEffect(() => {
+    if (!thinking) return
+    const t = setTimeout(() => setThinking(false), 1100)
+    return () => clearTimeout(t)
+  }, [thinking])
+
+  const ask = () => {
+    if (!picked) return
+    const a = makeAdvice(picked, concern)
+    const next = [...history.filter((h) => h.leaderId !== picked.id), a]
+    setHistory(next)
+    setActive(next.length - 1)
+    setThinking(true)
+    setStep('advice')
   }
   const save = () => {
     addJudgment({
-      scenarioTitle: scenario?.title ?? text.slice(0, 40),
-      guideName: guide?.name ?? '',
-      question: guide?.questions[0] ?? '',
-      direction,
-      followUpAnswers: followUps.map((f) => ({ party: f.party, question: f.question, answer: answers[f.party] ?? '' })),
+      scenarioTitle: concern.slice(0, 60),
+      guideName: history.map((h) => leaderById(h.leaderId)?.name).join(' · '),
+      question: history[active]?.reflect ?? '',
+      direction: decision,
+      followUpAnswers: history.map((h) => ({ party: leaderById(h.leaderId)?.name ?? '', question: h.steps[0], answer: '' })),
     })
-    completeLesson('ch-a')
-    setToast('판단 기록에 저장했습니다 (+15 M)')
-    setTimeout(() => setToast(null), 2200)
-    setStep(1)
-    setText('')
-    setScenario(null)
-    setGuide(null)
-    setDirection('')
-    setAnswers({})
+    completeLesson('ch-b')
+    setToast('내 결정을 판단 기록에 저장했습니다 (+15 M)')
+    setTimeout(() => setToast(null), 2400)
+    setDecision('')
   }
+  const reset = () => {
+    setStep('concern')
+    setHistory([])
+    setPicked(null)
+    setConcern('')
+  }
+
+  const current = history[active]
+  const curLeader = current ? leaderById(current.leaderId) : undefined
 
   return (
     <div>
@@ -58,139 +78,156 @@ export default function LeaderAIPage() {
         en="Leader AI"
         backTo="/course/charisma-character"
         backLabel="Charisma+Character 코스"
-        eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 A</span>}
-        title="질문형 리더 AI — 답 대신 질문을 던지는 안내자"
-        description={leaderAIPrinciple.body}
+        eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 B</span>}
+        title="리더 AI에게 묻기 — 흰수염이라면, 이순신이라면 어떻게 했을까?"
+        description="고민을 적고 리더 카드를 골라 보세요. 그 리더의 성격과 리더십을 미리 학습한 AI가 '나라면 이렇게 했을 것'이라고 조언합니다. 여러 리더에게 물어 비교하다 보면 내 상황에 맞는 답이 보입니다. 수료 후에도 계속 쓰는 기능입니다."
         right={<AiNotice />}
       />
 
-      <div className="mb-6 flex items-center gap-2">
-        {['상황', '안내자의 질문', '내 방향', '영향 되묻기'].map((label, i) => {
-          const n = (i + 1) as Step
+      {/* 단계 표시 */}
+      <div className="mb-6 flex items-center justify-center gap-3 text-sm">
+        {[
+          { k: 'concern', label: '고민 입력', icon: MessageCircle },
+          { k: 'deck', label: '리더 카드 고르기', icon: Layers },
+          { k: 'advice', label: '리더 AI의 조언', icon: Sparkles },
+        ].map((s, i) => {
+          const on = s.k === step
+          const Icon = s.icon
           return (
-            <div key={label} className="flex items-center gap-2">
-              <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${n === step ? 'bg-navy-700 text-white' : n < step ? 'bg-navy-100 text-navy-700' : 'bg-slate-100 text-slate-400'}`}>{n}</span>
-              <span className={`text-sm ${n === step ? 'font-bold text-navy-800' : 'text-slate-500'}`}>{label}</span>
-              {i < 3 && <span className="mx-2 h-px w-10 bg-slate-200" />}
+            <div key={s.k} className="flex items-center gap-3">
+              <span className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 font-semibold ${on ? 'bg-navy-700 text-white' : 'bg-slate-100 text-slate-500'}`}><Icon size={14} /> {s.label}</span>
+              {i < 2 && <ArrowRight size={14} className="text-slate-300" />}
             </div>
           )
         })}
       </div>
 
-      {step === 1 && (
-        <div className="grid grid-cols-5 gap-6">
-          <div className="card col-span-3 p-6">
-            <h3 className="text-lg font-bold text-navy-800">지금 어떤 판단 앞에 서 있나요?</h3>
-            <p className="mt-1 text-sm text-slate-500">리더 AI는 해결책을 주지 않습니다. 상황을 적으면 안내자가 먼저 물어야 할 것을 묻습니다.</p>
-            <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="예: 협력사가 위험을 이유로 작업 중지를 요청했는데 본사는 공기를 재촉합니다." className="input mt-4 min-h-[120px] resize-none" />
+      {step === 'concern' && (
+        <div className="mx-auto max-w-3xl">
+          <div className="card p-7">
+            <label className="text-lg font-bold text-navy-800">리더로서 지금 어떤 고민이 있나요?</label>
+            <textarea value={concern} onChange={(e) => setConcern(e.target.value)} placeholder="예: 협력사가 위험을 이유로 작업 중지를 요청했는데 본사는 공기를 재촉합니다." className="input mt-3 min-h-[130px] resize-none text-base" />
             <PrivacyWarning />
-            <div className="mt-4 flex justify-end">
-              <button onClick={useFreeText} disabled={text.trim().length < 5} className="btn-primary">안내자에게 가기 <ArrowRight size={16} /></button>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {presets.map((p) => (
+                <button key={p} onClick={() => setConcern(p)} className="rounded-full border border-slate-200 px-3 py-1.5 text-xs text-slate-600 hover:border-navy-300 hover:text-navy-700">{p.length > 30 ? p.slice(0, 30) + '…' : p}</button>
+              ))}
             </div>
-          </div>
-          <div className="col-span-2 space-y-3">
-            <p className="label">가상 시나리오</p>
-            {leaderAIScenarios.map((s) => (
-              <button key={s.id} onClick={() => choosePreset(s)} className="card w-full p-5 text-left transition hover:-translate-y-0.5 hover:shadow-md">
-                <span className="flex items-center gap-2 font-bold text-navy-800"><Compass size={16} className="text-navy-500" /> {s.title}</span>
-                <span className="mt-2 block text-sm text-slate-600">{s.situation}</span>
-              </button>
-            ))}
+            <div className="mt-5 flex justify-end">
+              <button onClick={() => setStep('deck')} disabled={concern.trim().length < 5} className="btn-primary"><Layers size={16} /> 리더 카드 펼치기</button>
+            </div>
           </div>
         </div>
       )}
 
-      {step === 2 && (
-        <div className="space-y-5">
-          <div className="rounded-2xl bg-navy-700 px-6 py-5 text-white">
-            <p className="text-xs text-navy-200">상황</p>
-            <p className="mt-1 text-base">{situationText}</p>
-          </div>
-          <div>
-            <p className="label mb-3">누구의 눈으로 먼저 물어볼까요? — 안내자를 고르세요</p>
-            <div className="grid grid-cols-3 gap-4">
-              {guides.map((g) => (
-                <button key={g.id} onClick={() => setGuide(g)} className={`card p-5 text-left transition ${guide?.id === g.id ? 'border-navy-400 ring-2 ring-navy-100' : 'hover:border-slate-300'}`}>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-700 text-sm font-bold text-white">{g.name.slice(0, 1)}</span>
-                  <p className="mt-3 font-bold text-navy-800">{g.name}</p>
-                  <p className="text-xs text-slate-500">{g.from}</p>
-                  <p className="mt-2 text-xs text-slate-600">{g.focus}</p>
+      {step === 'deck' && (
+        <div className="overflow-hidden rounded-3xl bg-[#0b1424] px-6 pb-6 pt-6 text-white">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="font-display text-sm uppercase tracking-[0.25em] text-safety-300">Choose your leader</p>
+              <p className="mt-1 text-xl font-bold">누구에게 물어볼까요?</p>
+              <p className="mt-1 max-w-2xl text-sm text-white/60">"{concern}"</p>
+            </div>
+            <div className="flex shrink-0 gap-1.5">
+              {(['all', 'history', 'sports', 'story'] as const).map((c) => (
+                <button key={c} onClick={() => setFilter(c)} className={`rounded-full px-3 py-1.5 text-xs font-semibold ${filter === c ? 'bg-safety-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>
+                  {c === 'all' ? `전체 ${leaders.length}` : `${categoryMeta[c].label} ${leaders.filter((l) => l.category === c).length}`}
                 </button>
               ))}
             </div>
           </div>
-          {guide && (
-            <div className="grid grid-cols-5 gap-5">
-              <div className="card col-span-3 p-6">
-                <p className="flex items-center gap-2 text-sm font-bold text-navy-800"><HelpCircle size={16} className="text-navy-500" /> {guide.name}이라면 먼저 이렇게 물었을 겁니다</p>
-                <ul className="mt-4 space-y-3">
-                  {guide.questions.map((q) => (
-                    <li key={q} className="rounded-xl bg-navy-50 px-4 py-3 text-base font-medium text-navy-800">"{q}"</li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-xs text-slate-500">→ {guide.focus}</p>
+          <div className="mt-4"><LeaderDeck list={deck} selectedId={picked?.id} onSelect={setPicked} /></div>
+          <div className="mt-2 flex items-center justify-between rounded-2xl bg-white/5 px-5 py-4">
+            {picked ? (
+              <div className="flex items-center gap-4">
+                <LeaderPortrait leader={picked} className="h-14 w-14 rounded-xl" />
+                <div>
+                  <p className="font-bold">{picked.name} <span className="ml-1 text-xs font-normal text-white/50">{picked.origin}</span></p>
+                  <p className="text-sm text-white/70">{picked.pillars.slice(0, 3).map((p) => p.name).join(' · ')}</p>
+                </div>
               </div>
-              <div className="card col-span-2 p-6">
-                <p className="flex items-center gap-2 text-sm font-bold text-navy-800"><BookOpen size={16} className="text-safety-500" /> 판단에 참고할 자료</p>
-                {scenario?.references.length ? (
-                  <ul className="mt-3 space-y-3">
-                    {scenario.references.map((r) => (
-                      <li key={r.title} className="rounded-xl border border-slate-200 p-3">
-                        <p className="text-sm font-semibold text-slate-800">{r.title}</p>
-                        <p className="mt-1 text-xs leading-relaxed text-slate-600">{r.summary}</p>
-                        <p className="mt-1 text-[11px] text-slate-400">출처: {r.source}</p>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="mt-3 text-sm text-slate-500">이 상황에 맞는 참고 자료가 아직 없습니다. 안내자의 질문만으로 생각을 넓혀 보세요.</p>
-                )}
-                <p className="mt-3 text-[11px] text-slate-400">AI는 판단을 대신하지 않고 근거가 될 자료만 제시합니다.</p>
-              </div>
+            ) : (
+              <p className="text-sm text-white/60">카드를 좌우로 넘기며 한 명을 고르세요. ← → 버튼이나 트랙패드로 넘길 수 있습니다.</p>
+            )}
+            <div className="flex gap-2">
+              <button onClick={() => setStep('concern')} className="btn border border-white/20 text-white/80 hover:bg-white/10"><ArrowLeft size={16} /> 고민 수정</button>
+              <button onClick={ask} disabled={!picked} className="btn-orange"><Swords size={16} /> {picked ? `${picked.name}에게 묻기` : '카드를 고르세요'}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {step === 'advice' && current && curLeader && (
+        <div className="space-y-5">
+          {history.length > 1 && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-slate-500">물어본 리더</span>
+              {history.map((h, i) => {
+                const l = leaderById(h.leaderId)!
+                return (
+                  <button key={h.leaderId} onClick={() => { setActive(i); setThinking(false) }} className={`flex items-center gap-2 rounded-full border py-1 pl-1 pr-3 text-sm ${i === active ? 'border-safety-400 bg-safety-50 font-bold text-navy-800' : 'border-slate-200 bg-white text-slate-600'}`}>
+                    <LeaderPortrait leader={l} className="h-7 w-7 rounded-full" /> {l.name}
+                  </button>
+                )
+              })}
             </div>
           )}
-          <div className="flex justify-between">
-            <button onClick={() => setStep(1)} className="btn-ghost">이전</button>
-            <button onClick={() => setStep(3)} disabled={!guide} className="btn-primary">질문에 답하며 방향 정하기 <ArrowRight size={16} /></button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && guide && (
-        <div className="card p-6">
-          <p className="text-sm text-slate-500">안내자의 질문</p>
-          <p className="mt-1 text-lg font-bold text-navy-800">"{guide.questions[0]}"</p>
-          <label className="label mt-5 block">내가 정한 방향 (AI가 써 주지 않습니다)</label>
-          <textarea value={direction} onChange={(e) => setDirection(e.target.value)} placeholder="예: 오늘 오후 작업은 중지하고 현장 위험 요소를 사진·측정값으로 정리한다. 본사에는 작업중지권 운영 사례와 손실 보전 방식을 근거로 협의를 요청한다." className="input mt-1.5 min-h-[130px] resize-none" />
-          <div className="mt-4 flex justify-between">
-            <button onClick={() => setStep(2)} className="btn-ghost">이전</button>
-            <button onClick={() => setStep(4)} disabled={direction.trim().length < 10} className="btn-primary">이 방향의 영향 되묻기 <ArrowRight size={16} /></button>
-          </div>
-        </div>
-      )}
-
-      {step === 4 && (
-        <div className="space-y-5">
-          <Callout tone="info">리더가 방향을 정하면 리더 AI는 그 방향이 협력사·본사·작업자에게 어떤 영향을 주는지 다시 묻습니다. '중지한다 / 하지 않는다'의 이분법을 넘어 무엇을 조정해야 하는지 생각을 넓히기 위해서입니다.</Callout>
-          <div className="rounded-2xl border border-navy-100 bg-navy-50 px-5 py-4 text-sm text-navy-800"><b>내 방향 · </b>{direction}</div>
-          <div className="grid grid-cols-3 gap-4">
-            {followUps.map((f) => (
-              <div key={f.party} className="card p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{f.party}에게 미치는 영향</p>
-                <p className="mt-2 text-sm font-medium text-navy-800">"{f.question}"</p>
-                <textarea value={answers[f.party] ?? ''} onChange={(e) => setAnswers({ ...answers, [f.party]: e.target.value })} placeholder="내 생각" className="input mt-3 min-h-[90px] resize-none text-sm" />
+          <div className="grid grid-cols-7 gap-6">
+            <aside className="col-span-2">
+              <div className={`overflow-hidden rounded-3xl bg-gradient-to-br p-[3px] ${categoryMeta[curLeader.category].frame}`}>
+                <div className="overflow-hidden rounded-[21px] bg-navy-900 text-white">
+                  <LeaderPortrait leader={curLeader} className="h-[300px] w-full" />
+                  <div className="p-4">
+                    <p className="text-xl font-black">{curLeader.name}</p>
+                    <p className="text-xs text-white/60">{curLeader.origin}</p>
+                    <div className="mt-3 flex flex-wrap gap-1">{curLeader.traits.slice(0, 5).map((t) => <span key={t.name} className="rounded-full bg-white/10 px-2 py-0.5 text-[11px]">{t.name}</span>)}</div>
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-          <div className="card flex items-center justify-between p-5">
-            <p className="flex items-center gap-2 text-sm text-slate-600"><Sparkles size={16} className="text-navy-500" /> {leaderAIPrinciple.effect}</p>
-          </div>
-          <div className="flex justify-between">
-            <button onClick={() => setStep(3)} className="btn-ghost">이전</button>
-            <div className="flex gap-2">
-              <Link to="/records?tab=judgment" className="btn-ghost">내 판단 기록</Link>
-              <button onClick={save} className="btn-primary"><Save size={16} /> 판단 기록으로 저장</button>
-            </div>
+              <Link to={`/course/charisma-character/leaders?leader=${curLeader.id}`} className="mt-3 flex items-center gap-1 text-xs font-semibold text-navy-600 hover:underline"><BookOpen size={12} /> {curLeader.name} 리더십 카드 자세히 보기</Link>
+            </aside>
+            <section className="col-span-5 space-y-4">
+              <div className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm text-slate-600"><b className="text-navy-800">내 고민 · </b>{concern} <span className="ml-2 badge bg-slate-100 text-slate-500">{situationLabel[current.situation]}</span></div>
+              {thinking ? (
+                <div className="card flex items-center gap-3 p-6 text-slate-500">
+                  <span className="flex gap-1">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 animate-bounce rounded-full bg-safety-400" style={{ animationDelay: `${i * 150}ms` }} />)}</span>
+                  {curLeader.name} AI가 자신의 리더십으로 상황을 살피는 중…
+                </div>
+              ) : (
+                <div className="card relative p-7">
+                  <p className="fadeup text-lg font-bold text-navy-800">{current.opener}</p>
+                  <p className="fadeup fadeup-d1 mt-3 leading-relaxed text-slate-700">{current.read}</p>
+                  <p className="fadeup fadeup-d1 mt-5 text-xs font-bold uppercase tracking-wider text-safety-600">나라면 이렇게 했을 것이다</p>
+                  <ol className="mt-2 space-y-2.5">
+                    {current.steps.map((s, i) => (
+                      <li key={i} className="fadeup flex gap-3 rounded-xl bg-navy-50/70 px-4 py-3 text-[15px] leading-relaxed text-navy-800" style={{ animationDelay: `${250 + i * 180}ms` }}>
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy-700 text-xs font-bold text-white">{i + 1}</span>{s}
+                      </li>
+                    ))}
+                  </ol>
+                  {current.example && <p className="fadeup fadeup-d3 mt-4 rounded-xl border-l-4 border-safety-400 bg-safety-50/70 px-4 py-3 text-sm text-slate-700">{current.example}</p>}
+                  <p className="fadeup fadeup-d3 mt-4 text-base font-semibold italic text-navy-700">"{current.closer}"</p>
+                  <p className="fadeup fadeup-d3 mt-4 text-[11px] text-slate-400">실제 인물·캐릭터의 발언이 아니라, 알려진 성격과 리더십을 학습한 가상 리더 AI의 조언입니다. 참고용이며 최종 판단은 캡틴이 합니다.</p>
+                </div>
+              )}
+              {!thinking && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="card p-5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">생각해 볼 질문</p>
+                    <p className="mt-2 text-sm font-medium text-navy-800">{current.reflect}</p>
+                    <button onClick={() => { setPicked(null); setStep('deck') }} className="btn-ghost mt-4 w-full"><Layers size={16} /> 다른 리더에게도 묻기</button>
+                  </div>
+                  <div className="card p-5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">내 결정 (최종 판단은 캡틴이)</p>
+                    <textarea value={decision} onChange={(e) => setDecision(e.target.value)} placeholder="조언을 듣고 내가 정한 방향을 적어 보세요" className="input mt-2 min-h-[70px] resize-none text-sm" />
+                    <div className="mt-2 flex justify-between">
+                      <button onClick={reset} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600"><RotateCcw size={12} /> 새 고민</button>
+                      <button onClick={save} disabled={decision.trim().length < 5} className="btn-primary"><Save size={16} /> 판단 기록 저장</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </section>
           </div>
         </div>
       )}

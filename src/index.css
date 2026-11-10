@@ -118,3 +118,6 @@ body {
 /* 안개 */
 @keyframes mist { 0% { transform: translateX(-4%); opacity: 0.55; } 50% { opacity: 0.8; } 100% { transform: translateX(4%); opacity: 0.55; } }
 .mist { animation: mist 14s ease-in-out infinite alternate; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

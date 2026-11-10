@@ -7,17 +7,13 @@ import CurriculumPage from './pages/CurriculumPage'
 import CourseDetailPage from './pages/CourseDetailPage'
 import ReframingPage from './pages/compassion/ReframingPage'
 import LensPage from './pages/compassion/LensPage'
-import ClassesPage from './pages/compassion/ClassesPage'
-import QuizPage from './pages/collab/QuizPage'
 import PulsePage from './pages/collab/PulsePage'
 import CoachingPage from './pages/collab/CoachingPage'
-import VoicePage from './pages/collab/VoicePage'
 import LeaderAIPage from './pages/leadership/LeaderAIPage'
-import MemberDelegationPage from './pages/leadership/MemberDelegationPage'
-import CoachingQuestionsPage from './pages/leadership/CoachingQuestionsPage'
+import LeadersPage from './pages/leadership/LeadersPage'
+import CoachingSessionPage from './pages/leadership/CoachingSessionPage'
 import GrowthPlanPage from './pages/leadership/GrowthPlanPage'
 import DiagnosisPage from './pages/construction/DiagnosisPage'
-import DilemmaPage from './pages/construction/DilemmaPage'
 import FieldMissionPage from './pages/construction/FieldMissionPage'
 import PnancheoPage from './pages/PnancheoPage'
 import PracticePage from './pages/PracticePage'
@@ -46,17 +42,13 @@ export default function App() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/course/compassion/reframing" element={<ReframingPage />} />
           <Route path="/course/compassion/lens" element={<LensPage />} />
-          <Route path="/course/compassion/classes" element={<ClassesPage />} />
-          <Route path="/course/collab-comm/quiz" element={<QuizPage />} />
           <Route path="/course/collab-comm/pulse" element={<PulsePage />} />
           <Route path="/course/collab-comm/coaching" element={<CoachingPage />} />
-          <Route path="/course/collab-comm/voice" element={<VoicePage />} />
+          <Route path="/course/charisma-character/leaders" element={<LeadersPage />} />
           <Route path="/course/charisma-character/leader-ai" element={<LeaderAIPage />} />
-          <Route path="/course/coaching/questions" element={<CoachingQuestionsPage />} />
-          <Route path="/course/coaching/delegation" element={<MemberDelegationPage />} />
+          <Route path="/course/coaching/session" element={<CoachingSessionPage />} />
           <Route path="/course/coaching/growth" element={<GrowthPlanPage />} />
           <Route path="/course/construction/diagnosis" element={<DiagnosisPage />} />
-          <Route path="/course/construction/dilemma" element={<DilemmaPage />} />
           <Route path="/course/construction/field-mission" element={<FieldMissionPage />} />
           <Route path="/course/:id" element={<CourseDetailPage />} />
           <Route path="/pnancheo" element={<PnancheoPage />} />

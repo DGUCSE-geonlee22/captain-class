@@ -111,7 +111,7 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
   }
 
   const useHint = () => {
-    setMessages((m) => [...m, { who: 'system', text: `힌트 · ${hintList[hintIdx % hintList.length]}` }])
+    setMessages((m) => [...m, { who: 'system', text: `리더 AI · ${hintList[hintIdx % hintList.length]}` }])
     setHintIdx((i) => i + 1)
   }
 
@@ -180,7 +180,7 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
               </div>
               <div className="flex gap-2">
                 <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && sendFree()} placeholder="직접 입력하면 가장 가까운 유형으로 매칭됩니다" className="input" />
-                <button onClick={useHint} className="btn-ghost shrink-0" title="리더 AI가 답 대신 질문을 하나 던집니다"><Lightbulb size={16} /> 힌트</button>
+                <button onClick={useHint} className="btn-ghost shrink-0" title="막히면 리더 AI가 짧은 질문을 던집니다"><Lightbulb size={16} /> 리더 AI</button>
                 <button onClick={sendFree} disabled={!input.trim()} className="btn-primary shrink-0"><Send size={16} /></button>
               </div>
               <PrivacyWarning text="실제 구성원의 실명·개인 사정은 입력하지 마세요. 연습용 상황만 적습니다." />
@@ -228,7 +228,7 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
               <Link to={`/pnancheo?q=${encodeURIComponent(scenario.title)}`} className="btn-ghost mt-4 w-full">이 상황의 선배 사례 다시 보기</Link>
             </div>
           ) : (
-            <Callout tone="info">막히면 <b>힌트</b>를 누르세요. 리더 AI는 답 대신 질문을 던집니다. 힌트 문구는 Charisma+Character 담당이 <code>src/data/hints.ts</code>에서 채웁니다.</Callout>
+            <Callout tone="info">막히면 <b>리더 AI</b> 버튼을 누르세요. 더 깊이 묻고 싶다면 <Link to={`/course/charisma-character/leader-ai?q=${encodeURIComponent(scenario.context)}`} className="font-semibold underline">흰수염·이순신에게 이 상황 묻기 →</Link></Callout>
           )}
         </aside>
       </div>

@@ -1,29 +1,4 @@
-import type { HrdClass, MileageRule } from './types'
-
-/** HRD 심리전문가 수업 (목업 3개) */
-export const hrdClasses: HrdClass[] = [
-  {
-    id: 'hc-1',
-    title: '현장 리더를 위한 정서 읽기의 기초',
-    instructor: 'HRD팀 · 임상심리전문가',
-    schedule: '매월 둘째 주 화요일 16:00 · 90분 · 온라인',
-    summary: '감정을 단정하지 않고 신호를 관찰하는 법. "화났다"가 아니라 "무엇이 보이는가"로 말하는 연습.',
-  },
-  {
-    id: 'hc-2',
-    title: '심리적 안전감과 TBM',
-    instructor: 'HRD팀 · 조직심리 박사',
-    schedule: '매월 넷째 주 목요일 15:00 · 120분 · 본사 교육장',
-    summary: '작업자가 위험을 말할 수 있는 팀의 조건. 리더의 자기 개방과 질문 설계.',
-  },
-  {
-    id: 'hc-3',
-    title: 'AI 감시 환경에서의 신뢰 회복',
-    instructor: '외부 초빙 · 산업심리 전문가',
-    schedule: '분기 1회 · 180분 · 워크숍',
-    summary: '감시로 느껴지는 기술을 보호로 바꾸는 소통. 로그 전달 방식과 작업자 반응 사례.',
-  },
-]
+import type { MileageRule } from './types'
 
 /**
  * 마일리지 규칙 (목업). 리워드 체계는 준비 중이며, 벤치마크는 건설사 소장 포상 제도.
@@ -38,11 +13,10 @@ export const mileageRules: MileageRule[] = [
   { id: 'm-consult', label: '익명 상담 체험 답변', points: 15 },
   { id: 'm-agreement', label: '협업 합의서 작성', points: 40 },
   { id: 'm-solution', label: 'P난처 솔루션 등록 (리더 전용)', points: 50 },
-  { id: 'm-quiz', label: '퀵 테스트 완료', points: 5 },
   { id: 'm-interview', label: '면담 준비 노트 저장', points: 5 },
   { id: 'm-judgment', label: '리더 AI 판단 기록', points: 15 },
   { id: 'm-delegation', label: '팀원 판단 위임 기준표 작성', points: 20 },
-  { id: 'm-coaching', label: '코칭 질문 연습', points: 10 },
+  { id: 'm-coaching', label: '코칭 면담 질문', points: 10 },
   { id: 'm-growth', label: '팀원 성취 경험 단계 기록', points: 10 },
   { id: 'm-diagnosis', label: '0주차 2축 자기진단', points: 20 },
   { id: 'm-dilemma', label: '0주차 딜레마 시나리오 진단', points: 10 },

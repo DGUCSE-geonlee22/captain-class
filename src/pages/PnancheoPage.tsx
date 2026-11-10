@@ -8,7 +8,7 @@ import { useApp } from '../context/AppContext'
 import { useSharedCases } from '../lib/shared'
 import { ApiError, type SharedCase } from '../lib/api'
 
-type Tab = 'search' | 'waiting' | 'community'
+type Tab = 'search' | 'waiting'
 
 const examples = ['부하가 된 입사동기에게 지시하기', '연차 높은 경쟁 파트장과의 관계', '더위 속 안전모 반발', '본사의 로그 기반 지적 공문 대응']
 
@@ -22,8 +22,6 @@ export default function PnancheoPage() {
   const [query, setQuery] = useState(initialQ)
   const [toast, setToast] = useState<string | null>(null)
   const [showNew, setShowNew] = useState(false)
-  const [postTitle, setPostTitle] = useState('')
-  const [postBody, setPostBody] = useState('')
 
   const results = useMemo(() => (query ? matchCases(query, shared.cases) : []), [query, shared.cases])
   const lens = useMemo(() => {
@@ -69,7 +67,6 @@ export default function PnancheoPage() {
           tabs={[
             { id: 'search', label: '상황 입력' },
             { id: 'waiting', label: `솔루션 기다리는 상황${waiting.length ? ` ${waiting.length}` : ''}` },
-            { id: 'community', label: '교차 부서 리더 커뮤니티' },
           ]}
           value={tab}
           onChange={setTab}
@@ -194,31 +191,6 @@ export default function PnancheoPage() {
         </div>
       )}
 
-      {tab === 'community' && (
-        <div className="mx-auto max-w-[1080px] space-y-3">
-          <Callout tone="dark">타 부서 리더들이 올린 글입니다. 수료한 리더만 글을 쓸 수 있고, 캡틴은 읽고 질문할 수 있습니다.</Callout>
-          {isLeader && shared.live && (
-            <div className="card-dark p-5">
-              <p className="flex items-center gap-2 text-sm font-bold text-white"><PenLine size={14} className="text-ember-300" /> 리더 글 쓰기</p>
-              <input value={postTitle} onChange={(e) => setPostTitle(e.target.value)} placeholder="제목" className="input-dark mt-3" />
-              <textarea value={postBody} onChange={(e) => setPostBody(e.target.value)} placeholder="현장에서 통한 방법, 바꾼 절차, 실패에서 배운 것" className="input-dark mt-2 min-h-[80px] resize-none" />
-              <div className="mt-3 flex justify-end">
-                <button onClick={() => guard(async () => { await shared.addPost(postTitle, postBody); setPostTitle(''); setPostBody('') }, '글이 등록되었습니다')} disabled={postTitle.trim().length < 3 || postBody.trim().length < 5} className="btn-ember">등록</button>
-              </div>
-            </div>
-          )}
-          {shared.posts.map((p) => (
-            <div key={p.id} className="card-dark flex items-center gap-5 p-5">
-              <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-0.5 text-xs text-white/80">{p.dept}</span>
-              <div className="flex-1">
-                <p className="font-bold text-white">{p.title} {p.origin === 'user' && <span className="ml-1 rounded-full bg-ember-500/20 px-2 py-0.5 text-[10px] text-ember-300">새 글</span>}</p>
-                <p className="mt-0.5 text-sm text-white/65">{p.excerpt}</p>
-              </div>
-              <div className="shrink-0 text-right text-xs text-white/45"><p>{p.author}</p><p className="mt-0.5">댓글 {p.replies}</p></div>
-            </div>
-          ))}
-        </div>
-      )}
       <Toast message={toast} />
     </div>
   )

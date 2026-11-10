@@ -160,9 +160,7 @@ interface AppState {
   mileage: MileageEntry[]
   missionsDone: string[]
   completedLessons: string[]
-  enrolledClasses: string[]
   helpfulVoted: string[]
-  quizDone: string[]
   signalNotes: SignalNote[]
   beforeAfters: BeforeAfter[]
   practiceLogs: PracticeLog[]
@@ -189,13 +187,11 @@ const initialState: AppState = {
     { id: 'seed-1', createdAt: '2026-10-05T09:00:00', label: '2축 사전 진단 완료', points: 20 },
     { id: 'seed-2', createdAt: '2026-10-12T17:30:00', label: '신호 노트 작성', points: 10 },
     { id: 'seed-3', createdAt: '2026-10-19T18:10:00', label: '주차 현업 미션 완료', points: 30 },
-    { id: 'seed-4', createdAt: '2026-10-26T12:00:00', label: '퀵 테스트 완료', points: 5 },
+    { id: 'seed-4', createdAt: '2026-10-26T12:00:00', label: '오리엔테이션 참여', points: 5 },
   ],
   missionsDone: ['diagnose', 'read'],
   completedLessons: ['cp-a'],
-  enrolledClasses: [],
   helpfulVoted: [],
-  quizDone: [],
   signalNotes: [
     {
       id: 'seed-sn-1',
@@ -245,9 +241,7 @@ function sanitizeState(raw: Partial<AppState>): AppState {
     mileage: objArr(raw.mileage, initialState.mileage),
     missionsDone: strArr(raw.missionsDone, initialState.missionsDone),
     completedLessons: strArr(raw.completedLessons, initialState.completedLessons),
-    enrolledClasses: strArr(raw.enrolledClasses, []),
     helpfulVoted: strArr(raw.helpfulVoted, []),
-    quizDone: strArr(raw.quizDone, []),
     signalNotes: objArr(raw.signalNotes, initialState.signalNotes),
     beforeAfters: objArr(raw.beforeAfters, []),
     practiceLogs: objArr(raw.practiceLogs, []),
@@ -298,9 +292,7 @@ interface AppContextValue {
   totalMileage: number
   toggleMission: (stageId: string) => void
   completeLesson: (lessonId: string) => void
-  toggleEnroll: (classId: string) => void
   voteHelpful: (caseId: string) => void
-  markQuizDone: (category: string) => void
   addSignalNote: (n: Omit<SignalNote, 'id' | 'createdAt'>) => void
   addBeforeAfter: (b: Omit<BeforeAfter, 'id' | 'createdAt'>) => void
   addPracticeLog: (p: Omit<PracticeLog, 'id' | 'createdAt'>) => void
@@ -495,15 +487,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           return { ...s, missionsDone, mileage }
         }),
       completeLesson: (lessonId) => update((s) => (s.completedLessons.includes(lessonId) ? s : { ...s, completedLessons: [...s.completedLessons, lessonId] })),
-      toggleEnroll: (classId) =>
-        update((s) => ({ ...s, enrolledClasses: s.enrolledClasses.includes(classId) ? s.enrolledClasses.filter((x) => x !== classId) : [...s.enrolledClasses, classId] })),
       voteHelpful: (caseId) => update((s) => (s.helpfulVoted.includes(caseId) ? s : { ...s, helpfulVoted: [...s.helpfulVoted, caseId] })),
-      markQuizDone: (category) =>
-        update((s) => {
-          if (s.quizDone.includes(category)) return s
-          const rule = mileageRules.find((r) => r.id === 'm-quiz')!
-          return { ...s, quizDone: [...s.quizDone, category], mileage: [{ id: uid(), createdAt: now(), label: rule.label, points: rule.points }, ...s.mileage] }
-        }),
       addSignalNote: (n) => {
         update((s) => ({ ...s, signalNotes: [{ ...n, id: uid(), createdAt: now() }, ...s.signalNotes] }))
         addMileage('m-signal')

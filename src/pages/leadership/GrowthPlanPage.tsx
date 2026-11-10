@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Award, CheckCircle2, Circle, ExternalLink, Plus, Save, TrendingUp, Users } from 'lucide-react'
+import { CheckCircle2, Circle, Plus, Save, TrendingUp, Users } from 'lucide-react'
 import { Callout, PageHeader, Toast } from '../../components/ui'
-import { growthPlanExample, growthStepTypes, kcaInfo, leaderFeedbackChecks, type GrowthStepType, type LeaderFeedbackKey } from '../../data/coaching'
+import { growthPlanExample, growthStepTypes, leaderFeedbackChecks, type GrowthStepType, type LeaderFeedbackKey } from '../../data/coaching'
 import { teamMembers } from '../../data/team'
 import { formatDate, useApp } from '../../context/AppContext'
 
 export default function GrowthPlanPage() {
-  const { state, addGrowthPlan, addGrowthStep, setGrowthFeedback, setKcaStep, completeLesson } = useApp()
+  const { state, addGrowthPlan, addGrowthStep, setGrowthFeedback, completeLesson } = useApp()
   const [memberId, setMemberId] = useState('site-gongmu')
   const member = teamMembers.find((m) => m.id === memberId)!
   const plans = state.growthPlans.filter((p) => p.memberId === memberId)
@@ -30,8 +30,8 @@ export default function GrowthPlanPage() {
         en="Growth Log"
         backTo="/course/coaching"
         backLabel="Coaching 코스"
-        eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 C · D</span>}
-        title="단계별 성취 경험 기록과 인증 연계"
+        eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 B</span>}
+        title="단계별 성장 기록 — 면담이 말로 끝나지 않게"
         description="면담이 말로 끝나면 팀원의 변화로 이어지기 어렵습니다. 면담에서 나온 다음 단계 계획을 팀원이 진행하면서 문제를 처음 인식한 때부터 해결책을 찾고 고쳐 나간 과정을 단계별로 기록합니다. 리더는 결과의 완성도뿐 아니라 과정에 피드백하고, 일정 기간 뒤 동료·협력 부서의 의견으로 코칭 효과를 점검합니다."
       />
       <div className="grid grid-cols-5 gap-6">
@@ -43,21 +43,7 @@ export default function GrowthPlanPage() {
               <span className="block text-[11px] text-slate-500">{m.role}</span>
             </button>
           ))}
-          <div className="card p-5">
-            <p className="flex items-center gap-2 font-bold text-navy-800"><Award size={16} className="text-safety-500" /> {kcaInfo.title}</p>
-            <ul className="mt-2 space-y-1 text-xs text-slate-600">{kcaInfo.points.map((p) => <li key={p}>· {p}</li>)}</ul>
-            <div className="mt-3 space-y-1.5">
-              {kcaInfo.steps.map((s, i) => {
-                const done = state.kcaStep > i
-                return (
-                  <button key={s} onClick={() => setKcaStep(done ? i : i + 1)} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-1.5 text-left text-xs ${done ? 'border-safety-300 bg-safety-50 text-safety-700' : 'border-slate-200 text-slate-600'}`}>
-                    {done ? <CheckCircle2 size={13} /> : <Circle size={13} />} {s}
-                  </button>
-                )
-              })}
-            </div>
-            <a href={kcaInfo.link} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-navy-600 hover:underline">한국코치협회 <ExternalLink size={12} /></a>
-          </div>
+          <p className="rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed text-slate-600"><b className="text-navy-800">한국코치협회 인증 연계</b> · 인증 취득 시 CC 수료 가산점. 인증(자격)과 현장 코칭(실행)은 구분하며, 이 성장 기록이 실행의 근거가 됩니다.</p>
         </aside>
 
         <section className="col-span-3 space-y-4">
@@ -67,7 +53,7 @@ export default function GrowthPlanPage() {
               <p className="mt-1 text-xs text-slate-500">팀원이 스스로 정한 다음 단계를 적습니다. 리더가 정해 준 계획이 아니어야 합니다.</p>
               <input value={planText} onChange={(e) => setPlanText(e.target.value)} placeholder={`예: ${growthPlanExample}`} className="input mt-3" />
               <div className="mt-3 flex justify-end">
-                <button onClick={() => { addGrowthPlan({ memberId, memberName: member.name, plan: planText.trim() }); setPlanText(''); completeLesson('co-c'); notify('계획을 등록했습니다. 이제 단계를 기록하세요.') }} disabled={planText.trim().length < 5} className="btn-primary"><Plus size={16} /> 계획 등록</button>
+                <button onClick={() => { addGrowthPlan({ memberId, memberName: member.name, plan: planText.trim() }); setPlanText(''); completeLesson('co-b'); notify('계획을 등록했습니다. 이제 단계를 기록하세요.') }} disabled={planText.trim().length < 5} className="btn-primary"><Plus size={16} /> 계획 등록</button>
               </div>
             </div>
           ) : (

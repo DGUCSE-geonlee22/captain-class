@@ -14,7 +14,7 @@ export default function FieldMissionPage() {
 
   const save = () => {
     saveFieldReport({ counterpart, reaction, insight })
-    completeLesson('cn-c')
+    completeLesson('cn-b')
     setToast('현장 대면 소통 리포트를 저장했습니다 (+20 M) · 0주차 미션 완료')
     setTimeout(() => setToast(null), 2600)
   }
@@ -25,7 +25,7 @@ export default function FieldMissionPage() {
         en="Field Mission"
         backTo="/course/construction"
         backLabel="Construction 코스"
-        eyebrow={<span className="badge bg-safety-50 text-safety-700">0주차 · 프로그램 3</span>}
+        eyebrow={<span className="badge bg-safety-50 text-safety-700">0주차 · 레슨 B</span>}
         title="현장 실천 미션 — 작업자 1명에게 첫 마디 건네기"
         description={fieldMission.intent}
       />

@@ -2,13 +2,15 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ClipboardCheck, Save } from 'lucide-react'
 import { AiNotice, Callout, PageHeader, ProgressBar, Toast } from '../../components/ui'
-import { diagnosisItems, scoreDiagnosis, tendencyLabel, type Tendency } from '../../data/construction'
+import { dilemmaScenarios, diagnosisItems, scoreDiagnosis, tendencyLabel, type Tendency } from '../../data/construction'
 import { axisMeta } from '../../data/courses'
 import { useApp } from '../../context/AppContext'
 
 export default function DiagnosisPage() {
-  const { state, saveDiagnosis, completeLesson } = useApp()
+  const { state, saveDiagnosis, saveDilemma, completeLesson } = useApp()
   const [answers, setAnswers] = useState<Record<string, Tendency>>(state.diagnosis?.answers ?? {})
+  const [dilemma, setDilemma] = useState(state.dilemma?.scenarioId ?? '')
+  const [response, setResponse] = useState(state.dilemma?.response ?? '')
   const [toast, setToast] = useState<string | null>(null)
   const done = diagnosisItems.every((i) => answers[i.id])
   const result = useMemo(() => (done ? scoreDiagnosis(answers) : null), [answers, done])
@@ -16,6 +18,7 @@ export default function DiagnosisPage() {
   const save = () => {
     if (!result) return
     saveDiagnosis({ answers, empathy: result.empathy, leadership: result.leadership, tendency: result.tendency, recommendedAxis: result.recommendedAxis })
+    if (dilemma && response.trim()) saveDilemma({ scenarioId: dilemma, response: response.trim() })
     completeLesson('cn-a')
     setToast('사전 진단 점수를 저장했습니다 (+20 M)')
     setTimeout(() => setToast(null), 2200)
@@ -27,7 +30,7 @@ export default function DiagnosisPage() {
         en="Self Diagnosis"
         backTo="/course/construction"
         backLabel="Construction 코스"
-        eyebrow={<span className="badge bg-safety-50 text-safety-700">0주차 · 프로그램 1</span>}
+        eyebrow={<span className="badge bg-safety-50 text-safety-700">0주차 · 레슨 A</span>}
         title="공감 / 리더십 2축 자기진단"
         description="평소 업무를 지시하거나 문제를 지적할 때 과도한 통제형(권위적)인지, 무조건적 회피형(착한 리더)인지 진단합니다. 건설 현장의 상황(안전 규정 위반, 공정 지연 등)에서 감정적 대응과 원칙적 대응 사이의 성향을 점수로 내고, 12주 동안 어느 축을 집중 보완할지 안내합니다."
         right={<AiNotice />}
@@ -47,6 +50,19 @@ export default function DiagnosisPage() {
               </div>
             </div>
           ))}
+          <div className="card border-safety-200 p-5">
+            <p className="text-xs font-semibold text-safety-600">마지막 · 내 딜레마</p>
+            <p className="mt-1 font-semibold text-navy-800">세 가지 중 내 파트 상황과 가장 가까운 것은?</p>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {dilemmaScenarios.map((d) => (
+                <button key={d.id} onClick={() => setDilemma(d.id)} className={`rounded-xl border p-3 text-left text-xs transition ${dilemma === d.id ? 'border-safety-400 bg-safety-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                  <span className="font-bold text-safety-700">{d.type}</span>
+                  <span className="mt-1 block text-slate-700">{d.situation}</span>
+                </button>
+              ))}
+            </div>
+            {dilemma && <textarea value={response} onChange={(e) => setResponse(e.target.value)} placeholder="지금의 나라면 어떻게 대응할지 그대로 적어 두세요. 12주 뒤 다시 비교합니다." className="input mt-3 min-h-[80px] resize-none" />}
+          </div>
         </section>
         <aside className="col-span-2 space-y-4">
           <div className="card sticky top-[96px] p-6">
@@ -74,11 +90,11 @@ export default function DiagnosisPage() {
                 </div>
                 <div className="mt-4 flex flex-col gap-2">
                   <button onClick={save} className="btn-orange"><Save size={16} /> 사전 진단 점수 저장</button>
-                  {state.diagnosis && <Link to="/course/construction/dilemma" className="btn-ghost">다음: 딜레마 시나리오 진단 <ArrowRight size={14} /></Link>}
+                  {state.diagnosis && <Link to="/course/construction/field-mission" className="btn-ghost">다음: 현장 첫 마디 미션 <ArrowRight size={14} /></Link>}
                 </div>
               </>
             ) : (
-              <p className="mt-4 text-sm text-slate-500">8개 상황에 모두 답하면 점수와 성향이 계산됩니다.</p>
+              <p className="mt-4 text-sm text-slate-500">8개 상황에 모두 답하면 점수와 성향이 계산됩니다. 마지막에 내 딜레마도 골라 주세요.</p>
             )}
           </div>
           <Callout tone="info">이 점수는 12주 동안 본인의 변화를 추적하는 기준 데이터가 됩니다. '내 기록 → 2축 진단'에서 현재 점수와 비교합니다.</Callout>

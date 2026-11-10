@@ -108,15 +108,3 @@ export const leaderFeedbackChecks = [
 ] as const
 export type LeaderFeedbackKey = (typeof leaderFeedbackChecks)[number]['key']
 export const growthPlanExample = '다음 협력사 요청이 오면 본사에 올리기 전, 근거 자료 먼저 정리해 보기'
-
-/** 한국코치협회 인증 연계 안내 */
-export const kcaInfo = {
-  title: '한국코치협회(KCA) 인증 연계',
-  points: [
-    '전문 코치 인증 취득 시 CC 수료 가산점 부여 → 자기계발 동기와 교육 참여 촉진',
-    '인증을 따는 것(자격)과 현장에서 코칭을 해내는 것(실행)을 구분한다',
-    '코칭의 결과가 현장까지 이어지는지는 기준표·성취 기록·주변 피드백으로 확인한다',
-  ],
-  steps: ['인증 과정 안내 확인', '코칭 질문 연습 누적', '팀원 기준표·성취 기록 누적', '인증 신청'],
-  link: 'https://www.kcoach.kr',
-}

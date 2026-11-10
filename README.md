@@ -7,7 +7,7 @@
 실제 AI API는 쓰지 않습니다. 모든 AI 기능은 **규칙 기반 목업**(`src/lib/mockAI.ts`, 서버판 `server/rules.mjs`)입니다.
 
 - **프론트만 띄우면 로컬 모드**: 기록은 브라우저 `localStorage`에만 저장됩니다. (GitHub Pages 배포가 이 상태)
-- **백엔드(`server/`)를 함께 띄우면 서버 모드**: 이름+PIN 로그인, 사용자별 기록 서버 저장·동기화, P난처 사례·리더 솔루션 공유, 익명 브릿지 고충 보내기·답변 공유, 캡틴 랭킹이 켜집니다. 헤더 왼쪽 구름 아이콘이 연결 상태를 보여 줍니다.
+- **백엔드(`server/`)를 함께 띄우면 서버 모드**: 이름+PIN 로그인, 사용자별 기록 서버 저장·동기화, P난처 사례·리더 솔루션 공유, 익명 브릿지 고충 보내기·답변 공유가 켜집니다. 헤더 왼쪽 구름 아이콘이 연결 상태를 보여 줍니다.
 
 - 기술 스택: React 19 + Vite + TypeScript + Tailwind CSS v4 + react-router-dom, 아이콘 lucide-react, 폰트 Pretendard(CDN)
 - 화면 기준: 1440px (최소 1280px) PC 전용. 모바일 대응 없음.
@@ -52,7 +52,7 @@ npm run preview    # 빌드 결과 미리보기
 | 2-1 | **커리큘럼** `/curriculum` | 0~13주 주차별 코스·수업 내용·레슨 링크·현업 미션·산출물·상태(수강 완료/이번 주/예정/준비 중) 표 |
 | 3 | **우측 하단 불씨 → P난처** `/pnancheo` | 피난처 전환 애니메이션 → "폭염에 안전모를 올린 작업반장이 AI 경고를 받고 반발합니다" 입력 → 관점 렌즈 질문(리더/구성원) → 선배 리더 이야기 카드(도움돼요) → 솔루션 작성은 리더 전용 잠금 |
 | 4 | 사례 카드의 **「이 상황 연습하기」** | 대화 연습실 '고참 작업반장의 안전모 반발' 시나리오로 이동 |
-| 5 | **캡틴 대화 연습실** `/practice?scenario=helmet` | 3턴 분기 대화. 선택지 또는 직접 입력(키워드 매칭) → 오른쪽 지수(공감도·명확성·심리적 안전감) 실시간 변화 → **힌트** 버튼(답 대신 질문) → 종료 리포트(체크리스트 + 문장 교정 가이드) |
+| 5 | **캡틴 대화 연습실** `/practice?scenario=helmet` | 3턴 분기 대화. 선택지 또는 직접 입력(키워드 매칭) → 오른쪽 지수(공감도·명확성·심리적 안전감) 실시간 변화 → **리더 AI** 버튼(막힐 때 리더의 질문, 흰수염·이순신에게 바로 묻기 링크) → 종료 리포트(체크리스트 + 문장 교정 가이드) |
 | 6 | **「실제 면담·TBM 후 기록하기」** | 실천 Log 양식(대화 목적/사용한 표현/상대 반응/다음에 바꿀 점) 저장 |
 | 7 | **내 기록** `/records?tab=practice` | 방금 저장한 실천 Log 확인. '2축 진단' 탭에서 사전 vs 현재 비교 |
 | 8 | **Compassion 레슨 A** `/course/compassion/reframing` | 데이터 융합 → 로그 Reframing → 10초 생각의 시간(입력 잠금) → 신호 노트 저장 |
@@ -83,7 +83,9 @@ src/
   components/     # Layout(헤더·우측 하단 피난처 버튼·전환), Curriculum(주차 스트립·표), HeroScene/ForestScene(SVG 장면), ui(SectionHead·Reveal 등)
   pages/          # 화면
     compassion/   # Reframing, 관점 렌즈, 전문가 수업
-    collab/       # 퀵 테스트, 펄스 카드, 반려문 코칭, 현장 직통 보이스
+    collab/       # 펄스 면담 카드, 반려문 코칭
+    leadership/   # 리더 카드 도감, 리더 AI에게 묻기, 코칭 면담, 성장 기록
+    construction/ # 0주차 자기진단(+딜레마), 현장 첫 마디
 ```
 
 ---
@@ -96,8 +98,8 @@ src/
 | 장한이 | 코스 프레임(목표·핵심 질문·교육 목적·중심/보조 요소) | `src/data/courses.ts` → `framework` | 공감 축 코스와 같은 형식으로 채우면 코스 상세 상단에 표시됨 |
 | **장한이** | Charisma+Character (구현됨) | `src/data/leaderAI.ts`, `src/data/courses.ts` | 안내자(guides)·시나리오·참고 자료·되묻기 질문 추가, AI 위임 업무 목록 수정 |
 | 장한이 | Coaching (구현됨) | `src/data/coaching.ts` | 코칭 면담 주제·예시 질문, 질문 점검 규칙, 판단 위임 기준표 질문·업무 목록, 성취 기록 단계·피드백 항목, KCA 안내 수정 |
-| 장한이 | 대화 연습실 **힌트 문구**(질문형 리더 AI) | `src/data/hints.ts` | 시나리오 id(`helmet`/`peer`/`delay`)별 배열에 질문 추가. 원칙: 답을 주지 않고 질문만 |
-| **곽경은** | 공감 축 콘텐츠 보강 | `src/data/logs.ts`(Reframing 로그), `lensPresets.ts`(관점 렌즈), `pulseCards.ts`(면담 카드), `quiz.ts`(퀵 테스트), `voice.ts`(음성 제보), `classes.ts`(전문가 수업) | 배열에 항목 추가 |
+| 이건 · 장한이 | 리더 카드·리더 AI | `src/data/leaders.ts`, `src/lib/leaderAdvice.ts` | 리더 추가(성격·리더십·사례·말투·행동), 시연용 흰수염·이순신은 상황별 조언을 `leaderAdvice.ts`에서 수정. 실존 인물 이미지는 위키미디어 공용 자유 라이선스만 `public/leaders/`에 넣고 출처 표기 |
+| **곽경은** | 공감 축 콘텐츠 보강 | `src/data/logs.ts`(Reframing 로그), `lensPresets.ts`(관점 렌즈), `pulseCards.ts`(면담 카드) | 배열에 항목 추가 |
 | 공통 | P난처 사례 DB · 커뮤니티 글 | `src/data/cases.ts` | `keywords`가 매칭 키. `scenarioId`를 넣으면 연습실로 연결 |
 | 공통 | 대화 연습실 시나리오 | `src/data/scenarios.ts` | 턴마다 선택지 4유형 + 유형별 반응. `src/data/types.ts`의 `Scenario` 타입 참고 |
 | 공통 | 익명 브릿지 고충·매칭 프로필 | `src/data/bridge.ts` | |
