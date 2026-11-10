@@ -67,8 +67,8 @@ export const journey: JourneyStage[] = [
     weekLabel: '10~12주',
     courseIds: ['collab-comm', 'coaching'],
     courseLabel: '브릿지 매칭 + Coaching',
-    mission: '타 부서 리더와 15분 대화 후 공동 과제 1개 합의',
-    output: '협업 합의서',
+    mission: '타 부서와 작은 절차 1개 합의, 팀원 1명과 코칭 면담',
+    output: '협업 합의서, 팀원 판단 위임 기준표, 성장 기록',
     axis: 'mixed',
   },
   {
@@ -118,10 +118,10 @@ export const weekPlan: WeekPlan[] = [
   { week: 6, stageId: 'evaluate', courseId: 'charisma-character', courseLabel: 'Charisma+Character', title: '여러 리더의 조언 비교와 내 결정', topics: ['같은 고민을 2~3명의 리더 AI에게 묻고 조언 비교', '어떤 조언을 왜 택했는지 판단 기록으로 남기기', 'Evaluate 단계 성찰: AI는 대체재가 아니라 사고를 넓혀 주는 도구'], lessonIds: ['ch-b'], mission: 'AI에 맡기지 않고 직접 결정한 일 1가지 실행', output: '판단 기록 3건(누적)', status: 'ready' },
   { week: 7, stageId: 'act', courseId: 'collab-comm', courseLabel: 'Collaboration+Communication', title: '캡틴 대화 연습실 ①', topics: ['시나리오 대화 연습: 공감도·명확성·심리적 안전감 지수', '막히면 리더 AI에게 묻기', '종료 리포트의 문장 교정 가이드'], lessonIds: ['cc-a'], mission: '실제 면담·TBM에서 연습한 화법 1개 적용', output: '연습 리포트 1건', status: 'ready' },
   { week: 8, stageId: 'act', courseId: 'collab-comm', courseLabel: 'Collaboration+Communication', title: '반려문·지적 코칭과 비포/애프터', topics: ['코칭 포인트 3가지: 노력 인정 · 구체적 설명 · 개선 방향', '대필 없이 직접 고치기', '대화 연습실 ② (입사동기 지시)'], lessonIds: ['cc-d', 'cc-a'], mission: '실제 반려·지적 문장 1개를 고쳐서 전달하기', output: '비포/애프터 기록', status: 'ready' },
-  { week: 9, stageId: 'act', courseId: 'collab-comm', courseLabel: 'Collaboration+Communication', title: '대화 복기와 현장 적용', topics: ['대화 연습실 ③ (공정 지연 면담)', '실제 면담·TBM 뒤 실천 Log로 복기', '다음에 바꿀 점 한 가지 정하기'], lessonIds: ['cc-a'], mission: '연습한 화법을 실제 면담에 쓰고 실천 Log 남기기', output: '대화 복기 로그(실천 Log)', status: 'ready' },
-  { week: 10, stageId: 'link', courseId: 'collab-comm', courseLabel: 'Collab+Comm · 브릿지 매칭', title: '브릿지 매칭 — 타 부서 리더 교환 인터뷰', topics: ['본사 스마트안전팀·공무팀·타 현장 리더 프로필', '15분 교환 인터뷰 질문지'], lessonIds: ['cc-f'], mission: '타 부서 리더와 15분 직접 대화', output: '인터뷰 메모', status: 'ready' },
-  { week: 11, stageId: 'link', courseId: 'mixed', courseLabel: 'Collab+Comm + Coaching', title: 'Coaching — 질문으로 함께 길 만들기', topics: ['면담 전 정서적 질문 카드 3장', '코칭 면담: 결론 대신 질문 → 팀원이 판단 위임 기준표 작성 → 첫 계획', '단계별 성장 기록 시작 · 한국코치협회 인증 연계'], lessonIds: ['cc-c', 'co-a', 'co-b'], mission: '팀원 1명과 코칭 면담 후 기준표·첫 계획 함께 작성', output: '팀원 판단 위임 기준표, 성장 기록 시작', status: 'ready' },
-  { week: 12, stageId: 'link', courseId: 'mixed', courseLabel: 'Link 마무리 · 수료', title: '협업 합의서와 사후 진단', topics: ['공동 과제 1개 합의 → 협업 합의서', '2축 사후 진단 · 360 피드백', "수료: '리더' 직급 부여"], lessonIds: ['cc-f'], mission: '타 부서 리더와 공동 과제 1개 합의', output: '협업 합의서, 사후 진단, 360 피드백', status: 'ready' },
+  { week: 9, stageId: 'act', courseId: 'collab-comm', courseLabel: 'Collaboration+Communication', title: '회의 운영과 AI 시대의 소통', topics: ['리더가 먼저 여는 TBM: "어제 아찔했던 순간 하나"', 'AI에게만 묻는 신입: 질문 필수 시간과 사람에게 확인할 일', '1:1 펄스 면담 질문 카드로 면담 준비'], lessonIds: ['cc-c', 'cc-a'], mission: 'TBM에서 내 아찔했던 순간을 먼저 꺼내고, 팀원 1명에게 펄스 카드 질문으로 면담 열기', output: 'TBM 변화 메모, 면담 준비 노트', status: 'ready' },
+  { week: 10, stageId: 'link', courseId: 'collab-comm', courseLabel: 'Collab+Comm · 브릿지 매칭', title: '부서 간 협업 — 교환 인터뷰와 협업 합의서', topics: ['본사 스마트안전팀·공무팀·타 현장 리더 프로필', '15분 교환 인터뷰: 서로 모르는 제약 하나씩 꺼내기', '작은 절차 1개 합의 → 협업 합의서'], lessonIds: ['cc-f'], mission: '타 부서 리더와 15분 대화 후 함께 바꿀 작은 절차 1개 합의', output: '인터뷰 메모, 협업 합의서', status: 'ready' },
+  { week: 11, stageId: 'link', courseId: 'coaching', courseLabel: 'Coaching', title: '코칭의 기본 — 질문으로 이끌기', topics: ['코칭 질문 점검: 질문으로 끝나는가 · 열린 질문인가 · 답을 정해 주지 않았는가', '팀원이 직접 쓰는 AI 판단 위임 기준표', '면담 끝에 팀원과 첫 계획 세우기'], lessonIds: ['co-a'], mission: '팀원 1명과 코칭 면담 후 기준표·첫 계획 함께 작성', output: '팀원 판단 위임 기준표, 첫 계획', status: 'ready' },
+  { week: 12, stageId: 'link', courseId: 'coaching', courseLabel: 'Coaching · 수료', title: '성장 기록과 과정 피드백 · 수료', topics: ['단계별 성장 기록: 인식 → 시도 → 수정', '결과가 아니라 과정에 피드백 · 동료·협력 부서 피드백으로 확인', "2축 사후 진단 · 한국코치협회 인증 가산점 · '리더' 직급 부여"], lessonIds: ['co-b'], mission: '팀원의 첫 계획 실행을 지켜보고 과정 피드백 1회 남기기', output: '단계별 성장 기록, 과정 피드백, 사후 진단', status: 'ready' },
   { week: 13, stageId: 'sustain', courseId: 'common', courseLabel: '전 코스 · 유지', title: '리더로서 유지하기', topics: ['13주차 실제 적용 결과 피드백', 'P난처 사례 기여 (리더 전용 솔루션)', '월 1회 동료 코칭 서클 · 분기 재진단'], lessonIds: [], mission: '실제 적용 결과 1건 피드백', output: '재진단 점수, P난처 기여 마일리지', status: 'common' },
 ]
 

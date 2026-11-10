@@ -266,7 +266,7 @@ function Matching() {
 
   return (
     <div className="space-y-6">
-      <Callout tone="teal">Link 단계(10~12주) 미션: 타 부서 리더와 15분 대화 후 공동 과제 1개 합의. 프로필을 고르고 교환 인터뷰 질문지로 대화한 뒤 합의서를 씁니다.</Callout>
+      <Callout tone="teal">10주차 미션: 타 부서 리더와 15분 대화 후 함께 바꿀 작은 절차 1개 합의. 프로필을 고르고 교환 인터뷰 질문지로 대화한 뒤 합의서를 씁니다.</Callout>
       <div className="grid grid-cols-3 gap-4">
         {bridgeProfiles.map((bp) => (
           <button key={bp.id} onClick={() => setProfileId(bp.id)} className={`card p-5 text-left transition ${bp.id === profileId ? 'border-teal-400 ring-2 ring-teal-100' : 'hover:border-slate-300'}`}>
