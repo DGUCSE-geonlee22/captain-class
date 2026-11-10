@@ -69,13 +69,13 @@ export default function CoursesPage() {
       </div>
 
       <Reveal delay={120}>
-        <Link to={`/course/${foundation.id}`} className="mt-6 flex items-center gap-5 rounded-2xl border-2 border-dashed bg-safety-50/50 px-7 py-5 transition hover:bg-safety-50" style={{ borderColor: axisMeta.foundation.color }}>
-          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-safety-600 shadow-sm"><HardHat size={24} /></span>
+        <Link to={`/course/${foundation.id}`} className="mt-6 flex items-center gap-5 rounded-2xl border-2 bg-safety-50/50 px-7 py-5 transition hover:bg-safety-50" style={{ borderColor: axisMeta.foundation.color }}>
+          <span className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-sm" style={{ background: axisMeta.foundation.color }}><HardHat size={24} /></span>
           <span className="flex-1">
             <span className="flex items-center gap-2">
               <span className="text-lg font-bold text-safety-700">{foundation.name}</span>
-              <span className="badge bg-white text-safety-700">기초 역량</span>
-              <span className="badge bg-safety-100 text-safety-700">콘텐츠 준비 중 · 담당: {foundation.owner}</span>
+              <span className="badge bg-white text-safety-700">기초 역량 · 0주차 사전 진단</span>
+              <span className="badge bg-safety-100 text-safety-700">정리: {foundation.owner} · 진행 {progress.foundation}%</span>
             </span>
             <span className="block text-sm text-slate-600">{foundation.tagline}</span>
           </span>

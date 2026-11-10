@@ -58,7 +58,7 @@ npm run preview    # 빌드 결과 미리보기
 | 8 | **Compassion 레슨 A** `/course/compassion/reframing` | 데이터 융합 → 로그 Reframing → 10초 생각의 시간(입력 잠금) → 신호 노트 저장 |
 | 9 | **Collab+Comm 레슨 D** `/course/collab-comm/coaching` | 반려문 초안 → 코칭 포인트 3가지(대필 없음) → 직접 수정 → 비포/애프터 저장 |
 | 10 | **익명 브릿지** `/bridge` | 받은 고충(배지 2종) → 상담 체험(답변 후 코칭 포인트 체크) → 브릿지 매칭(협업 합의서) |
-| 11 | **5C 코스** `/courses` → Compassion 상세 | 공감 축 철학 배너(듣기→이해→소통→협업 행동), 2축 2열 + Construction 띠. 코스 상세에는 목표·핵심 질문·교육 목적, Reframing 3단계 도식, 중심 요소/보조 수단 구분. 뼈대 코스 3개는 '준비 중 · 담당' 상태로 열림 |
+| 11 | **5C 코스** `/courses` → 각 코스 상세 | 공감 축 철학 배너, 2축 2열 + Construction 띠. 코스 상세에는 목표·핵심 질문·교육 목적, 흐름 도식, 중심 요소/보조 수단 구분. 5개 코스 모두 동작 (Construction은 0주차 진단 3종, 리더십 축은 질문형 리더 AI·코칭 질문·판단 위임 기준표·단계별 성취 기록) |
 | 12 | **수료/리워드** `/completion` | 마일리지 내역, 리워드 체계 자리표시, (13주차에서) 리더 배지 |
 
 핵심 흐름 **홈 → P난처 → 유사 사례 → 대화 연습실 완주 → 리포트 → 실천 Log 저장 → 내 기록**은 끊김 없이 이어집니다.
@@ -92,11 +92,10 @@ src/
 
 | 담당 | 채울 내용 | 파일 | 방법 |
 |---|---|---|---|
-| **주우상** | Construction 코스 (기초 역량) | `src/data/courses.ts` → `id: 'construction'` | `status`를 `'ready'`로, `lessons` 3개를 실제 레슨(title/summary/path)으로 교체, `description` 작성 |
-| 주우상 | Construction 배치 주차 | `src/data/journey.ts` → `construction`, `weekPlan` | `weeks: 'TBD'`를 실제 주차로 바꾸고 `weekPlan`에 해당 주차 행을 추가 |
+| **주우상** | Construction (구현됨 · 0주차 사전 진단) | `src/data/construction.ts` | 배경·목표 문구, 2축 자기진단 8문항, 딜레마 시나리오 3개, 현장 미션 질문 수정 |
 | 장한이 | 코스 프레임(목표·핵심 질문·교육 목적·중심/보조 요소) | `src/data/courses.ts` → `framework` | 공감 축 코스와 같은 형식으로 채우면 코스 상세 상단에 표시됨 |
 | **장한이** | Charisma+Character (구현됨) | `src/data/leaderAI.ts`, `src/data/courses.ts` | 안내자(guides)·시나리오·참고 자료·되묻기 질문 추가, AI 위임 업무 목록 수정 |
-| 장한이 | Coaching (구현됨) | `src/data/coaching.ts` | 코칭 면담 주제, 질문 점검 규칙, 성취 기록 항목, KCA 안내 수정 |
+| 장한이 | Coaching (구현됨) | `src/data/coaching.ts` | 코칭 면담 주제·예시 질문, 질문 점검 규칙, 판단 위임 기준표 질문·업무 목록, 성취 기록 단계·피드백 항목, KCA 안내 수정 |
 | 장한이 | 대화 연습실 **힌트 문구**(질문형 리더 AI) | `src/data/hints.ts` | 시나리오 id(`helmet`/`peer`/`delay`)별 배열에 질문 추가. 원칙: 답을 주지 않고 질문만 |
 | **곽경은** | 공감 축 콘텐츠 보강 | `src/data/logs.ts`(Reframing 로그), `lensPresets.ts`(관점 렌즈), `pulseCards.ts`(면담 카드), `quiz.ts`(퀵 테스트), `voice.ts`(음성 제보), `classes.ts`(전문가 수업) | 배열에 항목 추가 |
 | 공통 | P난처 사례 DB · 커뮤니티 글 | `src/data/cases.ts` | `keywords`가 매칭 키. `scenarioId`를 넣으면 연습실로 연결 |

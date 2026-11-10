@@ -293,7 +293,7 @@ app.get('/api/leaderboard', (_req, res) => {
     let st = {}
     try { st = JSON.parse(r.state_json) } catch { /* ignore */ }
     const mileage = Array.isArray(st.mileage) ? st.mileage.reduce((a, m) => a + (Number(m.points) || 0), 0) : 0
-    const records = ['signalNotes', 'beforeAfters', 'practiceLogs', 'interviewNotes', 'agreements', 'consultAnswers', 'judgments', 'coachingNotes', 'achievements'].reduce((a, k) => a + (Array.isArray(st[k]) ? st[k].length : 0), 0)
+    const records = ['signalNotes', 'beforeAfters', 'practiceLogs', 'interviewNotes', 'agreements', 'consultAnswers', 'judgments', 'coachingNotes', 'growthPlans', 'memberDelegations'].reduce((a, k) => a + (Array.isArray(st[k]) ? st[k].length : 0), 0)
     return { display: r.display, role: r.role, rank: r.rank, mileage, records, week: Number(st.demoWeek ?? 0), practices: Array.isArray(st.practiceResults) ? st.practiceResults.length : 0 }
   }).sort((a, b) => b.mileage - a.mileage || b.records - a.records).slice(0, 20)
   res.json({ board })

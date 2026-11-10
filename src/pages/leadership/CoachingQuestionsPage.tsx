@@ -58,6 +58,12 @@ export default function CoachingQuestionsPage() {
               <b>길을 대신 정해 주는 말 · </b>{topic.tellingExample}
             </div>
             <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-navy-800"><MessageCircleQuestion size={16} className="text-navy-500" /> 대신, 팀원이 스스로 길을 찾게 하는 질문 3개를 적어 보세요</p>
+            {topic.exampleQuestions && (
+              <details className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+                <summary className="cursor-pointer font-semibold text-slate-700">막히면 열어 보기 · 문서의 질문 예시 (따라 쓰지 말고 내 말로)</summary>
+                <ul className="mt-2 space-y-1">{topic.exampleQuestions.map((q) => <li key={q}>" {q}</li>)}</ul>
+              </details>
+            )}
             <div className="mt-3 space-y-3">
               {qs.map((q, i) => {
                 const c = checks[i]

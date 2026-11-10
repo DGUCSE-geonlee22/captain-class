@@ -62,6 +62,14 @@ export const teamMembers: TeamMember[] = [
     recentTurningPoint: '입사 7주차 · TBM 발표 순번 배정',
   },
   {
+    id: 'site-gongmu',
+    name: '현장 공무 박○○',
+    role: '공사 A파트 · 현장 공무 담당 (3년차)',
+    situation: '협력사의 작업 중지 요청을 본사에 전달해야 하는데, 협력사 요청과 본사 압박 사이에서 어느 쪽에도 제대로 설명하지 못해 위축됨 (장한이 Coaching 시나리오 인물)',
+    overloadIndex: 77,
+    recentTurningPoint: '협력사 작업중지권 요청 1건 · 본사 공기 재촉 공문 수신',
+  },
+  {
     id: 'foreman',
     name: '고참 작업반장',
     role: '철근 작업반 · 반장',

@@ -9,6 +9,7 @@ const courseColor = (p: WeekPlan) => {
   if (p.courseId === 'compassion' || p.courseId === 'collab-comm') return axisMeta.compassion.color
   if (p.courseId === 'charisma-character' || p.courseId === 'coaching') return axisMeta.leadership.color
   if (p.courseId === 'mixed') return `linear-gradient(135deg, ${axisMeta.compassion.color} 50%, ${axisMeta.leadership.color} 50%)`
+  if (p.courseId === 'construction') return axisMeta.foundation.color
   return '#94a3b8'
 }
 const courseLink = (p: WeekPlan) => {
@@ -29,7 +30,7 @@ export function WeekStrip({ interactive = true }: { interactive?: boolean }) {
         <span className="flex items-center gap-4">
           <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full" style={{ background: axisMeta.compassion.color }} /> 공감 축</span>
           <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full" style={{ background: axisMeta.leadership.color }} /> 리더십 축</span>
-          <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full border-2 border-dashed" style={{ borderColor: axisMeta.foundation.color }} /> Construction 배치 예정</span>
+          <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full" style={{ background: axisMeta.foundation.color }} /> Construction (0주차 진단)</span>
         </span>
       </div>
       {/* 단계 띠 */}
@@ -37,7 +38,7 @@ export function WeekStrip({ interactive = true }: { interactive?: boolean }) {
         {stages.map((s) => {
           const start = s.weeks[0]
           const span = s.weeks.length
-          const bg = s.axis === 'compassion' ? axisMeta.compassion.color : s.axis === 'leadership' ? axisMeta.leadership.color : s.axis === 'mixed' ? `linear-gradient(90deg, ${axisMeta.compassion.color}, ${axisMeta.leadership.color})` : '#94a3b8'
+          const bg = s.axis === 'compassion' ? axisMeta.compassion.color : s.axis === 'leadership' ? axisMeta.leadership.color : s.axis === 'foundation' ? axisMeta.foundation.color : s.axis === 'mixed' ? `linear-gradient(90deg, ${axisMeta.compassion.color}, ${axisMeta.leadership.color})` : '#94a3b8'
           return (
             <div key={s.id} className="rounded-md px-2 py-1 text-center text-[11px] font-bold text-white" style={{ gridColumn: `${start + 1} / span ${span}`, background: bg }}>
               {s.order}. {s.name}
@@ -154,13 +155,13 @@ export function CurriculumTable({ compact = false }: { compact?: boolean }) {
           })}
         </tbody>
       </table>
-      <Link to="/course/construction" className="flex items-center gap-4 border-t-2 border-dashed px-5 py-4 text-sm transition hover:bg-safety-50/60" style={{ borderColor: axisMeta.foundation.color }}>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-dashed text-safety-600" style={{ borderColor: axisMeta.foundation.color }}><HardHat size={16} /></span>
+      <Link to="/course/construction" className="flex items-center gap-4 border-t-2 px-5 py-4 text-sm transition hover:bg-safety-50/60" style={{ borderColor: axisMeta.foundation.color }}>
+        <span className="flex h-9 w-9 items-center justify-center rounded-full text-white" style={{ background: axisMeta.foundation.color }}><HardHat size={16} /></span>
         <span className="flex-1">
           <span className="font-bold text-safety-700">Construction · 기초 역량</span>
-          <span className="ml-2 text-slate-600">현장 업종의 큰 흐름과 관리감독 역량의 기초</span>
+          <span className="ml-2 text-slate-600">0주차 사전 진단(2축 자기진단 · 딜레마 시나리오 · 현장 첫 마디) → 12주 변화 추적의 기준</span>
         </span>
-        <span className="badge bg-safety-100 text-safety-700">배치 주차 {construction.weeks} · {construction.note}</span>
+        <span className="badge bg-safety-100 text-safety-700">{construction.note}</span>
       </Link>
     </div>
   )

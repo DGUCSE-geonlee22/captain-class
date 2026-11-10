@@ -3,7 +3,7 @@ import type { Course } from './types'
 /**
  * 5C 코스 데이터.
  *
- * ▶ 뼈대 코스(Construction) 내용을 채우는 방법 — 리더십 축 두 코스는 장한이 님 문서 기준으로 채워짐
+ * ▶ 5개 코스 모두 담당자 문서 기준으로 채워짐 (Construction 주우상 · 공감 축 곽경은 · 리더십 축 장한이)
  *   1. 해당 코스의 `status`를 'skeleton' → 'ready'로 바꾼다.
  *   2. `lessons` 배열의 빈 카드(title: '레슨 N (준비 중)')를 실제 레슨으로 교체한다.
  *      - `path`를 지정하면 레슨 카드가 해당 라우트로 연결된다. 새 화면이 필요하면 src/pages에 만들고
@@ -29,17 +29,26 @@ export const courses: Course[] = [
   {
     id: 'construction',
     name: 'Construction',
-    nameKo: '기초',
+    nameKo: '기초 · 0주차 진단',
     axis: 'foundation',
-    axisLabel: '기초 역량',
-    tagline: '현장 업종의 큰 흐름과 관리감독 역량의 기초',
-    description: '',
-    status: 'skeleton',
+    axisLabel: '기초 역량 · 0주차 사전 진단',
+    tagline: '본 교육 1주 전, 나를 진단하고 현장에 첫 마디를 건네는 0주차',
+    description:
+      '원가·안전·공기 삼중 압박, 본사·현장·협력사 다단계 구조, 인력 세대교체, 기술과 사람 간 갈등 속에서 신임 현장 리더가 마주할 딜레마를 미리 인식한다. 단순 지적·단속형 관리에서 벗어나 AI 데이터를 현장의 정서적·환경적 맥락으로 재해석하는 인지적 공감력과, 본사·현장·협력업체 사이에서 리스크가 생기기 전에 설득·조율하는 실전 관리감독 능력을 기르는 출발점이다.',
+    status: 'ready',
     owner: '주우상',
+    framework: {
+      goal: '신임 리더가 본인의 공감·리더십 성향을 객관적으로 파악하고, 현장의 실제 딜레마를 미리 인식한다',
+      keyQuestion: '나는 모니터 앞에서 현장을 보고 있는가, 현장 바닥에서 보고 있는가?',
+      purpose: '책상머리 교육에서 벗어나 현장 작업자와의 첫 대면 소통으로 실무 감각을 깨우는 브릿지',
+      coreLessonIds: ['cn-a', 'cn-b', 'cn-c'],
+      supportLessonIds: [],
+      flow: [],
+    },
     lessons: [
-      { id: 'cn-1', title: '레슨 1 (준비 중)', summary: '' },
-      { id: 'cn-2', title: '레슨 2 (준비 중)', summary: '' },
-      { id: 'cn-3', title: '레슨 3 (준비 중)', summary: '' },
+      { id: 'cn-a', title: '레슨 A. 공감/리더십 2축 자기진단', summary: '건설 현장 상황 8가지에서 통제형(권위적)·회피형(착한 리더)·균형형 대응을 고르면 2축 점수와 12주 집중 보완 축이 나온다. 12주 변화 추적의 기준 데이터.', path: '/course/construction/diagnosis' },
+      { id: 'cn-b', title: '레슨 B. 현장 딜레마 시나리오 선택형 진단', summary: '안전·공기 충돌, 본사-현장 괴리, 관계 딜레마 중 본인 파트와 가장 가까운 상황을 고르고 초기 대응 방안을 적는다.', path: '/course/construction/dilemma' },
+      { id: 'cn-c', title: '레슨 C. 현장 실천 미션: 작업자 1명에게 첫 마디 건네기', summary: '"요즘 현장에서 작업하시면서 가장 힘든 일이나 애로사항이 무엇인가요?"라고 직접 묻고 반응을 기록한다. 현장 대면 소통 리포트는 Reframing 모듈로 연계된다.', path: '/course/construction/field-mission' },
     ],
   },
   {
@@ -112,12 +121,11 @@ export const courses: Course[] = [
       keyQuestion: '흰수염이라면 무엇을 먼저 물었을까?',
       purpose: 'AI에 전적으로 기대지 않는 태도와 독립적으로 사고하는 능력 기르기',
       coreLessonIds: ['ch-a'],
-      supportLessonIds: ['ch-b'],
+      supportLessonIds: [],
       flow: ['판단'],
     },
     lessons: [
       { id: 'ch-a', title: '레슨 A. 질문형 리더 AI', summary: '상황을 적으면 흰수염·이순신 같은 안내자가 해결책 대신 먼저 물어야 할 것을 묻는다. 참고 자료(삼성물산 작업중지권 사례 등)를 함께 보고 리더가 방향을 정하면, 그 방향이 협력사·본사·작업자에게 미칠 영향을 다시 되묻는다.', path: '/course/charisma-character/leader-ai' },
-      { id: 'ch-b', title: "레슨 B. 'AI에 맡길 일 / 내가 할 일' 기준표", summary: '이번 주 업무를 AI 위임 · AI 초안+확인 · 직접 수행으로 분류해 나의 AI 위임 기준표를 만든다. (Evaluate 단계 산출물)', path: '/course/charisma-character/delegation' },
     ],
   },
   {
@@ -132,18 +140,19 @@ export const courses: Course[] = [
     status: 'ready',
     owner: '장한이',
     framework: {
-      goal: '팀원이 스스로 길을 찾도록 질문으로 이끌기',
+      goal: '팀원이 스스로 길을 찾도록 질문하며 함께 길을 만들어 가기',
       keyQuestion: '팀원이 스스로 답을 찾게 하려면 나는 무엇을 물어야 할까?',
-      purpose: '인증과 현장 코칭을 구분해, 실제 면담에서 코칭 질문을 연습하고 성취 경험을 기록으로 쌓기',
-      coreLessonIds: ['co-a', 'co-b'],
-      supportLessonIds: ['co-c', 'co-d'],
+      purpose: '인증(자격)과 현장 코칭(실행)을 구분해, 코칭의 결과가 현장까지 이어지는지 기준표·성취 기록·주변 피드백으로 확인하기',
+      coreLessonIds: ['co-a', 'co-b', 'co-c'],
+      supportLessonIds: ['co-d', 'co-e'],
       flow: ['이끌기'],
     },
     lessons: [
-      { id: 'co-a', title: '레슨 A. 코칭 질문 연습', summary: "'야근해서라도 맞추세요' 같은 지시 대신, 팀원이 스스로 길을 찾게 하는 질문 3개를 쓴다. 질문인가·열린 질문인가·답을 정해 주지 않았는가를 점검한다.", path: '/course/coaching/questions' },
-      { id: 'co-b', title: '레슨 B. 팀원 성취 경험 기록', summary: '팀원이 찾아낸 길을 문제 정의 · 근거 설명 · 도전 행동 · 다음 한 걸음으로 기록해 경력으로 이어 준다.', path: '/course/coaching/achievements' },
-      { id: 'co-c', title: '레슨 C. 한국코치협회 인증 연계', summary: '인증 취득 시 CC 수료 가산점. 인증 준비 단계를 체크하며 질문 연습·성취 기록 누적을 근거로 삼는다.', path: '/course/coaching/achievements' },
-      { id: 'co-d', title: '레슨 D. 면담 전 정서적 질문 카드', summary: '팀원 지표와 함께 정서적 질문 카드 3장을 고른다. (Collaboration+Communication 레슨 C와 공유)', path: '/course/collab-comm/pulse' },
+      { id: 'co-a', title: '레슨 A. 코칭 질문 연습', summary: "결론만 전달하는 대신 팀원이 스스로 길을 찾게 하는 질문 3개를 쓴다. 질문인가·열린 질문인가·답을 정해 주지 않았는가를 점검한다. 시나리오: 협력사 작업 중지 요청을 본사에 전달하지 못해 위축된 공무 담당 팀원.", path: '/course/coaching/questions' },
+      { id: 'co-b', title: '레슨 B. 판단 위임 기준표 (팀원 작성 · 리더 보완)', summary: "'이 결정은 현장에서 누가 내려야 할까요?' 같은 질문과 답을 바탕으로 팀원이 AI에게 맡길 일과 자신이 판단할 일을 직접 나눈다. 위험 징후 모니터링·작업 일보 정리는 AI, 작업 중지 판단·협력사 입장 전달은 사람.", path: '/course/coaching/delegation' },
+      { id: 'co-c', title: '레슨 C. 단계별 성취 경험 기록', summary: '면담에서 나온 팀원의 첫 계획을 문제 인식 → 시도 → 수정·보완 단계로 기록한다. 리더는 과정(문제 정의·새로운 시도·오류 수정)에 피드백하고, 몇 주 뒤 동료·협력 부서 의견으로 성장을 확인한다.', path: '/course/coaching/growth' },
+      { id: 'co-d', title: '레슨 D. 한국코치협회 인증 연계', summary: '인증 취득 시 CC 수료 가산점. 인증(자격)과 현장 코칭(실행)을 구분하고, 질문 연습·기준표·성취 기록 누적을 인증 준비의 근거로 삼는다.', path: '/course/coaching/growth' },
+      { id: 'co-e', title: '레슨 E. 면담 전 정서적 질문 카드', summary: '팀원 지표와 함께 정서적 질문 카드 3장을 고른다. (Collaboration+Communication 레슨 C와 공유)', path: '/course/collab-comm/pulse' },
     ],
   },
 ]

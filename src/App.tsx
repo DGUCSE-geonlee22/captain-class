@@ -13,9 +13,12 @@ import PulsePage from './pages/collab/PulsePage'
 import CoachingPage from './pages/collab/CoachingPage'
 import VoicePage from './pages/collab/VoicePage'
 import LeaderAIPage from './pages/leadership/LeaderAIPage'
-import DelegationPage from './pages/leadership/DelegationPage'
+import MemberDelegationPage from './pages/leadership/MemberDelegationPage'
 import CoachingQuestionsPage from './pages/leadership/CoachingQuestionsPage'
-import AchievementPage from './pages/leadership/AchievementPage'
+import GrowthPlanPage from './pages/leadership/GrowthPlanPage'
+import DiagnosisPage from './pages/construction/DiagnosisPage'
+import DilemmaPage from './pages/construction/DilemmaPage'
+import FieldMissionPage from './pages/construction/FieldMissionPage'
 import PnancheoPage from './pages/PnancheoPage'
 import PracticePage from './pages/PracticePage'
 import BridgePage from './pages/BridgePage'
@@ -49,9 +52,12 @@ export default function App() {
           <Route path="/course/collab-comm/coaching" element={<CoachingPage />} />
           <Route path="/course/collab-comm/voice" element={<VoicePage />} />
           <Route path="/course/charisma-character/leader-ai" element={<LeaderAIPage />} />
-          <Route path="/course/charisma-character/delegation" element={<DelegationPage />} />
           <Route path="/course/coaching/questions" element={<CoachingQuestionsPage />} />
-          <Route path="/course/coaching/achievements" element={<AchievementPage />} />
+          <Route path="/course/coaching/delegation" element={<MemberDelegationPage />} />
+          <Route path="/course/coaching/growth" element={<GrowthPlanPage />} />
+          <Route path="/course/construction/diagnosis" element={<DiagnosisPage />} />
+          <Route path="/course/construction/dilemma" element={<DilemmaPage />} />
+          <Route path="/course/construction/field-mission" element={<FieldMissionPage />} />
           <Route path="/course/:id" element={<CourseDetailPage />} />
           <Route path="/pnancheo" element={<PnancheoPage />} />
           <Route path="/practice" element={<PracticePage />} />

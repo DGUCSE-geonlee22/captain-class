@@ -106,9 +106,10 @@ export default function HomePage() {
                   <div className="mb-1.5 flex items-center justify-between text-sm"><span className="font-semibold text-navy-700">리더십 축</span><span className="font-bold">{progress.leadership}%</span></div>
                   <ProgressBar value={progress.leadership} color={axisMeta.leadership.color} />
                 </div>
-                <div className="flex items-center justify-between rounded-xl border-2 border-dashed px-3 py-2 text-xs" style={{ borderColor: axisMeta.foundation.color }}>
-                  <span className="flex items-center gap-1.5 font-semibold text-safety-700"><HardHat size={13} /> Construction</span>
-                  <span className="text-slate-500">{construction.note}</span>
+                <div>
+                  <div className="mb-1.5 flex items-center justify-between text-sm"><span className="flex items-center gap-1.5 font-semibold text-safety-700"><HardHat size={14} /> Construction · 0주차 진단</span><span className="font-bold">{progress.foundation}%</span></div>
+                  <ProgressBar value={progress.foundation} color={axisMeta.foundation.color} />
+                  <p className="mt-1 text-[11px] text-slate-400">{construction.note}</p>
                 </div>
               </div>
             </div>
@@ -149,12 +150,12 @@ export default function HomePage() {
             ))}
           </Reveal>
           <Reveal delay={200}>
-            <Link to="/course/construction" className="mt-6 flex items-center gap-5 rounded-2xl border-2 border-dashed bg-safety-50/40 px-7 py-5 transition hover:bg-safety-50" style={{ borderColor: axisMeta.foundation.color }}>
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-safety-600 shadow-sm"><HardHat size={24} /></span>
+            <Link to="/course/construction" className="mt-6 flex items-center gap-5 rounded-2xl border-2 bg-safety-50/40 px-7 py-5 transition hover:bg-safety-50" style={{ borderColor: axisMeta.foundation.color }}>
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-sm" style={{ background: axisMeta.foundation.color }}><HardHat size={24} /></span>
               <span className="flex-1">
                 <span className="text-lg font-bold text-safety-700">Construction</span>
-                <span className="ml-2 badge bg-safety-100 text-safety-700">기초 역량 · 콘텐츠 준비 중 · 담당 주우상</span>
-                <span className="block text-sm text-slate-600">현장 업종의 큰 흐름과 관리감독 역량의 기초</span>
+                <span className="ml-2 badge bg-safety-100 text-safety-700">기초 역량 · 0주차 사전 진단 · 담당 주우상</span>
+                <span className="block text-sm text-slate-600">2축 자기진단 → 현장 딜레마 시나리오 → 작업자에게 첫 마디 건네기. 12주 변화 추적의 기준 데이터.</span>
               </span>
               <ArrowRight className="text-safety-400" />
             </Link>

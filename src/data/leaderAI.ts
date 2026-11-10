@@ -111,26 +111,3 @@ export function matchLeaderScenario(text: string): LeaderAIScenario | undefined 
   }
   return best?.s
 }
-
-/** AI 위임 기준표 · 이번 주 업무 목록 (Evaluate 단계, 'AI에 맡길 일 / 내가 할 일' 분류) */
-export interface DelegationTask {
-  id: string
-  task: string
-  hint: string
-}
-export const delegationTasks: DelegationTask[] = [
-  { id: 'd-log', task: 'AI 위반 로그 1차 확인·분류', hint: '반복적이고 기준이 명확한 일' },
-  { id: 'd-rest', task: '폭염일 작업반장과 휴식 주기 정하기', hint: '사람의 몸 상태와 신뢰가 걸린 일' },
-  { id: 'd-report', task: '공정 리포트 수치 집계', hint: '데이터 집계는 빠르지만 지연 원인은 숫자에 없다' },
-  { id: 'd-interview', task: '김두현 1:1 면담', hint: '고충은 사람에게만 말한다' },
-  { id: 'd-letter', task: '본사 지적 공문 답신 초안', hint: '초안은 빠르게, 현장 맥락은 직접' },
-  { id: 'd-tbm', task: '아침 TBM 진행', hint: '위험 공유는 리더의 얼굴과 목소리로' },
-  { id: 'd-newbie', task: '신입의 질문에 답하기', hint: 'AI가 대신 답하면 질문하는 습관이 사라진다' },
-  { id: 'd-schedule', task: '다음 주 인력 배치표 작성', hint: '배치는 AI, 조정은 사람' },
-]
-export const delegationChoices = [
-  { id: 'ai', label: 'AI에 맡긴다', color: 'bg-slate-700 text-white' },
-  { id: 'both', label: 'AI 초안 + 내가 확인', color: 'bg-navy-500 text-white' },
-  { id: 'me', label: '내가 직접 한다', color: 'bg-safety-500 text-white' },
-] as const
-export type DelegationChoice = (typeof delegationChoices)[number]['id']
