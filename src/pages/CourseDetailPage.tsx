@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowRight, CheckCircle2, Construction, FileCode2, HelpCircle, Sparkles, Target, Wrench } from 'lucide-react'
 import { AxisBadge, Callout, PageHeader, Reveal } from '../components/ui'
-import { courseById, compassionAxisPhilosophy } from '../data/courses'
+import { courseById, compassionAxisPhilosophy, leadershipAxisPhilosophy } from '../data/courses'
 import { weekLectures } from '../data/lectures'
 import { VideoThumb } from '../components/Video'
 import { weekProgress } from '../lib/weekProgress'
@@ -53,10 +53,10 @@ const diagrams: Record<string, { title: string; steps: { n: string; label: strin
     note: "해결책을 제시하기만 하는 상사에서 방향을 함께 세우는 코치로. '착한 리더'에서 올바른 길로 이끄는 '공감 리더'로.",
   },
   construction: {
-    title: '0주차 사전 진단 · 본 교육 1주 전',
+    title: '0주차 사전 진단 · 강의 없이 진단으로 시작',
     steps: [
       { n: '1', label: '2축 자기진단', desc: '건설 현장 상황 8가지에서 통제형(권위적)·회피형(착한 리더)·균형형 대응을 골라 성향과 집중 보완 축을 찾는다' },
-      { n: '2', label: '내 딜레마', desc: '안전·공기 충돌 / 본사-현장 괴리 / 관계 딜레마 중 내 파트와 가장 가까운 것을 고르고 지금의 대응을 남긴다' },
+      { n: '2', label: '현장 딜레마 선택형 진단', desc: '안전·공기 충돌 / 본사-현장 괴리 / 관계 딜레마 중 내 파트와 가장 가까운 것을 고르고, 지금의 나라면 어떻게 대응할지 선택한다' },
       { n: '3', label: '현장 첫 마디', desc: '작업자 1명에게 "가장 힘든 일이나 애로사항이 무엇인가요?" 직접 묻고 반응을 기록한다 → Reframing 모듈로 연계' },
     ],
     note: '모니터(CCTV·AI 로그) 앞에서만 현장을 보던 시선을 거두고, 현장 바닥의 실상과 노동자의 육체적 고충을 첫날부터 체감하게 하는 장치.',
@@ -104,10 +104,15 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
   const byId = (ids: string[]) => ids.map((i) => course.lessons.find((l) => l.id === i)).filter((l): l is Lesson => Boolean(l))
   const core = fw ? byId(fw.coreLessonIds) : course.lessons
   const support = fw ? byId(fw.supportLessonIds) : []
-  const stepIdx = compassionAxisPhilosophy.steps.map((s) => s.label)
+  const philosophy = course.axis === 'compassion' ? compassionAxisPhilosophy : course.axis === 'leadership' ? leadershipAxisPhilosophy : null
+  const stepIdx = philosophy ? philosophy.steps.map((s) => s.label) : []
+  const isLeadership = course.axis === 'leadership'
 
   return (
     <div className="space-y-8">
+      {course.id === 'construction' && (
+        <Callout tone="info">이 코스는 강의 없이 진단으로만 구성됩니다. 2축 자기진단과 현장 딜레마 선택형 진단으로 나를 파악하고, 현장 첫 마디 미션으로 본 교육(1주차 Compassion)에 들어갑니다.</Callout>
+      )}
       {fw && (
         <Reveal className="grid grid-cols-3 gap-4">
           <Tile icon={<Target size={18} />} label="코스 목표" value={fw.goal} />
@@ -116,19 +121,21 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
         </Reveal>
       )}
 
-      {fw && course.axis === 'compassion' && (
-        <Reveal className="flex items-center justify-center gap-2 text-sm" delay={80}>
-          <span className="text-slate-500">공감 축 흐름</span>
-          {stepIdx.map((label, i) => {
-            const on = fw.flow.includes(label)
-            return (
-              <span key={label} className="flex items-center gap-2">
-                <span className={`rounded-full px-3 py-1 font-semibold ${on ? 'bg-teal-500 text-white' : 'bg-slate-100 text-slate-400'}`}>{label}</span>
-                {i < stepIdx.length - 1 && <ArrowRight size={14} className="text-slate-300" />}
-              </span>
-            )
-          })}
-          <span className="ml-2 text-xs text-slate-400">이 코스가 맡는 단계가 진하게 표시됩니다</span>
+      {fw && philosophy && (
+        <Reveal className="rounded-2xl border border-slate-100 bg-white px-6 py-4 shadow-card" delay={80}>
+          <p className="text-center text-xs text-slate-500"><b className={isLeadership ? 'text-navy-700' : 'text-teal-700'}>{isLeadership ? '리더십 축' : '공감 축'} 교육 철학</b> · {philosophy.statement}</p>
+          <div className="mt-3 flex items-center justify-center gap-2 text-sm">
+            {stepIdx.map((label, i) => {
+              const on = fw.flow.includes(label)
+              return (
+                <span key={label} className="flex items-center gap-2">
+                  <span className={`rounded-full px-3 py-1 font-semibold ${on ? (isLeadership ? 'bg-navy-700 text-white' : 'bg-teal-500 text-white') : 'bg-slate-100 text-slate-400'}`}>{label}</span>
+                  {i < stepIdx.length - 1 && <ArrowRight size={14} className="text-slate-300" />}
+                </span>
+              )
+            })}
+            <span className="ml-2 text-xs text-slate-400">이 코스가 맡는 단계가 진하게 표시됩니다</span>
+          </div>
         </Reveal>
       )}
 
@@ -150,7 +157,7 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
         </Reveal>
       )}
 
-      {weeks.length > 0 && (
+      {weeks.some((w) => w.lectures.length > 0) && (
         <Reveal delay={140}>
           <div className="mb-3 flex items-center gap-2">
             <h3 className="text-base font-bold text-navy-800">이 코스의 강의</h3>

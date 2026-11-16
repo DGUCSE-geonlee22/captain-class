@@ -12,7 +12,9 @@
     "deploy": "npm run build && gh-pages -d dist --nojekyll",
     "server": "node server/index.mjs",
     "start": "node server/index.mjs",
-    "seed:export": "node scripts/export-seed.mjs"
+    "seed:export": "node scripts/export-seed.mjs",
+    "texts:export": "node scripts/texts-export.mjs",
+    "texts:apply": "node scripts/texts-apply.mjs"
   },
   "dependencies": {
     "cors": "^2.8.6",
@@ -23,6 +25,7 @@
     "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
+    "@babel/parser": "^8.1.2",
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",

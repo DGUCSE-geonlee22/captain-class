@@ -2,6 +2,7 @@
  * Construction 코스 데이터 (담당: 주우상, 팀 문서 '주우상-construction' 기준)
  *
  * Construction은 본 교육(12주) 시작 1주 전, 0주차 사전 진단 코스다.
+ *  강의 없이 진단으로만 구성된다 (팀 피드백 반영).
  *  1) 공감/리더십 2축 자기진단  2) 현장 딜레마 시나리오 선택형 진단  3) 현장 실천 미션: 작업자 1명에게 첫 마디 건네기
  * 산출물: 개인 프로파일·사전 진단 점수(12주 변화 추적 기준), 현장 대면 소통 리포트(Compassion Reframing 모듈로 연계)
  */
@@ -151,11 +152,28 @@ export interface DilemmaScenario {
   situation: string
   /** 연결되는 코스·레슨 */
   linkedCourse: 'compassion' | 'collab-comm' | 'charisma-character'
+  /** 선택형 진단: 지금의 나라면 어떻게 대응할지 (통제형 · 회피형 · 균형형) */
+  options: { tendency: Tendency; text: string }[]
 }
 export const dilemmaScenarios: DilemmaScenario[] = [
-  { id: 'dl-safety', type: '안전·공기 충돌', title: '폭염 속 야간 작업과 작업중지권', situation: '폭염 속에서 발주처 준공 일정을 맞추기 위해 야간 작업을 서두르려 하자, 협력사 작업반장이 안전 우려로 작업중지권을 요구한다.', linkedCourse: 'charisma-character' },
-  { id: 'dl-hq', type: '본사-현장 괴리', title: 'AI 로그 근거 경위서 요구', situation: '본사 스마트안전팀이 AI 로그를 근거로 현장에 경위서 제출을 요구했으나, 실제 현장 여건상 불가피한 작업 동선이었다.', linkedCourse: 'compassion' },
-  { id: 'dl-peer', type: '관계 딜레마', title: '승진 누락 입사동기에게 지시하기', situation: '승진 누락으로 감정이 상한 입사동기 대리(현장 실무 담당)에게 새로운 공정 지시와 피드백을 전달해야 한다.', linkedCourse: 'collab-comm' },
+  { id: 'dl-safety', type: '안전·공기 충돌', title: '폭염 속 야간 작업과 작업중지권', situation: '폭염 속에서 발주처 준공 일정을 맞추기 위해 야간 작업을 서두르려 하자, 협력사 작업반장이 안전 우려로 작업중지권을 요구한다.', linkedCourse: 'charisma-character',
+    options: [
+      { tendency: 'control', text: '준공 일정이 우선이다. 야간 작업을 그대로 진행시키고 반장에게는 규정대로 하라고 말한다.' },
+      { tendency: 'avoid', text: '반장 말대로 일단 멈추고, 본사와 발주처에는 알리지 않은 채 상황이 지나가길 기다린다.' },
+      { tendency: 'balanced', text: '현장에서 위험 요소를 직접 확인해 중지 여부를 판단하고, 본사에는 근거 자료와 함께 일정 협의를 요청한다.' },
+    ] },
+  { id: 'dl-hq', type: '본사-현장 괴리', title: 'AI 로그 근거 경위서 요구', situation: '본사 스마트안전팀이 AI 로그를 근거로 현장에 경위서 제출을 요구했으나, 실제 현장 여건상 불가피한 작업 동선이었다.', linkedCourse: 'compassion',
+    options: [
+      { tendency: 'control', text: '현장을 모르고 보낸 요구라고 반박하고, 작업자들에게는 로그에 찍히지 않게 조심하라고 지시한다.' },
+      { tendency: 'avoid', text: '본사가 요구한 대로 경위서를 쓰고 작업자들에게 주의만 준다.' },
+      { tendency: 'balanced', text: '경위서는 제출하되 로그마다 시각·체감온도·연속 작업 시간을 붙인 현장 맥락 보고서를 함께 보내고, 작업자에게 사정을 먼저 묻는다.' },
+    ] },
+  { id: 'dl-peer', type: '관계 딜레마', title: '승진 누락 입사동기에게 지시하기', situation: '승진 누락으로 감정이 상한 입사동기 대리(현장 실무 담당)에게 새로운 공정 지시와 피드백을 전달해야 한다.', linkedCourse: 'collab-comm',
+    options: [
+      { tendency: 'control', text: '감정은 개인 문제다. 공정표를 보내고 기한 내 처리하라고 지시한다.' },
+      { tendency: 'avoid', text: '불편해서 직접 말하지 못하고 메신저로 애매하게 부탁하거나 다른 사람을 통해 전달한다.' },
+      { tendency: 'balanced', text: '먼저 마주 앉아 현장 경험을 인정하고, 안전·일정 기준은 내가 책임지되 순서·인력은 그의 판단을 믿는다고 역할을 정해 말한다.' },
+    ] },
 ]
 
 /** 3) 현장 실천 미션: 작업자 1명에게 첫 마디 건네기 */

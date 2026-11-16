@@ -146,6 +146,8 @@ export interface Diagnosis {
 export interface Dilemma {
   completedAt: string
   scenarioId: string
+  /** 선택형 진단에서 고른 대응 성향 */
+  tendency?: 'control' | 'avoid' | 'balanced'
   response: string
 }
 export interface FieldReport {

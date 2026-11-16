@@ -151,3 +151,16 @@ src/
 2. AI 결과물에는 항상 **"참고용 · 최종 판단은 리더가"** 표시가 붙는다.
 3. 개인정보·고객정보 입력 경고는 입력창 근처에 둔다.
 4. 징계·처벌을 바로 실행하는 버튼은 어디에도 없다.
+
+## 8. 화면 텍스트 일괄 수정 (팀원용)
+
+데모 페이지의 모든 한국어 문장을 파일 하나로 내보내고, 고친 파일을 그대로 다시 반영할 수 있습니다.
+
+```bash
+npm run texts:export                      # texts/cc-texts.txt, texts/cc-texts.csv 생성
+npm run texts:apply -- texts/cc-texts.txt --dry   # 바뀔 항목만 미리 보기
+npm run texts:apply -- texts/cc-texts.txt         # 소스에 반영 → npm run build 로 확인
+```
+
+- `cc-texts.txt`는 "번호 | 문장" 한 줄씩입니다. 세로줄 오른쪽 문장만 고칩니다. `cc-texts.csv`는 같은 내용을 표로 만든 것이라 구글 시트에서 '수정본' 열만 채워도 됩니다.
+- `cc-texts.map.json`은 번호가 소스 어디에 있는지 기록한 파일이므로 손대지 않습니다. 소스를 고친 뒤에는 다시 내보내야 번호가 맞습니다.

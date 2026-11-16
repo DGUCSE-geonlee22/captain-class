@@ -11,7 +11,7 @@ import { organization } from '../data/team'
 import { construction, stageForWeek, TOTAL_WEEKS, weekPlanFor } from '../data/journey'
 import { safetyLogs } from '../data/logs'
 import { grievances } from '../data/bridge'
-import { axisMeta, courses } from '../data/courses'
+import { axisMeta, compassionAxisPhilosophy, courses, leadershipAxisPhilosophy } from '../data/courses'
 
 export default function HomePage() {
   const { state, toggleMission, progress, isLeader, profile } = useApp()
@@ -90,7 +90,7 @@ export default function HomePage() {
             <div className="card col-span-3 flex items-center gap-6 p-6">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-safety-50 text-safety-600"><Waypoints size={26} /></div>
               <div className="flex-1">
-                <p className="label">이번 주 강의 · {plan.courseLabel}</p>
+                <p className="label">{wl.lectures.length === 0 ? '이번 주 진단' : '이번 주 강의'} · {plan.courseLabel}</p>
                 <p className="mt-0.5 text-lg font-bold text-navy-800">{weekLecturesFor(week).theme}</p>
                 <p className="mt-1 text-sm text-slate-600"><span className="font-semibold text-slate-500">현업 미션 · </span>{stage.mission}</p>
                 <p className="text-xs text-slate-400">산출물: {stage.output}</p>
@@ -98,7 +98,7 @@ export default function HomePage() {
               <button onClick={() => toggleMission(stage.id)} className={missionDone ? 'btn-teal' : 'btn-ghost'}>
                 {missionDone ? <CheckCircle2 size={16} /> : <Circle size={16} />} {missionDone ? '미션 완료함' : '미션 완료 체크'}
               </button>
-              <Link to={`/curriculum/week/${week}`} className="btn-primary"><PlayCircle size={16} /> 강의 이어 듣기</Link>
+              <Link to={`/curriculum/week/${week}`} className="btn-primary">{wl.lectures.length === 0 ? <><HardHat size={16} /> 진단 시작하기</> : <><PlayCircle size={16} /> 강의 이어 듣기</>}</Link>
             </div>
             <div className="card col-span-2 p-6">
               <p className="label mb-4">2축 진척도</p>
@@ -124,8 +124,19 @@ export default function HomePage() {
 
       {/* CURRICULUM */}
       <section className="mx-auto max-w-[1400px] px-8 py-20">
-        <SectionHead en="Curriculum" ko={<>이번 주 강의</>} sub="매주 강의 영상을 듣고, 5C 확인 활동으로 잘 받아들였는지 확인하고, 현업 과제로 현장에 적용합니다." />
+        <SectionHead en="Curriculum" ko={wl.lectures.length === 0 ? <>이번 주는 강의 없이 진단으로 시작</> : <>이번 주 강의</>} sub="0주차는 강의 없이 진단으로 나를 파악하고, 1주차부터 매주 강의 영상을 듣고 5C 확인 활동으로 잘 받아들였는지 확인한 뒤 현업 과제로 현장에 적용합니다." />
         <Reveal className="mt-12 grid grid-cols-3 gap-5" delay={100}>
+          {wl.lectures.length === 0 && (
+            <Link to="/course/construction/diagnosis" className="col-span-2 flex items-center gap-5 rounded-2xl bg-gradient-to-r from-[#7c2d12] to-safety-500 p-6 text-white transition hover:opacity-95">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15"><HardHat size={28} /></span>
+              <span className="flex-1">
+                <span className="font-display text-xs uppercase tracking-[0.2em] text-white/70">Construction · 진단형 (강의 없음)</span>
+                <span className="mt-1 block text-lg font-bold">{wl.theme}</span>
+                <span className="mt-1 block text-sm text-white/80">① 2축 자기진단 8문항 → ② 현장 딜레마 선택형 진단 → ③ 현장 첫 마디 미션</span>
+              </span>
+              <ArrowRight />
+            </Link>
+          )}
           {wl.lectures.map((l, i) => (
             <Link key={l.id} to={`/curriculum/week/${week}?lecture=${l.id}`} className="group block">
               <VideoThumb courseId={wl.courseId} lecture={l} index={i} watched={wp.isLectureDone(l.id)} />
@@ -150,10 +161,22 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1400px] px-8">
           <SectionHead en="5C Courses" ko="2축 프레임워크 위에 세운 5C" sub="공감 축(Compassion, Collaboration+Communication)과 리더십 축(Charisma+Character, Coaching)이 두 기둥이고, 그 아래 현장 업종의 기초 역량 Construction이 깔립니다." />
           <Reveal className="mt-12 grid grid-cols-2 gap-6" delay={100}>
-            {[{ title: '공감 축', sub: '구성원의 마음을 이해하고 소통으로 전달한다', list: compassionAxis, color: axisMeta.compassion.color }, { title: '리더십 축', sub: '믿고 따를 수 있는 카리스마와 품격으로 이끈다', list: leadershipAxis, color: axisMeta.leadership.color }].map((col) => (
+            {[{ title: '공감 축', sub: '구성원의 마음을 이해하고 소통으로 전달한다', list: compassionAxis, color: axisMeta.compassion.color, ph: compassionAxisPhilosophy }, { title: '리더십 축', sub: '믿고 따를 수 있는 카리스마와 품격으로 이끈다', list: leadershipAxis, color: axisMeta.leadership.color, ph: leadershipAxisPhilosophy }].map((col) => (
               <div key={col.title} className="rounded-3xl border border-slate-200 bg-[#f6f8fa] p-6">
                 <h3 className="flex items-center gap-2 text-lg font-bold" style={{ color: col.color }}><span className="h-3 w-3 rounded-full" style={{ background: col.color }} /> {col.title}</h3>
                 <p className="text-sm text-slate-500">{col.sub}</p>
+                <div className="mt-4 rounded-2xl p-4 text-white" style={{ background: col.color }}>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60">교육 철학</p>
+                  <p className="mt-1 text-sm font-medium leading-relaxed">{col.ph.statement}</p>
+                  <div className="mt-3 flex items-center gap-1.5 text-xs font-bold">
+                    {col.ph.steps.map((st, i) => (
+                      <span key={st.key} className="flex items-center gap-1.5">
+                        <span className="rounded-full bg-white/15 px-2.5 py-1">{st.label}</span>
+                        {i < col.ph.steps.length - 1 && <ArrowRight size={12} className="text-white/60" />}
+                      </span>
+                    ))}
+                  </div>
+                </div>
                 <div className="mt-5 space-y-3">
                   {col.list.map((c) => (
                     <Link key={c.id} to={`/course/${c.id}`} className={`card flex items-center justify-between p-4 transition hover:-translate-y-0.5 hover:shadow-md ${c.status === 'skeleton' ? 'border-dashed' : ''}`}>
@@ -212,7 +235,7 @@ export default function HomePage() {
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-safety-50 text-safety-600"><Users size={24} /></span>
               <span className="mt-4 font-display text-sm uppercase tracking-[0.2em] text-safety-600">Bridge · 핵심 기능 3</span>
               <h3 className="mt-1 text-2xl font-bold text-navy-800">익명 브릿지</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">타 파트·타 부서 구성원과 작업자의 고충이 익명으로 도착합니다. 직접 답해 보고, Link 단계에서는 본사·타 현장 리더와 15분 교환 인터뷰로 이어집니다.</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">타 파트·타 부서 구성원과 작업자의 고충이 익명으로 도착합니다. 직접 답해 보고, 7주차에는 본사·타 현장 리더와 15분 교환 인터뷰로 이어집니다.</p>
               <span className="mt-auto flex items-center gap-1 text-sm font-semibold text-safety-600">고충 듣기 <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span>
             </Link>
           </Reveal>

@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Ear, HardHat, Heart, Lock, MessageCircle, Handshake } from 'lucide-react'
+import { ArrowRight, Ear, HardHat, Heart, Lock, MessageCircle, Handshake, MessagesSquare, Scale, Route, Sprout } from 'lucide-react'
 import { PageHeader, ProgressBar, Reveal } from '../components/ui'
-import { axisMeta, compassionAxisPhilosophy, courses } from '../data/courses'
+import { axisMeta, compassionAxisPhilosophy, leadershipAxisPhilosophy, courses } from '../data/courses'
 import { useApp } from '../context/AppContext'
 import type { Course } from '../data/types'
 
-const stepIcon = { listen: Ear, understand: Heart, communicate: MessageCircle, act: Handshake } as const
+const stepIcon = { listen: Ear, understand: Heart, communicate: MessageCircle, act: Handshake, ask: MessagesSquare, judge: Scale, plan: Route, grow: Sprout } as const
+const courseShort: Record<string, string> = { compassion: 'Compassion', 'collab-comm': 'Collab+Comm', 'charisma-character': 'Charisma+Character', coaching: 'Coaching' }
 
 export default function CoursesPage() {
   const { state, progress } = useApp()
@@ -26,38 +27,29 @@ export default function CoursesPage() {
         title="2축 프레임워크 위에 세운 5C"
         description={
           <>
-            각 코스는 주차별 강의를 제공하고(커리큘럼), 여기 있는 확인·실습 활동으로 강의 내용을 잘 받아들였는지 확인합니다. 공감 축(Compassion, Collaboration+Communication)과 리더십 축(Charisma+Character, Coaching)이 두 기둥이고, 그 아래에 현장 업종의 기초 Construction이 깔립니다.
+            각 코스는 주차별 강의를 제공하고(커리큘럼), 여기 있는 확인·실습 활동으로 강의 내용을 잘 받아들였는지 확인합니다. Construction은 강의 없이 진단으로만 구성됩니다. 공감 축(Compassion, Collaboration+Communication)과 리더십 축(Charisma+Character, Coaching)이 두 기둥이고, 그 아래에 현장 업종의 기초 Construction이 깔립니다.
             <br />철학: <b>"AI는 데이터의 맥락을, 리더는 마음의 맥락을 읽는다"</b>
           </>
         }
       />
 
-      {/* 공감 축 교육 철학 (곽경은) */}
-      <Reveal className="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500 p-8 text-white">
-        <div className="flex items-start justify-between gap-8">
-          <div className="max-w-xl">
-            <p className="font-display text-sm uppercase tracking-[0.2em] text-white/70">Empathy axis · 공감 축 교육 철학</p>
-            <p className="mt-2 text-lg font-medium leading-relaxed">{compassionAxisPhilosophy.statement}</p>
-            <p className="mt-2 text-xs text-white/60">정리: 곽경은 · Compassion은 '듣기·이해', Collaboration+Communication은 '소통·협업 행동'을 맡습니다.</p>
-          </div>
-          <div className="flex shrink-0 items-center gap-2">
-            {compassionAxisPhilosophy.steps.map((s, i) => {
-              const Icon = stepIcon[s.key as keyof typeof stepIcon]
-              return (
-                <div key={s.key} className="flex items-center gap-2">
-                  <Link to={`/course/${s.courseId}`} className="flex w-[118px] flex-col items-center rounded-2xl bg-white/12 px-3 py-4 text-center transition hover:bg-white/20">
-                    <Icon size={22} />
-                    <span className="mt-2 text-sm font-bold">{s.label}</span>
-                    <span className="mt-1 text-[11px] leading-tight text-white/75">{s.desc}</span>
-                    <span className="mt-2 text-[10px] uppercase tracking-wider text-white/50">{s.courseId === 'compassion' ? 'Compassion' : 'Collab+Comm'}</span>
-                  </Link>
-                  {i < compassionAxisPhilosophy.steps.length - 1 && <ArrowRight size={16} className="text-white/60" />}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </Reveal>
+      {/* 두 축의 교육 철학 (공감 축 곽경은 · 리더십 축 장한이) */}
+      <div className="mb-8 grid grid-cols-2 gap-6">
+        <PhilosophyBanner
+          en="Empathy axis · 공감 축 교육 철학"
+          statement={compassionAxisPhilosophy.statement}
+          note="정리: 곽경은 · Compassion은 '듣기·이해', Collaboration+Communication은 '소통·협업 행동'을 맡습니다."
+          steps={compassionAxisPhilosophy.steps}
+          className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500"
+        />
+        <PhilosophyBanner
+          en="Leadership axis · 리더십 축 교육 철학"
+          statement={leadershipAxisPhilosophy.statement}
+          note="정리: 장한이 · Coaching은 '질문·계획', Charisma+Character는 '판단·성장'을 맡습니다."
+          steps={leadershipAxisPhilosophy.steps}
+          className="bg-gradient-to-r from-navy-900 via-navy-800 to-navy-700"
+        />
+      </div>
 
       <div className="grid grid-cols-2 gap-6">
         <AxisColumn title="공감 축" subtitle="구성원의 마음을 이해하고 소통으로 전달한다" color={axisMeta.compassion.color} percent={progress.compassion}>
@@ -74,7 +66,7 @@ export default function CoursesPage() {
           <span className="flex-1">
             <span className="flex items-center gap-2">
               <span className="text-lg font-bold text-safety-700">{foundation.name}</span>
-              <span className="badge bg-white text-safety-700">기초 역량 · 0주차 사전 진단</span>
+              <span className="badge bg-white text-safety-700">기초 역량 · 0주차 사전 진단 · 강의 없음</span>
               <span className="badge bg-safety-100 text-safety-700">정리: {foundation.owner} · 진행 {progress.foundation}%</span>
             </span>
             <span className="block text-sm text-slate-600">{foundation.tagline}</span>
@@ -83,6 +75,32 @@ export default function CoursesPage() {
         </Link>
       </Reveal>
     </div>
+  )
+}
+
+function PhilosophyBanner({ en, statement, note, steps, className }: { en: string; statement: string; note: string; steps: { key: string; label: string; desc: string; courseId: string }[]; className: string }) {
+  return (
+    <Reveal className={`overflow-hidden rounded-3xl p-7 text-white ${className}`}>
+      <p className="font-display text-sm uppercase tracking-[0.2em] text-white/70">{en}</p>
+      <p className="mt-2 text-[17px] font-medium leading-relaxed">{statement}</p>
+      <p className="mt-2 text-xs text-white/60">{note}</p>
+      <div className="mt-5 flex items-center gap-1.5">
+        {steps.map((s, i) => {
+          const Icon = stepIcon[s.key as keyof typeof stepIcon]
+          return (
+            <div key={s.key} className="flex flex-1 items-center gap-1.5">
+              <Link to={`/course/${s.courseId}`} className="flex w-full flex-col items-center rounded-2xl bg-white/12 px-2 py-4 text-center transition hover:bg-white/20">
+                <Icon size={22} />
+                <span className="mt-2 text-sm font-bold">{s.label}</span>
+                <span className="mt-1 min-h-[2.6em] text-[11px] leading-tight text-white/75">{s.desc}</span>
+                <span className="mt-2 text-[10px] uppercase tracking-wider text-white/50">{courseShort[s.courseId]}</span>
+              </Link>
+              {i < steps.length - 1 && <ArrowRight size={16} className="shrink-0 text-white/60" />}
+            </div>
+          )
+        })}
+      </div>
+    </Reveal>
   )
 }
 

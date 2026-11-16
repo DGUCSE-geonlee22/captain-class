@@ -25,6 +25,17 @@ export const compassionAxisPhilosophy = {
   ],
 }
 
+/** 리더십 축 교육 철학 (장한이) */
+export const leadershipAxisPhilosophy = {
+  statement: '올바른 질문으로 구성원이 스스로 방향을 찾을 수 있게 도우며, 믿고 따를 수 있는 리더십을 기른다.',
+  steps: [
+    { key: 'ask', label: '질문', desc: '구성원에게 질문을 던지며 접근한다', courseId: 'coaching' },
+    { key: 'judge', label: '판단', desc: '답을 주는 대신 스스로 판단하도록 돕는다', courseId: 'charisma-character' },
+    { key: 'plan', label: '계획', desc: '업무 기준과 앞으로의 방향을 함께 계획한다', courseId: 'coaching' },
+    { key: 'grow', label: '성장', desc: '팀원은 자기 판단력을 믿게 되고, 리더는 신뢰받는 공감 리더로 성장한다', courseId: 'charisma-character' },
+  ],
+}
+
 export const courses: Course[] = [
   {
     id: 'construction',
@@ -32,7 +43,7 @@ export const courses: Course[] = [
     nameKo: '기초 · 0주차 진단',
     axis: 'foundation',
     axisLabel: '기초 역량 · 0주차 사전 진단',
-    tagline: '본 교육 1주 전, 나를 진단하고 현장에 첫 마디를 건네는 0주차',
+    tagline: '강의 없이 진단으로 시작하는 0주차 · 2축 자기진단, 현장 딜레마 선택형 진단, 현장 첫 마디',
     description:
       '원가·안전·공기 삼중 압박, 본사·현장·협력사 다단계 구조, 인력 세대교체, 기술과 사람 간 갈등 속에서 신임 현장 리더가 마주할 딜레마를 미리 인식한다. 단순 지적·단속형 관리에서 벗어나 AI 데이터를 현장의 정서적·환경적 맥락으로 재해석하는 인지적 공감력과, 본사·현장·협력업체 사이에서 리스크가 생기기 전에 설득·조율하는 실전 관리감독 능력을 기르는 출발점이다.',
     status: 'ready',
@@ -46,7 +57,7 @@ export const courses: Course[] = [
       flow: [],
     },
     lessons: [
-      { id: 'cn-a', title: '레슨 A. 2축 자기진단 + 내 딜레마', summary: '건설 현장 상황 8가지에서 통제형(권위적)·회피형(착한 리더)·균형형 대응을 고르면 2축 점수와 12주 집중 보완 축이 나온다. 마지막에 내 파트와 가장 가까운 딜레마 하나를 골라 지금의 대응을 남긴다.', path: '/course/construction/diagnosis' },
+      { id: 'cn-a', title: '레슨 A. 2축 자기진단 + 현장 딜레마 선택형 진단', summary: '건설 현장 상황 8가지에서 통제형(권위적)·회피형(착한 리더)·균형형 대응을 고르면 2축 점수와 12주 집중 보완 축이 나온다. 마지막에 내 파트와 가장 가까운 딜레마 하나를 골라 지금의 대응을 남긴다.', path: '/course/construction/diagnosis' },
       { id: 'cn-b', title: '레슨 B. 현장 실천 미션: 작업자 1명에게 첫 마디 건네기', summary: '"요즘 현장에서 작업하시면서 가장 힘든 일이나 애로사항이 무엇인가요?"라고 직접 묻고 반응을 기록한다. 현장 대면 소통 리포트는 Reframing 모듈로 연계된다.', path: '/course/construction/field-mission' },
     ],
   },
@@ -118,7 +129,7 @@ export const courses: Course[] = [
       purpose: '여러 리더 AI에게 조언을 구하며 비교하고, 최종 판단은 내가 내리는 경험 쌓기',
       coreLessonIds: ['ch-a', 'ch-b'],
       supportLessonIds: [],
-      flow: ['판단'],
+      flow: ['판단', '성장'],
     },
     lessons: [
       { id: 'ch-a', title: '레슨 A. 리더 카드 도감', summary: '역사·스포츠·애니·영화 속 리더 카드를 넘기며 성격, 리더십, 대표 사례를 배운다. 흰수염(가족 중심·책임)과 이순신(원칙·준비·솔선수범)이 대표 카드다.', path: '/course/charisma-character/leaders' },
@@ -142,7 +153,7 @@ export const courses: Course[] = [
       purpose: '인증(자격)과 현장 코칭(실행)을 구분해, 코칭의 결과가 현장까지 이어지는지 기준표·성취 기록·주변 피드백으로 확인하기',
       coreLessonIds: ['co-a', 'co-b'],
       supportLessonIds: [],
-      flow: ['이끌기'],
+      flow: ['질문', '판단', '계획', '성장'],
     },
     lessons: [
       { id: 'co-a', title: '레슨 A. 코칭 면담 (질문 → 팀원 기준표 → 첫 계획)', summary: "결론 대신 질문 3개로 시작해, 팀원이 '이 결정은 누가 내려야 할까요?'에 답하며 AI 일과 자기 판단 영역을 직접 나누고, 스스로 첫 계획을 정한다. 시나리오: 협력사 작업 중지 요청을 본사에 전달하지 못해 위축된 공무 담당 팀원.", path: '/course/coaching/session' },
