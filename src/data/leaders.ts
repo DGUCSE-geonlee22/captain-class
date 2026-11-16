@@ -39,7 +39,8 @@ export interface LeaderProfile {
   /** 시연 추천 (카드 맨 앞, 배지) */
   featured?: boolean
   /** 실존 인물 이미지 (public 기준 경로 + 출처) */
-  image?: { src: string; author: string; license: string; page: string; position?: string }
+  /** 카드 사진. author·license·page가 없으면 출처 줄을 표시하지 않는다 (팀이 준비한 시연용 자료) */
+  image?: { src: string; author?: string; license?: string; page?: string; position?: string }
   /** 이미지가 없을 때 쓰는 일러스트 키 (LeaderArt) */
   art?: string
 }
@@ -66,7 +67,7 @@ export const leaders: LeaderProfile[] = [
     origin: '원피스 · 흰수염 해적단 선장 (에드워드 뉴게이트)',
     category: 'story',
     featured: true,
-    art: 'whitebeard',
+    art: 'whitebeard', image: { src: 'leaders/whitebeard.webp', position: '50% 0%' },
     tagline: '"내 아들들"을 끝까지 지키는 가족의 선장',
     summary: '진정한 리더는 사람들에게 자신을 따르라고 요구하는 사람이 아니라, 사람들이 믿고 따르고 싶어지는 사람이다.',
     traits: [
@@ -101,7 +102,7 @@ export const leaders: LeaderProfile[] = [
     origin: '조선 수군 통제사 · 임진왜란',
     category: 'history',
     featured: true,
-    image: { src: 'leaders/yi-sunsin.jpg', author: '전쟁기념관 (War Memorial of Korea)', license: 'KOGL Type 1 (공공누리 1유형)', page: 'https://commons.wikimedia.org/wiki/File:Bust_of_Yi_Sun-sin_01.jpg', position: 'center 30%' },
+    image: { src: 'leaders/yi-sunsin.webp', position: '50% 22%' },
     tagline: '원칙에는 엄격하고, 책임에는 끝까지 충실한 장수',
     summary: '원칙에는 엄격하고 책임은 끝까지 진다. 사람을 지키려 자신을 희생할 줄 알았고, 말보다 행동, 권위보다 책임, 용기만큼 준비와 실력을 앞세웠다.',
     traits: [
@@ -232,7 +233,7 @@ export const leaders: LeaderProfile[] = [
   // ───────────── 스포츠 ─────────────
   {
     id: 'jordan', name: '마이클 조던', origin: 'NBA 시카고 불스', category: 'sports',
-    image: { src: 'leaders/jordan.jpg', author: 'Zach Catanzareti Photo', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Michael_jordan_admad_rashad_(51276390562)_(cropped).jpg', position: 'center 25%' },
+    image: { src: 'leaders/jordan.webp', position: '50% 18%' },
     tagline: '기준을 끌어올린 승부사',
     summary: '자기에게 가장 높은 기준을 두었고, 팀에도 같은 것을 요구했다. 그렇게 1990년대 불스를 만들었다.',
     traits: [{ name: '승부욕', desc: '지는 것을 견디지 못함' }, { name: '노력', desc: '훈련에서 가장 먼저, 가장 오래' }, { name: '높은 기준', desc: '팀에 같은 기준을 요구함' }],
@@ -244,7 +245,7 @@ export const leaders: LeaderProfile[] = [
   },
   {
     id: 'kareem', name: '카림 압둘자바', origin: 'NBA 레이커스 · 밀워키 벅스', category: 'sports',
-    image: { src: 'leaders/kareem.jpg', author: 'Yahoo from Sunnyvale, California, USA', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Kareem_Abdul-Jabbar_May_2014.jpg', position: 'center 25%' },
+    image: { src: 'leaders/kareem.webp', position: '50% 22%' },
     tagline: '꾸준함과 품격으로 이끈 베테랑',
     summary: '20년 동안 기량을 유지했고, 코트 밖에서도 할 말은 했다. 요란하지 않게 품격을 지킨 선수.',
     traits: [{ name: '꾸준함', desc: '20년 동안 같은 수준을 유지함' }, { name: '소신', desc: '사회적 목소리를 냄' }, { name: '침착', desc: '감정보다 플레이로 말함' }],
@@ -268,7 +269,7 @@ export const leaders: LeaderProfile[] = [
   },
   {
     id: 'puyol', name: '카를레스 푸욜', origin: 'FC 바르셀로나 주장', category: 'sports',
-    image: { src: 'leaders/puyol.jpg', author: 'Pedro J Pacheco', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Premios_Goya_2020_-_Carles_Pujol.jpg', position: 'center 25%' },
+    image: { src: 'leaders/puyol.webp', position: '50% 28%' },
     tagline: '동료를 존중하게 만든 투혼의 주장',
     summary: '상대를 자극하는 동료의 세리머니를 말렸고, 수비에서는 몸을 아끼지 않았다. 팀의 품격을 지킨 주장.',
     traits: [{ name: '투혼', desc: '몸을 던짐' }, { name: '존중', desc: '상대에게도 예의를 지킴' }, { name: '겸손', desc: '우승 트로피를 동료에게 양보' }],
@@ -280,7 +281,7 @@ export const leaders: LeaderProfile[] = [
   },
   {
     id: 'gerrard', name: '스티븐 제라드', origin: '리버풀 FC 주장', category: 'sports',
-    image: { src: 'leaders/gerrard.jpg', author: 'Эдгар Брещанов', license: 'CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:Steven_Gerrard_2018.jpg', position: 'center 25%' },
+    image: { src: 'leaders/gerrard.webp', position: '50% 45%' },
     tagline: '0:3에서 팀을 다시 일으킨 주장',
     summary: '2005년 이스탄불에서 0:3으로 뒤진 후반, 먼저 뛰어 팀을 일으킨 주장.',
     traits: [{ name: '투지', desc: '포기하지 않음' }, { name: '충성', desc: '한 팀에 헌신' }, { name: '앞장섬', desc: '위기에 먼저 나섬' }],
@@ -292,7 +293,7 @@ export const leaders: LeaderProfile[] = [
   },
   {
     id: 'henderson', name: '조던 헨더슨', origin: '리버풀 FC 주장 · 잉글랜드 대표팀', category: 'sports',
-    image: { src: 'leaders/henderson.jpg', author: 'Bryan Berlin', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:Jordan_Henderson_England_v_Ghana_23_June_2026-029_(cropped).jpg', position: 'center 25%' },
+    image: { src: 'leaders/henderson.webp', position: '50% 52%' },
     tagline: '목소리로 팀을 조율한 소통형 주장',
     summary: '스타 선수의 그늘에서 출발했지만, 경기 내내 동료와 말을 주고받으며 신뢰를 쌓아 우승까지 이끌었다.',
     traits: [{ name: '소통', desc: '경기 내내 동료와 말함' }, { name: '성장', desc: '비판을 성장으로 바꿈' }, { name: '연대', desc: '선수들의 기부 운동을 조직함' }],
@@ -329,7 +330,7 @@ export const leaders: LeaderProfile[] = [
 
   // ───────────── 애니·영화 ─────────────
   {
-    id: 'luffy', name: '몽키 D. 루피', origin: '원피스 · 밀짚모자 해적단 선장', category: 'story', art: 'luffy',
+    id: 'luffy', name: '몽키 D. 루피', origin: '원피스 · 밀짚모자 해적단 선장', category: 'story', art: 'luffy', image: { src: 'leaders/luffy.webp', position: '50% 32%' },
     tagline: '동료의 꿈을 자기 꿈처럼 지키는 선장',
     summary: '잘하는 게 많지 않다. 대신 동료를 믿고 맡기고, 동료가 울면 가장 먼저 달려간다.',
     traits: [{ name: '믿음', desc: '동료를 무조건 믿음' }, { name: '자유', desc: '틀에 얽매이지 않음' }, { name: '단순함', desc: '복잡한 계산보다 마음' }],
@@ -340,7 +341,7 @@ export const leaders: LeaderProfile[] = [
     moves: ['그 녀석이 잘하는 걸 통째로 맡길 거야', '동료가 힘들다고 하면 이유 따지기 전에 먼저 달려갈 거야', '내가 못하는 건 못한다고 솔직하게 말할 거야'],
   },
   {
-    id: 'shanks', name: '샹크스', origin: '원피스 · 빨간 머리 해적단 선장', category: 'story', art: 'shanks',
+    id: 'shanks', name: '샹크스', origin: '원피스 · 빨간 머리 해적단 선장', category: 'story', art: 'shanks', image: { src: 'leaders/shanks.webp', position: '50% 28%' },
     tagline: '싸움을 멈추게 하는 여유의 선장',
     summary: '힘을 과시하는 대신 싸움을 멈추는 데 썼다. 자기 모자를 다음 세대에게 맡긴 선장.',
     traits: [{ name: '여유', desc: '도발에 흔들리지 않음' }, { name: '중재', desc: '전쟁을 끝내는 데 힘을 씀' }, { name: '멘토', desc: '루피에게 꿈과 모자를 맡김' }],
@@ -351,7 +352,7 @@ export const leaders: LeaderProfile[] = [
     moves: ['감정이 올라온 자리에서 먼저 한 발 물러서서 상황을 멈추겠어', '양쪽이 체면을 지키며 물러날 길을 만들어 주겠어', '이 일을 다음 사람이 해낼 수 있게 맡겨 보겠어'],
   },
   {
-    id: 'roger', name: '골 D. 로저', origin: '원피스 · 로저 해적단 선장', category: 'story', art: 'roger',
+    id: 'roger', name: '골 D. 로저', origin: '원피스 · 로저 해적단 선장', category: 'story', art: 'roger', image: { src: 'leaders/roger.webp', position: '50% 8%' },
     tagline: '시대를 연 낙천의 선장',
     summary: '마지막 순간까지 웃었고, 자기 꿈을 다음 세대에게 던졌다.',
     traits: [{ name: '낙천', desc: '위기에도 웃음' }, { name: '비전', desc: '다음 시대를 염' }, { name: '대담', desc: '두려움 없이 나아감' }],
@@ -362,7 +363,7 @@ export const leaders: LeaderProfile[] = [
     moves: ['이 일이 끝나면 우리가 어디에 서 있을지 그림부터 보여주겠어', '겁먹은 녀석들 앞에서 내가 먼저 웃겠어', '내가 다 못 끝내도 이어받을 수 있게 남겨 두겠어'],
   },
   {
-    id: 'anzai', name: '안 감독', origin: '슬램덩크 · 쇼호쿠 고교 농구부 감독', category: 'story', art: 'anzai',
+    id: 'anzai', name: '안 감독', origin: '슬램덩크 · 쇼호쿠 고교 농구부 감독', category: 'story', art: 'anzai', image: { src: 'leaders/anzai.webp', position: '50% 50%' },
     tagline: '포기하면 그 순간이 시합 종료인 스승',
     summary: '선수를 다그치지 않는다. 스스로 깨달을 때까지 기다리다가, 결정적인 순간에 짧은 한마디로 일으켜 세운다.',
     traits: [{ name: '기다림', desc: '스스로 깨닫게 함' }, { name: '관찰', desc: '선수의 잠재력을 봄' }, { name: '온화', desc: '부드럽지만 단호함' }],
@@ -373,7 +374,7 @@ export const leaders: LeaderProfile[] = [
     moves: ['답을 알려주기보다 그 친구가 스스로 깨달을 기회를 주겠어요', '잘하는 점을 먼저 보고, 그걸로 다시 시작하게 하겠어요', '흔들릴 때는 짧고 분명한 한마디만 건네겠어요'],
   },
   {
-    id: 'aragorn', name: '아라곤', origin: '반지의 제왕 · 곤도르의 왕', category: 'story', art: 'aragorn',
+    id: 'aragorn', name: '아라곤', origin: '반지의 제왕 · 곤도르의 왕', category: 'story', art: 'aragorn', image: { src: 'leaders/aragorn.webp', position: '55% 22%' },
     tagline: '자격을 행동으로 증명한 왕',
     summary: '왕의 혈통을 내세우지 않았다. 동료를 지키는 행동으로 자격을 증명한 뒤에야 왕이 됐다.',
     traits: [{ name: '겸손', desc: '신분을 내세우지 않음' }, { name: '용기', desc: '가장 앞에 섬' }, { name: '섬김', desc: '작은 이(호빗)를 존중' }],
@@ -384,7 +385,7 @@ export const leaders: LeaderProfile[] = [
     moves: ['직책을 내세우지 않고 행동으로 먼저 보이겠습니다', '가장 약한 위치의 사람에게 먼저 고개를 숙이겠습니다', '위험한 길이라면 내가 앞장서겠습니다'],
   },
   {
-    id: 'cap', name: '캡틴 아메리카', origin: '마블 · 어벤져스', category: 'story', art: 'cap',
+    id: 'cap', name: '캡틴 아메리카', origin: '마블 · 어벤져스', category: 'story', art: 'cap', image: { src: 'leaders/cap.webp', position: '50% 12%' },
     tagline: '옳은 일 앞에서 물러서지 않는 캡틴',
     summary: '명령보다 양심을 따른다. 팀원 한 명도 두고 가지 않는다는 원칙을 끝까지 지켰다.',
     traits: [{ name: '정의감', desc: '옳은 일을 고집함' }, { name: '의리', desc: '친구를 끝까지 지킴' }, { name: '겸손', desc: '평범한 사람의 마음을 앎' }],
