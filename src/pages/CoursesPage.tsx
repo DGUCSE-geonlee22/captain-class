@@ -36,14 +36,14 @@ export default function CoursesPage() {
       {/* 두 축의 교육 철학 (공감 축 곽경은 · 리더십 축 장한이) */}
       <div className="mb-8 grid grid-cols-2 gap-6">
         <PhilosophyBanner
-          en="Empathy axis · 공감 축 교육 철학"
+          en="공감 축 교육 철학"
           statement={compassionAxisPhilosophy.statement}
           note="정리: 곽경은 · Compassion은 '듣기·이해', Collaboration+Communication은 '소통·협업 행동'을 맡습니다."
           steps={compassionAxisPhilosophy.steps}
           className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500"
         />
         <PhilosophyBanner
-          en="Leadership axis · 리더십 축 교육 철학"
+          en="리더십 축 교육 철학"
           statement={leadershipAxisPhilosophy.statement}
           note="정리: 장한이 · Coaching은 '질문·계획', Charisma+Character는 '판단·성장'을 맡습니다."
           steps={leadershipAxisPhilosophy.steps}
@@ -81,7 +81,7 @@ export default function CoursesPage() {
 function PhilosophyBanner({ en, statement, note, steps, className }: { en: string; statement: string; note: string; steps: { key: string; label: string; desc: string; courseId: string }[]; className: string }) {
   return (
     <Reveal className={`overflow-hidden rounded-3xl p-7 text-white ${className}`}>
-      <p className="font-display text-sm uppercase tracking-[0.2em] text-white/70">{en}</p>
+      <p className="text-xs font-semibold text-white/70">{en}</p>
       <p className="mt-2 text-[17px] font-medium leading-relaxed">{statement}</p>
       <p className="mt-2 text-xs text-white/60">{note}</p>
       <div className="mt-5 flex items-center gap-1.5">
@@ -93,7 +93,7 @@ function PhilosophyBanner({ en, statement, note, steps, className }: { en: strin
                 <Icon size={22} />
                 <span className="mt-2 text-sm font-bold">{s.label}</span>
                 <span className="mt-1 min-h-[2.6em] text-[11px] leading-tight text-white/75">{s.desc}</span>
-                <span className="mt-2 text-[10px] uppercase tracking-wider text-white/50">{courseShort[s.courseId]}</span>
+                <span className="mt-2 text-[11px] text-white/50">{courseShort[s.courseId]}</span>
               </Link>
               {i < steps.length - 1 && <ArrowRight size={16} className="shrink-0 text-white/60" />}
             </div>
@@ -124,7 +124,7 @@ function CourseCard({ course, percent }: { course: Course; percent: number }) {
   const meta = axisMeta[course.axis]
   const skeleton = course.status === 'skeleton'
   return (
-    <Link to={`/course/${course.id}`} className={`card block p-5 transition hover:-translate-y-0.5 hover:shadow-md ${skeleton ? 'border-dashed' : ''}`}>
+    <Link to={`/course/${course.id}`} className={`card block p-5 transition-shadow hover:shadow-md ${skeleton ? 'border-dashed' : ''}`}>
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-bold text-navy-800">{course.name} <span className="ml-1 text-xs font-medium text-slate-400">{course.nameKo}</span></h3>

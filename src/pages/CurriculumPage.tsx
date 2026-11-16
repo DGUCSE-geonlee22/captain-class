@@ -33,7 +33,7 @@ export default function CurriculumPage() {
           <Link to={`/curriculum/week/${state.demoWeek}?lecture=${nextLecture.id}`} className="group col-span-3 grid grid-cols-5 gap-5 overflow-hidden rounded-3xl bg-navy-800 p-5 text-white transition hover:bg-navy-700">
             <VideoThumb courseId={cur.w.courseId} lecture={nextLecture} index={nextIdx} className="col-span-3" />
             <div className="col-span-2 flex flex-col">
-              <p className="font-display text-xs uppercase tracking-[0.2em] text-safety-300">Continue learning</p>
+              <p className="text-xs font-semibold text-safety-300">이어서 수강</p>
               <p className="mt-1 text-sm text-white/60">{weekName(state.demoWeek)} · {cur.w.theme}</p>
               <p className="mt-2 text-lg font-bold leading-snug">{nextLecture.title}</p>
               <p className="mt-1 text-xs text-white/60">{nextLecture.instructor} · {nextLecture.duration}</p>
@@ -41,10 +41,10 @@ export default function CurriculumPage() {
             </div>
           </Link>
         ) : (
-          <Link to={cur.w.check.path} className="group col-span-3 flex items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-r from-[#7c2d12] to-safety-500 p-6 text-white transition hover:opacity-95">
+          <Link to={cur.w.check.path} className="group col-span-3 flex items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-r from-safety-700 to-safety-500 p-6 text-white transition hover:opacity-95">
             <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/15"><HardHat size={32} /></span>
             <div className="flex-1">
-              <p className="font-display text-xs uppercase tracking-[0.2em] text-white/70">Start here · 강의 없이 진단으로 시작</p>
+              <p className="text-xs font-semibold text-white/70">여기서 시작 · 강의 없이 진단으로</p>
               <p className="mt-1 text-sm text-white/70">{weekName(state.demoWeek)} · {cur.w.theme}</p>
               <p className="mt-2 text-lg font-bold leading-snug">{cur.w.check.label}</p>
               <p className="mt-1 text-sm text-white/80">{cur.w.check.desc}</p>
@@ -55,13 +55,13 @@ export default function CurriculumPage() {
         <div className="col-span-2 card p-6">
           <p className="label">과정 정보</p>
           <div className="mt-3 grid grid-cols-3 gap-3 text-center">
-            <div className="rounded-xl bg-slate-50 p-3"><p className="text-2xl font-black text-navy-800">{weekLectures.length}</p><p className="text-[11px] text-slate-500">주차</p></div>
-            <div className="rounded-xl bg-slate-50 p-3"><p className="text-2xl font-black text-navy-800">{allLectures.length}</p><p className="text-[11px] text-slate-500">강의</p></div>
-            <div className="rounded-xl bg-slate-50 p-3"><p className="text-2xl font-black text-navy-800">{Math.floor(totalMin / 60)}h {totalMin % 60}m</p><p className="text-[11px] text-slate-500">총 재생 시간</p></div>
+            <div className="rounded-xl bg-slate-50 p-3"><p className="text-2xl font-bold text-navy-800">{weekLectures.length}</p><p className="text-[11px] text-slate-500">주차</p></div>
+            <div className="rounded-xl bg-slate-50 p-3"><p className="text-2xl font-bold text-navy-800">{allLectures.length}</p><p className="text-[11px] text-slate-500">강의</p></div>
+            <div className="rounded-xl bg-slate-50 p-3"><p className="text-2xl font-bold text-navy-800">{Math.floor(totalMin / 60)}h {totalMin % 60}m</p><p className="text-[11px] text-slate-500">총 재생 시간</p></div>
           </div>
           <div className="mt-4">
             <div className="mb-1 flex justify-between text-sm"><span className="text-slate-600">이수 주차</span><b className="text-navy-800">{doneWeeks} / {weekLectures.length}</b></div>
-            <div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-safety-500 transition-all" style={{ width: `${(doneWeeks / weekLectures.length) * 100}%` }} /></div>
+            <div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-safety-500 transition-[width]" style={{ width: `${(doneWeeks / weekLectures.length) * 100}%` }} /></div>
           </div>
           <div className="mt-4 flex flex-wrap gap-1.5">
             {Object.entries(courseVisual).map(([k, v]) => <span key={k} className="flex items-center gap-1 rounded-full bg-slate-50 px-2 py-0.5 text-[11px] text-slate-600"><span className="h-2 w-2 rounded-full" style={{ background: v.to }} />{v.label}</span>)}
@@ -80,8 +80,8 @@ export default function CurriculumPage() {
             <div key={w.week} className={`overflow-hidden rounded-2xl border bg-white shadow-card ${p.status === 'current' ? 'border-safety-300 ring-2 ring-safety-100' : 'border-slate-100'}`}>
               <button onClick={() => toggle(w.week)} className="flex w-full items-center gap-4 px-5 py-4 text-left hover:bg-slate-50/60">
                 <span className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl text-white" style={{ background: `linear-gradient(135deg, ${v.from}, ${v.to})` }}>
-                  <span className="text-[9px] uppercase opacity-80">week</span>
-                  <span className="text-base font-black leading-none">{w.week === 13 ? '13+' : w.week}</span>
+                  <span className="text-[11px] opacity-80">주차</span>
+                  <span className="text-base font-bold leading-none">{w.week === 13 ? '13+' : w.week}</span>
                 </span>
                 <span className="flex-1">
                   <span className="flex items-center gap-2 text-[11px] text-slate-500"><span>{stage.order}. {stage.name}</span><span>·</span><span style={{ color: v.to }} className="font-semibold">{v.label}</span><span>·</span><span>{w.provider}</span></span>

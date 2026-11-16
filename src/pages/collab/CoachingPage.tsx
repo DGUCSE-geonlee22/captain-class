@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Ban, CheckCircle2, Circle, Save } from 'lucide-react'
+import { ArrowRight, Ban, CheckCircle2, Circle, Save } from 'lucide-react'
 import { AiNotice, Callout, PageHeader, PrivacyWarning, Toast } from '../../components/ui'
 import { coachingCheck, coachingPointLabels } from '../../lib/mockAI'
 import { useApp } from '../../context/AppContext'
@@ -121,7 +121,7 @@ export default function CoachingPage() {
             <div className="mt-4 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-sm">
               <span className="text-slate-600">충족 개수</span>
               <span className="font-bold text-navy-800">
-                Before {score(beforeCheck)}/3 {phase === 'revise' && <>→ <span className={score(afterCheck) > score(beforeCheck) ? 'text-teal-600' : ''}>After {score(afterCheck)}/3</span></>}
+                Before {score(beforeCheck)}/3 {phase === 'revise' && <><ArrowRight size={12} className="inline" /> <span className={score(afterCheck) > score(beforeCheck) ? 'text-teal-600' : ''}>After {score(afterCheck)}/3</span></>}
               </span>
             </div>
           </div>

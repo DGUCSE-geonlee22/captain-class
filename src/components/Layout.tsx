@@ -74,7 +74,7 @@ export default function Layout() {
                   <>
                     <span className="whitespace-nowrap font-display text-[13px] uppercase tracking-[0.12em]">{m.en}</span>
                     <span className="mt-1 whitespace-nowrap text-[11px]">{m.label}</span>
-                    <span className={`mt-1 h-px w-full transition-all ${isActive ? 'bg-current opacity-100' : 'opacity-0 group-hover:opacity-60 bg-current'}`} />
+                    <span className={`mt-1 h-px w-full transition-opacity ${isActive ? 'bg-current opacity-100' : 'opacity-0 group-hover:opacity-60 bg-current'}`} />
                   </>
                 )}
               </NavLink>
@@ -141,14 +141,14 @@ export default function Layout() {
       {!isRefuge && (
         <button
           onClick={goRefuge}
-          className="group fixed bottom-7 right-7 z-50 flex items-center gap-0 rounded-full bg-forest-900 pr-0 text-left shadow-2xl transition-all hover:pr-5"
+          className="group fixed bottom-7 right-7 z-50 flex items-center gap-0 rounded-full bg-forest-900 pr-0 text-left shadow-2xl transition-colors hover:pr-5"
           title="P난처 — 난처할 때 가는 피난처"
         >
           <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-forest-900">
             <span className="ember-pulse absolute inset-2 rounded-full bg-gradient-to-t from-ember-600 via-ember-500 to-ember-300" />
             <Flame size={26} className="relative text-forest-900" />
           </span>
-          <span className="max-w-0 overflow-hidden whitespace-nowrap text-white transition-all duration-300 group-hover:ml-3 group-hover:max-w-[220px]">
+          <span className="max-w-0 overflow-hidden whitespace-nowrap text-white opacity-0 transition-opacity duration-200 group-hover:ml-3 group-hover:max-w-[220px] group-hover:opacity-100">
             <span className="block font-display text-sm uppercase tracking-[0.14em] text-ember-300">P난처</span>
             <span className="block text-xs text-white/70">난처할 땐, 피난처로</span>
           </span>

@@ -144,6 +144,7 @@ src/
 - 참고: 섹션 제목은 콘덴스드 영문(Barlow Condensed) + 짧은 포인트 밑줄 + 한국어 부제. 밝은 회청색 배경, 넉넉한 여백, 스크롤 진입 시 등장(`Reveal`).
 - 팔레트: 남색 #1E2A4A(캡틴), 안전 주황 #F28C28(현장), 청록 #1F9E8F(공감), 피난처 전용 숲/불씨 톤(`forest-*`, `ember-*`).
 - 이미지는 쓰지 않고 SVG 장면(`HeroScene`, `ForestScene`)과 CSS 애니메이션으로만 그렸습니다.
+- UI 폴리시(간격·색·아이콘·문구·타입·디테일·모션 점검)는 Damir Sokolovsky의 [unslop](https://github.com/heydamir/unslop) 체크리스트(CC BY 4.0)를 따랐습니다.
 
 ## 7. 모든 AI 목업에 적용한 공통 원칙
 

@@ -124,7 +124,7 @@ export default function LeaderAIPage() {
         <div className="overflow-hidden rounded-3xl bg-[#0b1424] px-6 pb-6 pt-6 text-white">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="font-display text-sm uppercase tracking-[0.25em] text-safety-300">Choose your leader</p>
+              <p className="text-xs font-semibold text-safety-300">리더 고르기</p>
               <p className="mt-1 text-xl font-bold">누구에게 물어볼까요?</p>
               <p className="mt-1 max-w-2xl text-sm text-white/60">"{concern}"</p>
             </div>
@@ -147,7 +147,7 @@ export default function LeaderAIPage() {
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-white/60">카드를 좌우로 넘겨 한 명을 고르세요. ← → 버튼이나 트랙패드로 넘길 수 있습니다.</p>
+              <p className="text-sm text-white/60">카드를 좌우로 넘겨 한 명을 고르세요. 양쪽 화살표 버튼이나 트랙패드로 넘길 수 있습니다.</p>
             )}
             <div className="flex gap-2">
               <button onClick={() => setStep('concern')} className="btn border border-white/20 text-white/80 hover:bg-white/10"><ArrowLeft size={16} /> 고민 수정</button>
@@ -178,7 +178,7 @@ export default function LeaderAIPage() {
                 <div className="overflow-hidden rounded-[21px] bg-navy-900 text-white">
                   <LeaderPortrait leader={curLeader} className="h-[300px] w-full" />
                   <div className="p-4">
-                    <p className="text-xl font-black">{curLeader.name}</p>
+                    <p className="text-xl font-bold">{curLeader.name}</p>
                     <p className="text-xs text-white/60">{curLeader.origin}</p>
                     <div className="mt-3 flex flex-wrap gap-1">{curLeader.traits.slice(0, 5).map((t) => <span key={t.name} className="rounded-full bg-white/10 px-2 py-0.5 text-[11px]">{t.name}</span>)}</div>
                   </div>
@@ -197,7 +197,7 @@ export default function LeaderAIPage() {
                 <div className="card relative p-7">
                   <p className="fadeup text-lg font-bold text-navy-800">{current.opener}</p>
                   <p className="fadeup fadeup-d1 mt-3 leading-relaxed text-slate-700">{current.read}</p>
-                  <p className="fadeup fadeup-d1 mt-5 text-xs font-bold uppercase tracking-wider text-safety-600">나라면 이렇게 했을 것이다</p>
+                  <p className="fadeup fadeup-d1 mt-5 text-xs font-semibold text-safety-600">나라면 이렇게 했을 것이다</p>
                   <ol className="mt-2 space-y-2.5">
                     {current.steps.map((s, i) => (
                       <li key={i} className="fadeup flex gap-3 rounded-xl bg-navy-50/70 px-4 py-3 text-[15px] leading-relaxed text-navy-800" style={{ animationDelay: `${250 + i * 180}ms` }}>
@@ -213,12 +213,12 @@ export default function LeaderAIPage() {
               {!thinking && (
                 <div className="grid grid-cols-2 gap-4">
                   <div className="card p-5">
-                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">생각해 볼 질문</p>
+                    <p className="text-xs font-semibold text-slate-500">생각해 볼 질문</p>
                     <p className="mt-2 text-sm font-medium text-navy-800">{current.reflect}</p>
                     <button onClick={() => { setPicked(null); setStep('deck') }} className="btn-ghost mt-4 w-full"><Layers size={16} /> 다른 리더에게도 묻기</button>
                   </div>
                   <div className="card p-5">
-                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">내 결정 (최종 판단은 캡틴이)</p>
+                    <p className="text-xs font-semibold text-slate-500">내 결정 (최종 판단은 캡틴이)</p>
                     <textarea value={decision} onChange={(e) => setDecision(e.target.value)} placeholder="조언을 듣고 정한 방향을 적어 두세요" className="input mt-2 min-h-[70px] resize-none text-sm" />
                     <div className="mt-2 flex justify-between">
                       <button onClick={reset} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600"><RotateCcw size={12} /> 새 고민</button>

@@ -38,9 +38,9 @@ export interface WeekLectures {
 }
 
 export const courseVisual: Record<CourseId, { label: string; from: string; to: string; accent: string }> = {
-  construction: { label: 'Construction', from: '#7c2d12', to: '#F28C28', accent: '#fdba74' },
+  construction: { label: 'Construction', from: '#9a4e12', to: '#F28C28', accent: '#ffe6cc' },
   compassion: { label: 'Compassion', from: '#0f3d3a', to: '#1F9E8F', accent: '#99f6e4' },
-  'collab-comm': { label: 'Collaboration + Communication', from: '#0c4a6e', to: '#0ea5a4', accent: '#a5f3fc' },
+  'collab-comm': { label: 'Collaboration + Communication', from: '#0b4f4a', to: '#2aa79a', accent: '#cdeeea' },
   'charisma-character': { label: 'Charisma + Character', from: '#10172a', to: '#3a4c78', accent: '#fcd34d' },
   coaching: { label: 'Coaching', from: '#312e81', to: '#6366f1', accent: '#c7d2fe' },
 }

@@ -33,7 +33,7 @@ export default function HomePage() {
         <HeroScene className="absolute inset-0 h-full w-full" />
         <div className="absolute inset-0 bg-gradient-to-b from-navy-900/40 via-transparent to-navy-900/70" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
-          <p className="fadeup font-display text-[22px] uppercase tracking-[0.28em] text-white/85">CC · Empathy Leadership Portal</p>
+          <p className="fadeup font-display text-[22px] uppercase tracking-[0.14em] text-white/85">CC · Empathy Leadership Portal</p>
           <h1 className="fadeup fadeup-d1 mt-3 font-display text-[132px] font-semibold uppercase leading-[0.92] tracking-[0.02em]">
             Captain<br />Class
           </h1>
@@ -41,11 +41,11 @@ export default function HomePage() {
           <p className="fadeup fadeup-d3 mt-3 text-sm text-white/65">직책만 받은 '캡틴'이 12주 항해를 거쳐 사람을 이끄는 '리더'가 되는 사내 교육 포털</p>
         </div>
         <div className="absolute bottom-10 left-10 text-white/85">
-          <p className="text-xs uppercase tracking-[0.2em] text-white/50">Now sailing</p>
+          <p className="text-xs text-white/60">Now sailing</p>
           <p className="mt-1 text-lg font-semibold">{profile.name} {isLeader ? '리더' : '캡틴'} · {week === 0 ? '출항 전' : week >= 13 ? '13주+ 유지 단계' : `${week}주차 · ${stage.name} 단계`}</p>
         </div>
         <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center text-white/70">
-          <span className="font-display text-[11px] uppercase tracking-[0.3em]">Scroll</span>
+          <span className="font-display text-[13px] tracking-[0.08em]">Scroll</span>
           <span className="scroll-cue mt-2 block h-12 w-px bg-white/70" />
         </div>
       </section>
@@ -61,12 +61,12 @@ export default function HomePage() {
           <div className="relative flex h-[560px] items-center justify-center overflow-hidden rounded-l-3xl bg-gradient-to-br from-navy-900 via-navy-700 to-navy-500">
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 60px), repeating-linear-gradient(0deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 60px)' }} />
             <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">AI는 데이터의 맥락을,</p>
-            <span className="absolute bottom-5 left-6 font-display text-xs uppercase tracking-[0.25em] text-white/50">Data context</span>
+            <span className="absolute bottom-5 left-6 font-display text-sm tracking-[0.06em] text-white/60">Data context</span>
           </div>
           <div className="relative flex h-[560px] items-center justify-center overflow-hidden rounded-r-3xl bg-gradient-to-bl from-teal-700 via-teal-500 to-teal-300">
             <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/15 blur-3xl" />
             <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">리더는 마음의 맥락을 읽는다.</p>
-            <span className="absolute bottom-5 right-6 font-display text-xs uppercase tracking-[0.25em] text-white/60">Heart context</span>
+            <span className="absolute bottom-5 right-6 font-display text-sm tracking-[0.06em] text-white/70">Heart context</span>
           </div>
         </Reveal>
         <Reveal className="mx-auto mt-10 max-w-3xl text-center" delay={200}>
@@ -127,10 +127,10 @@ export default function HomePage() {
         <SectionHead en="Curriculum" ko={wl.lectures.length === 0 ? <>이번 주는 강의 없이 진단으로 시작</> : <>이번 주 강의</>} sub="0주차는 강의 없이 진단으로 시작합니다. 1주차부터는 매주 강의를 듣고, 5C 확인 활동으로 내용을 점검한 뒤, 현업 과제로 현장에 적용합니다." />
         <Reveal className="mt-12 grid grid-cols-3 gap-5" delay={100}>
           {wl.lectures.length === 0 && (
-            <Link to="/course/construction/diagnosis" className="col-span-2 flex items-center gap-5 rounded-2xl bg-gradient-to-r from-[#7c2d12] to-safety-500 p-6 text-white transition hover:opacity-95">
+            <Link to="/course/construction/diagnosis" className="col-span-2 flex items-center gap-5 rounded-2xl bg-gradient-to-r from-safety-700 to-safety-500 p-6 text-white transition hover:opacity-95">
               <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15"><HardHat size={28} /></span>
               <span className="flex-1">
-                <span className="font-display text-xs uppercase tracking-[0.2em] text-white/70">Construction · 진단형 (강의 없음)</span>
+                <span className="text-xs font-semibold text-white/70">Construction · 진단 코스 (강의 없음)</span>
                 <span className="mt-1 block text-lg font-bold">{wl.theme}</span>
                 <span className="mt-1 block text-sm text-white/80">① 2축 자기진단 8문항 → ② 현장 딜레마 선택형 진단 → ③ 현장 첫 마디 미션</span>
               </span>
@@ -145,10 +145,10 @@ export default function HomePage() {
             </Link>
           ))}
           <Link to={wl.check.path} className="card flex flex-col justify-center p-6 transition hover:border-teal-300">
-            <p className="text-xs font-bold uppercase tracking-wider text-teal-700">확인 활동 · 완료하면 통과</p>
+            <p className="text-xs font-semibold text-teal-700">확인 활동 · 완료하면 통과</p>
             <p className="mt-2 text-lg font-bold text-navy-800">{wl.check.label}</p>
             <p className="mt-1 text-sm text-slate-600">{wl.check.desc}</p>
-            <span className={`mt-3 text-sm font-semibold ${wp.checkDone ? 'text-teal-600' : 'text-navy-600'}`}>{wp.checkDone ? '✓ 통과' : '하러 가기 →'}</span>
+            <span className={`mt-3 text-sm font-semibold ${wp.checkDone ? 'text-teal-600' : 'text-navy-600'}`}>{wp.checkDone ? <><CheckCircle2 size={14} className="mr-1 inline" />통과</> : <>하러 가기 <ArrowRight size={14} className="inline" /></>}</span>
           </Link>
         </Reveal>
         <Reveal className="mt-8 text-center" delay={200}>
@@ -166,7 +166,7 @@ export default function HomePage() {
                 <h3 className="flex items-center gap-2 text-lg font-bold" style={{ color: col.color }}><span className="h-3 w-3 rounded-full" style={{ background: col.color }} /> {col.title}</h3>
                 <p className="text-sm text-slate-500">{col.sub}</p>
                 <div className="mt-4 rounded-2xl p-4 text-white" style={{ background: col.color }}>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60">교육 철학</p>
+                  <p className="text-[11px] font-semibold text-white/60">교육 철학</p>
                   <p className="mt-1 text-sm font-medium leading-relaxed">{col.ph.statement}</p>
                   <div className="mt-3 flex items-center gap-1.5 text-xs font-bold">
                     {col.ph.steps.map((st, i) => (
@@ -179,7 +179,7 @@ export default function HomePage() {
                 </div>
                 <div className="mt-5 space-y-3">
                   {col.list.map((c) => (
-                    <Link key={c.id} to={`/course/${c.id}`} className={`card flex items-center justify-between p-4 transition hover:-translate-y-0.5 hover:shadow-md ${c.status === 'skeleton' ? 'border-dashed' : ''}`}>
+                    <Link key={c.id} to={`/course/${c.id}`} className={`card flex items-center justify-between p-4 transition hover:shadow-md ${c.status === 'skeleton' ? 'border-dashed' : ''}`}>
                       <span>
                         <span className="block font-bold text-navy-800">{c.name} <span className="ml-1 text-xs font-medium text-slate-400">{c.nameKo}</span></span>
                         <span className="block text-sm text-slate-600">{c.tagline}</span>
@@ -214,7 +214,7 @@ export default function HomePage() {
               <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,138,31,0.55), rgba(255,138,31,0.1) 45%, transparent 70%), linear-gradient(180deg, #06111c, #12304a 60%, #0d0b08)' }} />
               <div className="absolute inset-x-0 bottom-0 h-1/2 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(0,0,0,0.6) 0 14px, transparent 14px 70px)' }} />
               <div className="relative flex h-full flex-col">
-                <span className="font-display text-sm uppercase tracking-[0.2em] text-ember-300">Refuge · 핵심 기능 1</span>
+                <span className="text-xs font-semibold text-ember-300">핵심 기능 1 · 피난처</span>
                 <h3 className="mt-2 text-2xl font-bold">P난처 2.0</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/75">난처한 상황을 적으면 관점 렌즈 질문과 선배 리더들의 해결 사례를 모닥불 앞에서 보여 줍니다. 입구는 화면 오른쪽 아래의 불씨입니다.</p>
                 <span className="mt-auto flex items-center gap-2 text-sm font-semibold text-ember-300"><Flame size={16} /> 피난처로 들어가기 <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span>
@@ -222,18 +222,18 @@ export default function HomePage() {
             </Link>
           </Reveal>
           <Reveal delay={120}>
-            <Link to="/practice" className="group card flex h-[340px] flex-col p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <Link to="/practice" className="group card flex h-[340px] flex-col p-7 transition-shadow hover:shadow-lg">
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600"><MessageSquareText size={24} /></span>
-              <span className="mt-4 font-display text-sm uppercase tracking-[0.2em] text-teal-600">Practice · 핵심 기능 2</span>
+              <span className="mt-4 text-xs font-semibold text-teal-600">핵심 기능 2 · 연습실</span>
               <h3 className="mt-1 text-2xl font-bold text-navy-800">캡틴 대화 연습실</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">AI가 작업반장·이강 대리·김두현 역할을 맡습니다. 매 턴 선택하거나 직접 입력하면 공감도·명확성·심리적 안전감 지수가 바뀌고, 끝나면 리포트와 실천 Log 양식이 열립니다.</p>
               <span className="mt-auto flex items-center gap-1 text-sm font-semibold text-teal-600">시나리오 고르기 <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span>
             </Link>
           </Reveal>
           <Reveal delay={240}>
-            <Link to="/bridge" className="group card flex h-[340px] flex-col p-7 transition hover:-translate-y-1 hover:shadow-lg">
+            <Link to="/bridge" className="group card flex h-[340px] flex-col p-7 transition-shadow hover:shadow-lg">
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-safety-50 text-safety-600"><Users size={24} /></span>
-              <span className="mt-4 font-display text-sm uppercase tracking-[0.2em] text-safety-600">Bridge · 핵심 기능 3</span>
+              <span className="mt-4 text-xs font-semibold text-safety-600">핵심 기능 3 · 브릿지</span>
               <h3 className="mt-1 text-2xl font-bold text-navy-800">익명 브릿지</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">타 파트·타 부서 구성원과 작업자의 고충이 익명으로 도착합니다. 직접 답해 보고, 7주차에는 본사·타 현장 리더와 15분 교환 인터뷰로 이어집니다.</p>
               <span className="mt-auto flex items-center gap-1 text-sm font-semibold text-safety-600">고충 듣기 <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span>

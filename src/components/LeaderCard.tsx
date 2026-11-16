@@ -19,17 +19,17 @@ export function LeaderCard({ leader, selected, onClick, size = 'md' }: { leader:
   return (
     <button
       onClick={onClick}
-      className={`group relative shrink-0 snap-center rounded-[22px] bg-gradient-to-br p-[3px] text-left transition duration-300 ${meta.frame} ${w} ${selected ? '-translate-y-3 scale-[1.04] shadow-[0_18px_40px_-12px_rgba(242,140,40,0.7)] ring-4 ring-safety-400' : 'shadow-lg hover:-translate-y-1.5 hover:shadow-xl'}`}
+      className={`group relative shrink-0 snap-center rounded-[22px] bg-gradient-to-br p-[3px] text-left transition-shadow duration-300 ${meta.frame} ${w} ${selected ? '-translate-y-3 scale-[1.04] shadow-[0_18px_40px_-12px_rgba(242,140,40,0.7)] ring-4 ring-safety-400' : 'shadow-lg hover:shadow-xl hover:ring-2 hover:ring-white/60'}`}
     >
       <div className="overflow-hidden rounded-[19px] bg-navy-900">
         <div className={`relative ${h} overflow-hidden`}>
-          <LeaderPortrait leader={leader} className="h-full w-full transition duration-500 group-hover:scale-105" />
+          <LeaderPortrait leader={leader} className="h-full w-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/10 to-transparent" />
-          <span className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-bold ${meta.chip}`}>{meta.label}</span>
-          {leader.featured && <span className="absolute right-2.5 top-2.5 flex items-center gap-0.5 rounded-full bg-safety-500 px-2 py-0.5 text-[10px] font-bold text-white"><Star size={10} fill="currentColor" /> 시연 추천</span>}
+          <span className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[11px] font-bold ${meta.chip}`}>{meta.label}</span>
+          {leader.featured && <span className="absolute right-2.5 top-2.5 flex items-center gap-0.5 rounded-full bg-safety-500 px-2 py-0.5 text-[11px] font-bold text-white"><Star size={10} fill="currentColor" /> 시연 추천</span>}
           <div className="absolute inset-x-3 bottom-2">
-            <p className="font-display text-[11px] uppercase tracking-[0.2em] text-white/60">Leader</p>
-            <p className={`${size === 'lg' ? 'text-2xl' : 'text-lg'} font-black leading-tight text-white`}>{leader.name}</p>
+            <p className="font-display text-[12px] uppercase tracking-[0.1em] text-white/60">Leader</p>
+            <p className={`${size === 'lg' ? 'text-2xl' : 'text-lg'} font-bold leading-tight text-white`}>{leader.name}</p>
           </div>
         </div>
         <div className="space-y-2 px-3 pb-3 pt-2">
@@ -38,7 +38,7 @@ export function LeaderCard({ leader, selected, onClick, size = 'md' }: { leader:
           <div className="space-y-1 pt-1">
             {statLabels.map((s) => (
               <div key={s.key} className="flex items-center gap-2">
-                <span className="w-12 shrink-0 text-[10px] text-white/50">{s.label}</span>
+                <span className="w-12 shrink-0 text-[11px] text-white/50">{s.label}</span>
                 <div className="flex flex-1 gap-0.5">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <span key={n} className={`h-1.5 flex-1 rounded-full ${n <= leader.stats[s.key] ? 'bg-safety-400' : 'bg-white/10'}`} />
@@ -83,7 +83,7 @@ export function LeaderDetail({ leader }: { leader: LeaderProfile }) {
             <LeaderPortrait leader={leader} className="h-[380px] w-full" />
             <div className="p-5 text-white">
               <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${meta.chip}`}>{meta.label}</span>
-              <p className="mt-2 text-2xl font-black">{leader.name}</p>
+              <p className="mt-2 text-2xl font-bold">{leader.name}</p>
               <p className="text-sm text-white/60">{leader.origin}</p>
             </div>
           </div>

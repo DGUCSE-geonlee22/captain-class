@@ -28,7 +28,7 @@ const specs: Record<ArtKey, Spec> = {
 
 export default function LeaderArt({ art, className = '' }: { art: string; className?: string }) {
   const s = specs[art as ArtKey]
-  if (!s) return <div className={`flex items-center justify-center bg-slate-200 text-3xl font-black text-slate-400 ${className}`}>?</div>
+  if (!s) return <div className={`flex items-center justify-center bg-slate-200 text-3xl font-bold text-slate-400 ${className}`}>?</div>
   const id = `la-${art}`
   return (
     <svg viewBox="0 0 200 240" className={className} preserveAspectRatio="xMidYMid slice" aria-hidden="true">

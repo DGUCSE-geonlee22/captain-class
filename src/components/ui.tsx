@@ -124,7 +124,7 @@ export function AxisBadge({ axis }: { axis: Axis }) {
 export function ProgressBar({ value, color = '#1F9E8F', height = 8, track = 'bg-slate-100' }: { value: number; color?: string; height?: number; track?: string }) {
   return (
     <div className={`w-full overflow-hidden rounded-full ${track}`} style={{ height }}>
-      <div className="h-full rounded-full transition-all duration-500" style={{ width: `${Math.max(0, Math.min(100, value))}%`, background: color }} />
+      <div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${Math.max(0, Math.min(100, value))}%`, background: color }} />
     </div>
   )
 }

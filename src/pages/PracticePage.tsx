@@ -37,7 +37,7 @@ export default function PracticePage() {
         />
         <div className="grid grid-cols-3 gap-5">
           {scenarios.map((s) => (
-            <button key={s.id} onClick={() => setParams({ scenario: s.id })} className="card group flex flex-col p-6 text-left transition hover:-translate-y-0.5 hover:shadow-md">
+            <button key={s.id} onClick={() => setParams({ scenario: s.id })} className="card group flex flex-col p-6 text-left transition-shadow hover:shadow-md">
               <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal-600"><MessageSquareText size={22} /></span>
               <h3 className="text-base font-bold text-navy-800">{s.title}</h3>
               <p className="mt-1 text-xs text-slate-500">상대: {s.counterpart} · {s.counterpartRole}</p>
@@ -160,7 +160,7 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
               ) : (
                 <div key={i} className={`flex ${m.who === 'me' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[78%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${m.who === 'me' ? 'bg-navy-700 text-white' : 'bg-white text-slate-800'}`}>
-                    {m.type && <span className={`mb-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${typeStyle[m.type]}`}>{replyTypeLabel[m.type]}</span>}
+                    {m.type && <span className={`mb-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ${typeStyle[m.type]}`}>{replyTypeLabel[m.type]}</span>}
                     <p>{m.text}</p>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
               <Link to={`/pnancheo?q=${encodeURIComponent(scenario.title)}`} className="btn-ghost mt-4 w-full">이 상황의 선배 사례 다시 보기</Link>
             </div>
           ) : (
-            <Callout tone="info">막히면 <b>리더 AI</b> 버튼을 누르세요. 더 깊이 묻고 싶다면 <Link to={`/course/charisma-character/leader-ai?q=${encodeURIComponent(scenario.context)}`} className="font-semibold underline">흰수염·이순신에게 이 상황 묻기 →</Link></Callout>
+            <Callout tone="info">막히면 <b>리더 AI</b> 버튼을 누르세요. 더 깊이 묻고 싶다면 <Link to={`/course/charisma-character/leader-ai?q=${encodeURIComponent(scenario.context)}`} className="font-semibold underline">흰수염·이순신에게 이 상황 묻기</Link></Callout>
           )}
         </aside>
       </div>

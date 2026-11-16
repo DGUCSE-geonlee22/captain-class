@@ -48,10 +48,10 @@ export default function PnancheoPage() {
     <div className="text-white">
       {/* 입구 */}
       <div className="fadeup text-center">
-        <p className="font-display text-[15px] uppercase tracking-[0.3em] text-ember-300/90">Refuge · Playbook of 난처</p>
+        <p className="font-display text-[15px] uppercase tracking-[0.12em] text-ember-300/90">Refuge · Playbook of 난처</p>
         <h1 className="mt-3 font-display text-[64px] uppercase leading-none tracking-[0.04em] text-white">P난처</h1>
         <div className="mx-auto mt-3 h-[3px] w-14 bg-ember-500" />
-        <p className="mt-6 text-[22px] font-medium text-white/90">난처할 땐, 피난처로.</p>
+        <p className="mt-6 text-[22px] font-medium text-white/90">난처할 땐, 피난처로</p>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
           여기서는 아무도 당신을 평가하지 않습니다. 모닥불 앞에 앉아 지금 무엇이 난처한지 천천히 적어 주세요. 관점 렌즈가 양쪽 입장을 묻고, 먼저 이 길을 지나간 선배 리더들이 남긴 이야기를 보여 드립니다.
         </p>
@@ -200,7 +200,7 @@ function NewCaseForm({ initial, live, disabled, onSubmit }: { initial: string; l
   const [text, setText] = useState(initial)
   return (
     <div className="mt-4">
-      <label className="text-xs font-semibold uppercase tracking-wider text-white/50">새 상황 등록</label>
+      <label className="text-xs font-semibold text-white/50">새 상황 등록</label>
       <textarea value={text} onChange={(e) => setText(e.target.value)} className="input-dark mt-1.5 min-h-[90px] resize-none" placeholder="상황을 5자 이상 적어 주세요" />
       <PrivacyWarning dark />
       <div className="mt-3 flex items-center justify-between">
@@ -219,7 +219,7 @@ function CaseCard({ item, isLeader, live, canAct, onVote, onSolution }: { item: 
     <div className="card-dark flex flex-col p-6">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-base font-bold text-white">{item.title}</h3>
-        {item.origin === 'user' && <span className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/60">{item.solutions.length ? '리더 답변 있음' : '솔루션 대기'}</span>}
+        {item.origin === 'user' && <span className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[11px] text-white/60">{item.solutions.length ? '리더 답변 있음' : '솔루션 대기'}</span>}
       </div>
       <p className="mt-2 text-sm text-white/65"><span className="font-semibold text-white/45">상황 · </span>{item.situation}</p>
       {hasSeedSolution && (

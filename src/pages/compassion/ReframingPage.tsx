@@ -68,7 +68,7 @@ export default function ReframingPage() {
               onClick={() => pick(l.id)}
               className={`w-full rounded-xl border p-3 text-left text-xs transition ${l.id === logId ? 'border-teal-400 bg-teal-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}
             >
-              <span className="block font-mono text-[10px] text-slate-400">{l.rawLog.split(']')[0]}]</span>
+              <span className="block font-mono text-[11px] text-slate-400">{l.rawLog.split(']')[0]}]</span>
               <span className="mt-1 block font-semibold text-slate-700">{l.zone}</span>
               <span className="text-slate-500">{l.time}</span>
             </button>
@@ -125,8 +125,8 @@ export default function ReframingPage() {
                   <p className="mt-1 text-sm text-slate-500">생각하는 동안에는 지적 입력이 잠겨 있습니다. 질문을 먼저 읽어 주세요.</p>
                 </div>
                 <div className={`flex h-16 w-16 flex-col items-center justify-center rounded-full border-4 ${locked ? 'border-safety-400 text-safety-600' : 'border-teal-400 text-teal-600'}`}>
-                  <span className="text-xl font-black leading-none">{countdown}</span>
-                  <span className="text-[10px]">{locked ? '생각 중' : '열림'}</span>
+                  <span className="text-xl font-bold leading-none">{countdown}</span>
+                  <span className="text-[11px]">{locked ? '생각 중' : '열림'}</span>
                 </div>
               </div>
 

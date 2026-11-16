@@ -54,7 +54,7 @@ body {
 
 @layer components {
   .card { @apply rounded-2xl bg-white shadow-card border border-slate-100; }
-  .btn, .btn-primary, .btn-teal, .btn-orange, .btn-ghost, .btn-ember { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:opacity-40 disabled:cursor-not-allowed; }
+  .btn, .btn-primary, .btn-teal, .btn-orange, .btn-ghost, .btn-ember { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed; }
   .btn-primary { @apply bg-navy-700 text-white hover:bg-navy-600; }
   .btn-teal { @apply bg-teal-500 text-white hover:bg-teal-600; }
   .btn-orange { @apply bg-safety-500 text-white hover:bg-safety-600; }
@@ -62,7 +62,7 @@ body {
   .btn-ember { @apply bg-ember-500 text-forest-900 hover:bg-ember-400; }
   .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium; }
   .input { @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 placeholder:text-slate-400; }
-  .label { @apply text-xs font-semibold tracking-wide text-slate-500 uppercase; }
+  .label { @apply text-xs font-semibold text-slate-500; }
 
   /* 참고 사이트식 섹션 제목: 콘덴스드 영문 + 짧은 포인트 밑줄 */
   .sec-en { @apply font-display uppercase tracking-[0.04em] text-navy-800; font-size: 40px; line-height: 1; }
@@ -78,14 +78,14 @@ body {
 .vertical-rl { writing-mode: vertical-rl; text-orientation: mixed; }
 
 /* 스크롤 등장 */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1), transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
 .reveal.is-inview { opacity: 1; transform: none; }
-.reveal-rule { width: 0; transition: width 900ms cubic-bezier(0.22, 1, 0.36, 1) 300ms; }
+.reveal-rule { width: 0; transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1) 150ms; }
 .is-inview .reveal-rule, .reveal-rule.is-inview { width: 3.5rem; }
 
 /* 히어로 스크롤 큐 */
 @keyframes scrollcue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
-.scroll-cue { animation: scrollcue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.scroll-cue { opacity: 0.7; }
 
 /* 파도 */
 @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -103,17 +103,17 @@ body {
 .fire-glow { transform-origin: center; transform-box: fill-box; animation: glow 2.6s ease-in-out infinite; }
 @keyframes spark { 0% { transform: translate(0, 0) scale(1); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(var(--dx, 10px), -140px) scale(0.2); opacity: 0; } }
 .spark { animation: spark 3.2s ease-out infinite; transform-box: fill-box; }
-@keyframes emberpulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 138, 31, 0.45), 0 0 24px 4px rgba(255, 138, 31, 0.35); } 50% { box-shadow: 0 0 0 14px rgba(255, 138, 31, 0), 0 0 40px 10px rgba(255, 138, 31, 0.55); } }
-.ember-pulse { animation: emberpulse 2.8s ease-in-out infinite; }
+/* 피난처 입구의 불씨: 고정된 부드러운 빛 (깜빡이지 않음) */
+.ember-pulse { box-shadow: 0 0 0 6px rgba(255, 138, 31, 0.16), 0 0 28px 6px rgba(255, 138, 31, 0.4); }
 
 /* 피난처로 가는 전환 */
 @keyframes shelter-in { 0% { clip-path: circle(0% at 100% 100%); } 100% { clip-path: circle(160% at 100% 100%); } }
 .shelter-enter { animation: shelter-in 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-@keyframes fadeup { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-.fadeup { animation: fadeup 700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-.fadeup-d1 { animation-delay: 150ms; }
-.fadeup-d2 { animation-delay: 300ms; }
-.fadeup-d3 { animation-delay: 450ms; }
+@keyframes fadeup { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.fadeup { animation: fadeup 400ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.fadeup-d1 { animation-delay: 60ms; }
+.fadeup-d2 { animation-delay: 120ms; }
+.fadeup-d3 { animation-delay: 180ms; }
 
 /* 안개 */
 @keyframes mist { 0% { transform: translateX(-4%); opacity: 0.55; } 50% { opacity: 0.8; } 100% { transform: translateX(4%); opacity: 0.55; } }

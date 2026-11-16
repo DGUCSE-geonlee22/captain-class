@@ -66,7 +66,7 @@ export default function PulsePage() {
                 <p className="flex items-center gap-1.5 text-xs text-slate-500"><Activity size={13} /> 업무 과부하 지수 (목업)</p>
                 <div className="mt-2 flex items-center gap-3">
                   <div className="flex-1"><ProgressBar value={member.overloadIndex} color={member.overloadIndex >= 70 ? '#F28C28' : '#1F9E8F'} /></div>
-                  <span className={`text-lg font-black ${member.overloadIndex >= 70 ? 'text-safety-600' : 'text-teal-600'}`}>{member.overloadIndex}</span>
+                  <span className={`text-lg font-bold ${member.overloadIndex >= 70 ? 'text-safety-600' : 'text-teal-600'}`}>{member.overloadIndex}</span>
                 </div>
               </div>
               <div className="rounded-xl border border-slate-200 p-4">

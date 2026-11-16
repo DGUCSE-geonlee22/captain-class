@@ -41,7 +41,7 @@ export default function LoginDialog({ onClose }: { onClose: () => void }) {
       <div className="card w-[560px] p-7" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between">
           <div>
-            <p className="font-display text-sm uppercase tracking-[0.2em] text-teal-600">Sign in</p>
+            <p className="text-xs font-semibold text-teal-600">Sign in</p>
             <h2 className="mt-1 text-xl font-bold text-navy-800">CC 계정으로 로그인</h2>
             <p className="mt-1 text-sm text-slate-500">이름과 숫자 4자리 PIN만 있으면 됩니다. 처음 쓰는 이름이면 계정이 새로 만들어지고, 이후 기록은 서버에 저장되어 다른 기기에서도 이어집니다.</p>
           </div>

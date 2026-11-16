@@ -10,14 +10,14 @@ export function VideoThumb({ courseId, lecture, index, watched, className = '', 
     <div className={`group relative aspect-video overflow-hidden rounded-xl ${className}`} style={{ background: `linear-gradient(135deg, ${v.from}, ${v.to})` }}>
       <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, rgba(255,255,255,0.5), transparent 40%), repeating-linear-gradient(120deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 14px)' }} />
       <div className={`absolute ${size === 'sm' ? 'left-2 top-1.5' : 'left-3 top-2.5'}`}>
-        <p className={`font-display uppercase tracking-[0.15em] ${size === 'sm' ? 'text-[8px]' : 'text-[10px]'}`} style={{ color: v.accent }}>{v.label}</p>
+        <p className={`font-display uppercase tracking-[0.06em] ${size === 'sm' ? 'text-[10px]' : 'text-[11px]'}`} style={{ color: v.accent }}>{v.label}</p>
         {size === 'md' && <p className="mt-0.5 line-clamp-2 max-w-[85%] text-[13px] font-bold leading-snug text-white">{lecture.title}</p>}
       </div>
-      <span className={`absolute flex items-center justify-center rounded-full bg-white/90 text-navy-800 shadow-lg transition group-hover:scale-110 ${size === 'sm' ? 'bottom-1.5 left-2 h-6 w-6' : 'bottom-3 left-3 h-10 w-10'}`}>
+      <span className={`absolute flex items-center justify-center rounded-full bg-white/90 text-navy-800 shadow-lg transition ${size === 'sm' ? 'bottom-1.5 left-2 h-6 w-6' : 'bottom-3 left-3 h-10 w-10'}`}>
         <Play size={size === 'sm' ? 11 : 17} fill="currentColor" className="ml-0.5" />
       </span>
-      <span className={`absolute rounded bg-black/75 font-mono font-semibold text-white ${size === 'sm' ? 'bottom-1.5 right-1.5 px-1 text-[9px]' : 'bottom-2.5 right-2.5 px-1.5 py-0.5 text-[11px]'}`}>{lecture.duration}</span>
-      {size === 'md' && <span className="absolute right-2.5 top-2.5 rounded bg-black/40 px-1.5 py-0.5 text-[10px] font-bold text-white">{String(index + 1).padStart(2, '0')}강</span>}
+      <span className={`absolute rounded bg-black/75 font-mono font-semibold text-white ${size === 'sm' ? 'bottom-1.5 right-1.5 px-1 text-[11px]' : 'bottom-2.5 right-2.5 px-1.5 py-0.5 text-[11px]'}`}>{lecture.duration}</span>
+      {size === 'md' && <span className="absolute right-2.5 top-2.5 rounded bg-black/40 px-1.5 py-0.5 text-[11px] font-bold text-white">{String(index + 1).padStart(2, '0')}강</span>}
       {watched && <div className="absolute inset-x-0 bottom-0 h-1 bg-safety-400" />}
       {watched && <CheckCircle2 size={size === 'sm' ? 14 : 18} className={`absolute text-safety-300 ${size === 'sm' ? 'right-1.5 top-1.5' : 'right-12 top-2.5'}`} />}
     </div>
@@ -84,14 +84,14 @@ export function VideoPlayer({ courseId, lecture, index, watched, onComplete, onN
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 85% 15%, rgba(255,255,255,0.6), transparent 35%), repeating-linear-gradient(120deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 18px)' }} />
         {/* 강의 슬라이드 느낌 */}
         <div className="absolute inset-0 flex flex-col justify-center px-14">
-          <p className="font-display text-sm uppercase tracking-[0.25em]" style={{ color: v.accent }}>{v.label} · {String(index + 1).padStart(2, '0')}강</p>
-          <p className="mt-3 max-w-3xl text-[32px] font-black leading-tight text-white">{lecture.title}</p>
+          <p className="font-display text-sm uppercase tracking-[0.08em]" style={{ color: v.accent }}>{v.label} · {String(index + 1).padStart(2, '0')}강</p>
+          <p className="mt-3 max-w-3xl text-[32px] font-bold leading-tight text-white">{lecture.title}</p>
           <p className="mt-4 text-sm text-white/70">{lecture.instructor}</p>
           {(playing || t > 0) && !ended && <p className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/90">▶ {chapterAt.title}</p>}
         </div>
         {/* 재생 버튼 */}
         {!playing && !ended && (
-          <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-navy-800 shadow-2xl transition hover:scale-110">
+          <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-navy-800 shadow-2xl transition">
             <Play size={34} fill="currentColor" className="ml-1" />
           </span>
         )}

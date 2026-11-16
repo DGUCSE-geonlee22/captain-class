@@ -78,9 +78,9 @@ export default function WeekPage() {
             </>
           ) : (
             <div className="space-y-5">
-              <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-[#7c2d12] to-safety-500 p-8 text-white shadow-2xl">
-                <p className="font-display text-sm uppercase tracking-[0.25em] text-white/70">Construction · 강의 없음 · 진단형</p>
-                <h1 className="mt-3 text-[30px] font-black leading-tight">{w.theme}</h1>
+              <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-safety-700 to-safety-500 p-8 text-white shadow-2xl">
+                <p className="text-xs font-semibold text-white/70">Construction · 강의 없음 · 진단 코스</p>
+                <h1 className="mt-3 text-[30px] font-bold leading-tight">{w.theme}</h1>
                 <p className="mt-3 max-w-2xl text-sm text-white/85">본 교육에 들어가기 전에 강의 대신 두 가지 진단으로 공감·리더십 성향을 확인하고, 현장 작업자에게 첫 마디를 건넵니다. 이때 나온 점수가 12주 동안 변화를 재는 기준이 됩니다.</p>
               </div>
               <div className="grid grid-cols-3 gap-4">
@@ -89,9 +89,9 @@ export default function WeekPage() {
                   { n: '②', title: '현장 딜레마 선택형 진단', desc: '안전·공기 충돌 / 본사-현장 괴리 / 관계 딜레마 중 내 파트와 가까운 상황을 고르고, 지금의 나라면 어떻게 대응할지 선택합니다.', to: '/course/construction/diagnosis', done: dilemmaDone },
                   { n: '③', title: '현장 첫 마디 (현업 과제)', desc: '작업자 1명에게 "가장 힘든 일이나 애로사항이 무엇인가요?"를 직접 묻고 반응을 기록합니다. 이 기록은 1주차 Reframing에서 실제 자료로 씁니다.', to: '/course/construction/field-mission', done: fieldDone },
                 ].map((c) => (
-                  <Link key={c.title} to={c.to} className={`card flex flex-col p-5 transition hover:-translate-y-0.5 hover:shadow-md ${c.done ? 'border-teal-200' : ''}`}>
+                  <Link key={c.title} to={c.to} className={`card flex flex-col p-5 transition hover:shadow-md ${c.done ? 'border-teal-200' : ''}`}>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-safety-500">{c.n}</span>
+                      <span className="text-2xl font-bold text-safety-500">{c.n}</span>
                       {c.done ? <span className="badge bg-teal-50 text-teal-700"><CheckCircle2 size={12} /> 완료</span> : <span className="badge bg-slate-100 text-slate-500">미완료</span>}
                     </div>
                     <p className="mt-2 font-bold text-navy-800">{c.title}</p>
@@ -139,7 +139,7 @@ export default function WeekPage() {
           </div>}
 
           <div className="card border-teal-200 p-5">
-            <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal-700">{w.lectures.length === 0 ? <><HardHat size={14} /> 진단 · 저장하면 통과</> : <><ClipboardCheck size={14} /> 확인 활동 · 완료하면 통과</>}</p>
+            <p className="flex items-center gap-1.5 text-xs font-semibold text-teal-700">{w.lectures.length === 0 ? <><HardHat size={14} /> 진단 · 저장하면 통과</> : <><ClipboardCheck size={14} /> 확인 활동 · 완료하면 통과</>}</p>
             <p className="mt-2 font-bold text-navy-800">{w.check.label}</p>
             <p className="mt-1 text-sm text-slate-600">{w.check.desc}</p>
             {course && <p className="mt-1 text-[11px] text-slate-400">5C · {course.name}</p>}
@@ -150,7 +150,7 @@ export default function WeekPage() {
           </div>
 
           <div className="card p-5">
-            <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-safety-700"><Footprints size={14} /> 현업 과제</p>
+            <p className="flex items-center gap-1.5 text-xs font-semibold text-safety-700"><Footprints size={14} /> 현업 과제</p>
             <p className="mt-2 text-sm text-slate-800">{plan.mission}</p>
             <p className="mt-1 text-[11px] text-slate-500">산출물 · {plan.output}</p>
             <button onClick={() => toggleWeekMission(week)} className={`mt-3 w-full ${p.missionDone ? 'btn-orange' : 'btn-ghost'}`}>

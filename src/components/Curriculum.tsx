@@ -60,7 +60,7 @@ export function WeekStrip({ interactive = true }: { interactive?: boolean }) {
                 </span>
               )}
               <span
-                className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-4 border-white text-xs font-bold text-white shadow transition ${interactive ? 'group-hover:scale-110' : ''} ${isCurrent ? 'ring-4 ring-safety-200' : ''}`}
+                className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-4 border-white text-xs font-bold text-white shadow transition-shadow ${isCurrent ? 'ring-4 ring-safety-200' : ''}`}
                 style={{ background: p.week === 12 ? '#F28C28' : courseColor(p), opacity: isPast || isCurrent ? 1 : 0.5 }}
               >
                 {p.week === 12 ? <Flag size={14} /> : isPast ? <Check size={14} /> : p.week === 13 ? '+' : p.week}

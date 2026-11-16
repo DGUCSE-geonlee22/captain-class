@@ -20,7 +20,7 @@ export default function CompletionPage() {
                 <div className="flex h-32 w-32 items-center justify-center rounded-full bg-safety-500 shadow-xl ring-8 ring-safety-500/30"><Award size={64} /></div>
                 <div>
                   <p className="text-sm text-navy-200">CC · Captain Class 수료</p>
-                  <h2 className="mt-1 text-3xl font-black">{profile.name} <span className="text-safety-400">리더</span></h2>
+                  <h2 className="mt-1 text-3xl font-bold">{profile.name} <span className="text-safety-400">리더</span></h2>
                   <p className="mt-2 text-navy-100">직책만 받은 캡틴에서 사람을 이끄는 리더로. 사후 진단 통과 · 360 피드백 완료</p>
                   <div className="mt-4 flex gap-2 text-xs">
                     <span className="badge bg-white/15 text-white">공감 축 {progress.compassion}%</span>
@@ -37,7 +37,7 @@ export default function CompletionPage() {
                 <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-dashed border-slate-300 text-slate-300"><Anchor size={56} /></div>
                 <div className="flex-1">
                   <p className="text-sm text-slate-500">리더 배지까지</p>
-                  <h2 className="mt-1 text-3xl font-black text-navy-800">{Math.max(0, TOTAL_WEEKS - week)}주 남음</h2>
+                  <h2 className="mt-1 text-3xl font-bold text-navy-800">{Math.max(0, TOTAL_WEEKS - week)}주 남음</h2>
                   <p className="mt-2 text-sm text-slate-600">12주차 말 사후 진단 뒤 '리더' 직급을 받습니다. (데모: 헤더에서 13주차로 바꾸면 배지가 열립니다)</p>
                   <div className="mt-4"><ProgressBar value={(week / TOTAL_WEEKS) * 100} color="#F28C28" height={10} /></div>
                 </div>
@@ -62,7 +62,7 @@ export default function CompletionPage() {
           <div className="card p-6">
             <div className="flex items-center justify-between">
               <p className="flex items-center gap-2 font-bold text-navy-800"><Coins size={16} className="text-safety-500" /> 마일리지</p>
-              <span className="text-2xl font-black text-safety-600">{totalMileage.toLocaleString()} M</span>
+              <span className="text-2xl font-bold text-safety-600">{totalMileage.toLocaleString()} M</span>
             </div>
             <ul className="mt-4 max-h-[320px] space-y-2 overflow-y-auto pr-1">
               {state.mileage.map((m) => (

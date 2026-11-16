@@ -141,12 +141,12 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
 
       {diagram && (
         <Reveal className="card p-7" delay={120}>
-          <p className="font-display text-sm uppercase tracking-[0.2em] text-teal-600">How it works</p>
+          <p className="text-xs font-semibold text-teal-600">진행 방식</p>
           <h3 className="mt-1 text-lg font-bold text-navy-800">{diagram.title}</h3>
           <div className="mt-5 grid gap-3" style={{ gridTemplateColumns: `repeat(${diagram.steps.length}, minmax(0, 1fr))` }}>
             {diagram.steps.map((s, i) => (
               <div key={s.n} className="relative rounded-2xl border border-teal-100 bg-teal-50/60 p-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-sm font-black text-white">{s.n}</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-sm font-bold text-white">{s.n}</span>
                 <p className="mt-3 font-bold text-navy-800">{s.label}</p>
                 <p className="mt-1 text-xs leading-relaxed text-slate-600">{s.desc}</p>
                 {i < diagram.steps.length - 1 && <ArrowRight size={16} className="absolute -right-3 top-1/2 -translate-y-1/2 text-teal-300" />}
@@ -202,7 +202,7 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
 function Tile({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent?: boolean }) {
   return (
     <div className={`rounded-2xl p-6 ${accent ? 'bg-navy-700 text-white' : 'card'}`}>
-      <p className={`flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider ${accent ? 'text-white/60' : 'text-slate-500'}`}>{icon} {label}</p>
+      <p className={`flex items-center gap-1.5 text-xs font-semibold ${accent ? 'text-white/60' : 'text-slate-500'}`}>{icon} {label}</p>
       <p className={`mt-3 text-lg font-bold leading-snug ${accent ? '' : 'text-navy-800'}`}>{value}</p>
     </div>
   )
@@ -211,7 +211,7 @@ function Tile({ icon, label, value, accent }: { icon: React.ReactNode; label: st
 function LessonCard({ lesson, done, big, weeks = [] }: { lesson: Lesson; done: boolean; big?: boolean; weeks?: number[] }) {
   const letter = lesson.title.match(/레슨 ([A-Z])/)?.[1] ?? '·'
   return (
-    <Link to={lesson.path ?? '#'} className={`card group flex items-start gap-4 transition hover:-translate-y-0.5 hover:shadow-md ${big ? 'p-6' : 'p-4'}`}>
+    <Link to={lesson.path ?? '#'} className={`card group flex items-start gap-4 transition-shadow hover:shadow-md ${big ? 'p-6' : 'p-4'}`}>
       <span className={`mt-0.5 flex shrink-0 items-center justify-center rounded-full ${big ? 'h-10 w-10 text-sm' : 'h-8 w-8 text-xs'} ${done ? 'bg-teal-500 text-white' : big ? 'bg-navy-700 text-white' : 'bg-slate-100 text-slate-500'} font-bold`}>
         {done ? <CheckCircle2 size={big ? 18 : 15} /> : letter}
       </span>
@@ -233,7 +233,7 @@ function SkeletonBody({ course }: { course: Course }) {
       </Callout>
       <div className="grid grid-cols-3 gap-4">
         {['코스 목표', '핵심 질문', '교육 목적'].map((l) => (
-          <div key={l} className="card border-dashed p-6 text-slate-400"><p className="text-xs font-semibold uppercase tracking-wider">{l}</p><p className="mt-3 text-sm">담당자 작성 예정</p></div>
+          <div key={l} className="card border-dashed p-6 text-slate-400"><p className="text-xs font-semibold">{l}</p><p className="mt-3 text-sm">담당자 작성 예정</p></div>
         ))}
       </div>
       <div className="grid grid-cols-3 gap-4">

@@ -183,7 +183,7 @@ function Item({ date, children }: { date: string; children: React.ReactNode }) {
   return (
     <div className="card p-4">
       {children}
-      <p className="mt-2 text-right text-[10px] text-slate-400">{formatDate(date)}</p>
+      <p className="mt-2 text-right text-[11px] text-slate-400">{formatDate(date)}</p>
     </div>
   )
 }
@@ -197,7 +197,7 @@ function CompareBar({ label, before, after, color }: { label: string; before: nu
       </div>
       <div className="space-y-1.5">
         <div className="flex items-center gap-3 text-xs text-slate-500"><span className="w-10">사전</span><div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-slate-300" style={{ width: `${before}%` }} /></div></div>
-        <div className="flex items-center gap-3 text-xs text-slate-500"><span className="w-10">현재</span><div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full transition-all duration-500" style={{ width: `${after}%`, background: color }} /></div></div>
+        <div className="flex items-center gap-3 text-xs text-slate-500"><span className="w-10">현재</span><div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${after}%`, background: color }} /></div></div>
       </div>
     </div>
   )
