@@ -91,7 +91,7 @@ export function LeaderDetail({ leader }: { leader: LeaderProfile }) {
         {leader.image ? (
           <p className="mt-2 text-[11px] leading-relaxed text-slate-400">이미지: {leader.image.author} · {leader.image.license} · <a href={leader.image.page} target="_blank" rel="noreferrer" className="underline">Wikimedia Commons</a></p>
         ) : (
-          <p className="mt-2 text-[11px] text-slate-400">이미지: 저작권 보호 캐릭터라 공식 그림 대신 CC 팀이 그린 카드 일러스트를 씁니다.</p>
+          <p className="mt-2 text-[11px] text-slate-400">이미지: 저작권이 있는 캐릭터여서 공식 그림 대신 CC 팀이 그린 일러스트를 씁니다.</p>
         )}
       </div>
       <div className="col-span-3 space-y-5">

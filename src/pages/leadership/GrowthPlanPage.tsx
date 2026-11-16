@@ -32,7 +32,7 @@ export default function GrowthPlanPage() {
         backLabel="Coaching 코스"
         eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 B</span>}
         title="단계별 성장 기록 — 면담이 말로 끝나지 않게"
-        description="면담이 말로 끝나면 팀원의 변화로 이어지기 어렵습니다. 면담에서 나온 다음 단계 계획을 팀원이 진행하면서 문제를 처음 인식한 때부터 해결책을 찾고 고쳐 나간 과정을 단계별로 기록합니다. 리더는 결과의 완성도뿐 아니라 과정에 피드백하고, 일정 기간 뒤 동료·협력 부서의 의견으로 코칭 효과를 점검합니다."
+        description="면담이 말로 끝나면 팀원의 변화로 이어지기 어렵습니다. 면담에서 정한 다음 계획을 팀원이 진행하는 동안, 문제를 처음 인식한 때부터 해결책을 찾고 고쳐 나간 과정을 단계별로 기록합니다. 리더는 결과뿐 아니라 과정에 피드백하고, 몇 주 뒤 동료와 협력 부서의 의견으로 코칭이 효과가 있었는지 확인합니다."
       />
       <div className="grid grid-cols-5 gap-6">
         <aside className="col-span-2 space-y-2">
@@ -43,17 +43,17 @@ export default function GrowthPlanPage() {
               <span className="block text-[11px] text-slate-500">{m.role}</span>
             </button>
           ))}
-          <p className="rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed text-slate-600"><b className="text-navy-800">한국코치협회 인증 연계</b> · 인증 취득 시 CC 수료 가산점. 인증(자격)과 현장 코칭(실행)은 구분하며, 이 성장 기록이 실행의 근거가 됩니다.</p>
+          <p className="rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed text-slate-600"><b className="text-navy-800">한국코치협회 인증 연계</b> · 인증을 취득하면 CC 수료 가산점이 있습니다. 인증(자격)과 현장 코칭(실행)은 구분하며, 이 성장 기록이 실행의 근거가 됩니다.</p>
         </aside>
 
         <section className="col-span-3 space-y-4">
           {!active ? (
             <div className="card p-6">
               <p className="flex items-center gap-2 font-bold text-navy-800"><TrendingUp size={16} className="text-navy-500" /> 1. 면담에서 나온 {member.name}의 첫 계획</p>
-              <p className="mt-1 text-xs text-slate-500">팀원이 스스로 정한 다음 단계를 적습니다. 리더가 정해 준 계획이 아니어야 합니다.</p>
+              <p className="mt-1 text-xs text-slate-500">팀원이 스스로 정한 다음 단계를 적습니다. 리더가 정해 준 계획이면 안 됩니다.</p>
               <input value={planText} onChange={(e) => setPlanText(e.target.value)} placeholder={`예: ${growthPlanExample}`} className="input mt-3" />
               <div className="mt-3 flex justify-end">
-                <button onClick={() => { addGrowthPlan({ memberId, memberName: member.name, plan: planText.trim() }); setPlanText(''); completeLesson('co-b'); notify('계획을 등록했습니다. 이제 단계를 기록하세요.') }} disabled={planText.trim().length < 5} className="btn-primary"><Plus size={16} /> 계획 등록</button>
+                <button onClick={() => { addGrowthPlan({ memberId, memberName: member.name, plan: planText.trim() }); setPlanText(''); completeLesson('co-b'); notify('계획을 등록했습니다. 진행하면서 단계를 기록하세요.') }} disabled={planText.trim().length < 5} className="btn-primary"><Plus size={16} /> 계획 등록</button>
               </div>
             </div>
           ) : (
@@ -90,7 +90,7 @@ export default function GrowthPlanPage() {
               </div>
               <div className="card p-6">
                 <p className="font-bold text-navy-800">3. 리더의 과정 피드백</p>
-                <p className="mt-1 text-xs text-slate-500">결과의 완성도가 아니라, 근거를 정리하고 논리적인 주장을 세우려 노력한 과정을 봅니다.</p>
+                <p className="mt-1 text-xs text-slate-500">결과의 완성도보다, 근거를 정리하고 논리를 세우려 한 과정을 봅니다.</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {leaderFeedbackChecks.map((c) => (
                     <button key={c.key} onClick={() => setFb({ ...fb, [c.key]: !fb[c.key] })} className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${fb[c.key] ? 'border-teal-400 bg-teal-50 text-teal-700' : 'border-slate-200 text-slate-600'}`}>
@@ -98,7 +98,7 @@ export default function GrowthPlanPage() {
                     </button>
                   ))}
                 </div>
-                <textarea value={fbNote} onChange={(e) => setFbNote(e.target.value)} placeholder="예: 본사 반응을 보고 근거 자료를 다시 정리한 점이 좋았다. 다음엔 협력사 손실 추정치도 함께 붙여 보자." className="input mt-3 min-h-[70px] resize-none" />
+                <textarea value={fbNote} onChange={(e) => setFbNote(e.target.value)} placeholder="예: 본사 반응을 보고 근거 자료를 다시 정리한 점이 좋았다. 다음에는 협력사 손실 추정치도 같이 붙여 보자." className="input mt-3 min-h-[70px] resize-none" />
                 <p className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-slate-600"><Users size={13} /> 몇 주 뒤 · 동료·협력 부서 피드백</p>
                 <input value={peer} onChange={(e) => setPeer(e.target.value)} placeholder="예: 공무팀 담당자 — 요청 근거가 정리돼 있어 협의가 빨랐다" className="input mt-1.5" />
                 <div className="mt-3 flex items-center justify-between">
@@ -112,7 +112,7 @@ export default function GrowthPlanPage() {
               {plans.length > 1 && <p className="text-right text-xs text-slate-500">이전 계획 {plans.length - 1}건은 내 기록 → 코칭·성취 탭에서 볼 수 있습니다.</p>}
             </>
           )}
-          <Callout tone="info">Charisma+Character가 리더에게 질문하는 구조였다면, Coaching은 리더가 팀원에게 질문하며 함께 길을 만들어 가는 구조입니다. 쌓인 기록으로 팀원은 자신의 성장을 확인하고 판단에 대한 신뢰가 올라갑니다.</Callout>
+          <Callout tone="info">Charisma+Character가 리더 자신에게 묻는 구조였다면, Coaching은 리더가 팀원에게 질문하며 함께 길을 만드는 구조입니다. 기록이 쌓이면 팀원은 자신의 성장을 확인하고 자기 판단을 더 믿게 됩니다.</Callout>
         </section>
       </div>
       <Toast message={toast} />

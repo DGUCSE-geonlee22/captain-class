@@ -138,7 +138,8 @@ for (const file of files) {
         return
       }
       case 'JSXText': {
-        const rawText = node.value
+        // 위치는 원본 기준으로 잡는다 (CRLF 파일에서 node.value는 줄바꿈이 정규화되어 길이가 다르다)
+        const rawText = code.slice(node.start, node.end)
         if (!hasKo(rawText)) return
         const lead = rawText.length - rawText.trimStart().length
         const trail = rawText.length - rawText.trimEnd().length

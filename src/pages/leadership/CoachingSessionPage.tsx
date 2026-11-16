@@ -44,7 +44,7 @@ export default function CoachingSessionPage() {
     addMemberDelegation({ memberId: member.id, memberName: member.name, answers, tasks, leaderNote: note })
     addGrowthPlan({ memberId: member.id, memberName: member.name, plan: plan.trim() })
     completeLesson('co-a')
-    setToast(`${member.name}과의 코칭 면담을 저장했습니다 (+30 M) · 성장 기록이 시작됐습니다`)
+    setToast(`${member.name}과의 코칭 면담을 저장했습니다 (+30 M) · 성장 기록이 시작됩니다`)
     setTimeout(() => setToast(null), 2600)
     switchTopic(topicId)
   }
@@ -56,7 +56,7 @@ export default function CoachingSessionPage() {
         backTo="/course/coaching"
         backLabel="Coaching 코스"
         eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 A</span>}
-        title="코칭 면담 — 결론 대신 질문하고, 팀원이 기준을 쓴다"
+        title="코칭 면담 — 결론 대신 질문하고, 기준은 팀원이 쓴다"
         description={coachingPrinciple.body}
         right={<AiNotice />}
       />
@@ -87,10 +87,10 @@ export default function CoachingSessionPage() {
               <p className="text-xs text-slate-500">{member.role}</p>
               <h3 className="mt-0.5 text-lg font-bold text-navy-800">{topic.topic}</h3>
               <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700"><b>결론만 전달하는 말 · </b>{topic.tellingExample}</div>
-              <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-navy-800"><MessageCircleQuestion size={16} className="text-navy-500" /> 대신 팀원이 스스로 길을 찾게 하는 질문 3개</p>
+              <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-navy-800"><MessageCircleQuestion size={16} className="text-navy-500" /> 대신 팀원이 스스로 길을 찾도록 돕는 질문 3개</p>
               {topic.exampleQuestions && (
                 <details className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
-                  <summary className="cursor-pointer font-semibold text-slate-700">막히면 열어 보기 · 예시 질문 (따라 쓰지 말고 내 말로)</summary>
+                  <summary className="cursor-pointer font-semibold text-slate-700">막히면 열어 보기 · 예시 질문 (그대로 쓰지 말고 내 말로)</summary>
                   <ul className="mt-2 space-y-1">{topic.exampleQuestions.map((q) => <li key={q}>" {q}</li>)}</ul>
                 </details>
               )}
@@ -117,7 +117,7 @@ export default function CoachingSessionPage() {
 
           {step === 2 && (
             <div className="card p-6">
-              <p className="text-sm text-slate-600">리더가 써서 건네지 않습니다. 아래 질문에 <b>{member.name}</b>이 답하고, 업무를 직접 나눕니다. 리더는 보완만 합니다.</p>
+              <p className="text-sm text-slate-600">리더가 대신 써서 건네지 않습니다. 아래 질문에 <b>{member.name}</b>이 답하면서 업무를 직접 나눕니다. 리더는 보완만 합니다.</p>
               <div className="mt-4 space-y-3">
                 {delegationGuideQuestions.map((q, i) => (
                   <div key={q}>
@@ -154,7 +154,7 @@ export default function CoachingSessionPage() {
 
           {step === 3 && (
             <div className="card p-6">
-              <p className="text-sm text-slate-600">면담이 말로 끝나지 않도록, {member.name}이 스스로 정한 첫 계획 하나를 적습니다. 이후 진행 과정은 성장 기록에서 단계별로 남깁니다.</p>
+              <p className="text-sm text-slate-600">면담이 말로 끝나지 않도록, {member.name}이 스스로 정한 첫 계획 하나를 적습니다. 이후 진행은 성장 기록에 단계별로 남깁니다.</p>
               <input value={plan} onChange={(e) => setPlan(e.target.value)} placeholder={`예: ${growthPlanExample}`} className="input mt-3" />
               <div className="mt-4 flex justify-between">
                 <button onClick={() => setStep(2)} className="btn-ghost">이전</button>

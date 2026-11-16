@@ -37,7 +37,7 @@ export default function DiagnosisPage() {
         backLabel="Construction 코스"
         eyebrow={<span className="badge bg-safety-50 text-safety-700">0주차 · 레슨 A</span>}
         title="공감 / 리더십 2축 자기진단 + 현장 딜레마 선택형 진단"
-        description="평소 업무를 지시하거나 문제를 지적할 때 과도한 통제형(권위적)인지, 무조건적 회피형(착한 리더)인지 진단합니다. 건설 현장의 상황(안전 규정 위반, 공정 지연 등)에서 감정적 대응과 원칙적 대응 사이의 성향을 점수로 내고, 12주 동안 어느 축을 집중 보완할지 안내합니다."
+        description="업무를 지시하거나 문제를 지적할 때 통제형(권위적)으로 기우는지, 회피형(착한 리더)으로 기우는지 봅니다. 안전 규정 위반, 공정 지연 같은 건설 현장 상황 8가지에서 대응을 고르면 공감 축과 리더십 축 점수가 나오고, 12주 동안 어느 축을 보완할지 알려 줍니다."
         right={<AiNotice />}
       />
       <div className="grid grid-cols-5 gap-6">
@@ -57,7 +57,7 @@ export default function DiagnosisPage() {
           ))}
           <div className="card border-safety-200 p-5">
             <p className="text-xs font-semibold text-safety-600">진단 ② · 현장 딜레마 선택형 진단</p>
-            <p className="mt-1 font-semibold text-navy-800">세 가지 중 내 파트 상황과 가장 가까운 딜레마는?</p>
+            <p className="mt-1 font-semibold text-navy-800">세 가지 중 내 파트와 가장 가까운 딜레마는 무엇입니까?</p>
             <div className="mt-3 grid grid-cols-3 gap-2">
               {dilemmaScenarios.map((d) => (
                 <button key={d.id} onClick={() => { setDilemma(d.id); setDilemmaPick('') }} className={`rounded-xl border p-3 text-left text-xs transition ${dilemma === d.id ? 'border-safety-400 bg-safety-50' : 'border-slate-200 hover:border-slate-300'}`}>
@@ -69,7 +69,7 @@ export default function DiagnosisPage() {
             </div>
             {picked && (
               <div className="mt-4 rounded-xl bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-navy-800">지금의 나라면 어떻게 대응할까요?</p>
+                <p className="text-sm font-semibold text-navy-800">지금의 나라면 어떻게 대응하겠습니까?</p>
                 <div className="mt-2 space-y-2">
                   {picked.options.map((o) => (
                     <button key={o.tendency} onClick={() => setDilemmaPick(o.tendency)} className={`w-full rounded-xl border px-4 py-2.5 text-left text-sm transition ${dilemmaPick === o.tendency ? 'border-safety-400 bg-white text-navy-800 shadow-sm' : 'border-slate-200 bg-white/60 text-slate-700 hover:border-slate-300'}`}>
@@ -77,8 +77,8 @@ export default function DiagnosisPage() {
                     </button>
                   ))}
                 </div>
-                {dilemmaPick && <p className="mt-2 text-xs text-slate-500">선택: <b className="text-safety-700">{tendencyLabel[dilemmaPick].label}</b> · 12주 뒤 같은 상황에서 다시 골라 변화를 봅니다.</p>}
-                <textarea value={response} onChange={(e) => setResponse(e.target.value)} placeholder="(선택) 실제로는 어떻게 할지 내 말로 적어 두세요." className="input mt-3 min-h-[64px] resize-none" />
+                {dilemmaPick && <p className="mt-2 text-xs text-slate-500">선택: <b className="text-safety-700">{tendencyLabel[dilemmaPick].label}</b> · 12주 뒤 같은 상황에서 다시 골라 비교합니다.</p>}
+                <textarea value={response} onChange={(e) => setResponse(e.target.value)} placeholder="(선택) 실제로는 어떻게 할지 내 말로 적어 둡니다." className="input mt-3 min-h-[64px] resize-none" />
               </div>
             )}
           </div>
@@ -113,10 +113,10 @@ export default function DiagnosisPage() {
                 </div>
               </>
             ) : (
-              <p className="mt-4 text-sm text-slate-500">진단 ① 8개 상황에 모두 답하면 점수와 성향이 계산됩니다. 진단 ② 현장 딜레마에서 지금의 대응도 골라 주세요.</p>
+              <p className="mt-4 text-sm text-slate-500">진단 ①의 8개 상황에 모두 답하면 점수와 성향이 나옵니다. 진단 ②에서 지금의 대응도 골라 주세요.</p>
             )}
           </div>
-          <Callout tone="info">이 점수는 12주 동안 본인의 변화를 추적하는 기준 데이터가 됩니다. '내 기록 → 2축 진단'에서 현재 점수와 비교합니다.</Callout>
+          <Callout tone="info">이 점수는 12주 동안의 변화를 보는 기준이 됩니다. '내 기록 → 2축 진단'에서 현재 점수와 비교할 수 있습니다.</Callout>
         </aside>
       </div>
       <Toast message={toast} />

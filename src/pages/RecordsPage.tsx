@@ -48,7 +48,7 @@ export default function RecordsPage() {
         <div className="grid grid-cols-3 gap-6">
           <div className="card col-span-2 p-7">
             <p className="font-bold text-navy-800">2축 비교 · 사전(0주차) vs 현재({state.demoWeek}주차)</p>
-            <p className="mt-1 text-xs text-slate-500">{state.diagnosis ? `사전 점수는 0주차 자기진단 결과(${tendencyLabel[state.diagnosis.tendency].label})이며,` : '사전 점수는 기본값(0주차 진단 미실시)이며,'} 현재 점수는 주차 진행과 활동 기록으로 계산됩니다.</p>
+            <p className="mt-1 text-xs text-slate-500">{state.diagnosis ? `사전 점수는 0주차 자기진단 결과(${tendencyLabel[state.diagnosis.tendency].label})이며,` : '사전 점수는 기본값(0주차 진단 미실시)이며,'} 현재 점수는 주차 진행과 활동 기록으로 계산합니다.</p>
             <div className="mt-8 space-y-8">
               <CompareBar label="공감 축" before={baseline.compassion} after={progress.compassion} color={axisMeta.compassion.color} />
               <CompareBar label="리더십 축" before={baseline.leadership} after={progress.leadership} color={axisMeta.leadership.color} />
@@ -68,7 +68,7 @@ export default function RecordsPage() {
 
       {tab === 'empathy' && (
         counts.empathy === 0 ? (
-          <EmptyState icon={<Heart size={36} />} title="공감 축 기록이 없습니다" desc="Reframing 신호 노트, 반려문 비포/애프터, 펄스 면담 노트가 여기에 쌓입니다." action={<Link to="/course/compassion" className="btn-teal">Compassion 코스로</Link>} />
+          <EmptyState icon={<Heart size={36} />} title="공감 축 기록이 없습니다" desc="Reframing 신호 노트, 반려문 비포/애프터, 펄스 면담 노트가 여기에 모입니다." action={<Link to="/course/compassion" className="btn-teal">Compassion 코스로</Link>} />
         ) : (
           <div className="grid grid-cols-3 gap-5">
             <Column title={`신호 노트 ${state.signalNotes.length}`}>
@@ -102,7 +102,7 @@ export default function RecordsPage() {
 
       {tab === 'leadership' && (
         counts.leadership === 0 ? (
-          <EmptyState icon={<Compass size={36} />} title="리더십 축 기록이 없습니다" desc="리더 AI 판단 기록, 팀원 판단 위임 기준표, 단계별 성장 기록이 여기에 쌓입니다." action={<Link to="/course/charisma-character" className="btn-primary">Charisma+Character 코스로</Link>} />
+          <EmptyState icon={<Compass size={36} />} title="리더십 축 기록이 없습니다" desc="리더 AI 판단 기록, 팀원 판단 위임 기준표, 단계별 성장 기록이 여기에 모입니다." action={<Link to="/course/charisma-character" className="btn-primary">Charisma+Character 코스로</Link>} />
         ) : (
           <div className="grid grid-cols-3 gap-5">
             <Column title={`리더 AI 판단 기록 ${state.judgments.length}`}>
@@ -141,7 +141,7 @@ export default function RecordsPage() {
 
       {tab === 'field' && (
         counts.field === 0 ? (
-          <EmptyState icon={<Footprints size={36} />} title="현장 실천 기록이 없습니다" desc="대화 연습 뒤 실제 면담·TBM을 복기한 실천 Log와 타 부서와의 협업 합의서가 여기에 쌓입니다." action={<Link to="/practice" className="btn-teal">대화 연습실로</Link>} />
+          <EmptyState icon={<Footprints size={36} />} title="현장 실천 기록이 없습니다" desc="대화 연습 뒤 실제 면담·TBM을 복기한 실천 Log와 타 부서와 쓴 협업 합의서가 여기에 모입니다." action={<Link to="/practice" className="btn-teal">대화 연습실로</Link>} />
         ) : (
           <div className="grid grid-cols-2 gap-5">
             <Column title={`실천 Log ${state.practiceLogs.length}`}>

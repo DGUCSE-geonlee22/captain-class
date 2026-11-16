@@ -54,7 +54,7 @@ export default function ReframingPage() {
         backLabel="Compassion 코스"
         eyebrow={<span className="badge bg-teal-50 text-teal-700">레슨 A</span>}
         title="현장 공감형 Reframing 훈련"
-        description="AI 경고가 들어오면 벌점 로그를 바로 띄우지 않습니다. 환경 데이터를 먼저 보고, 차가운 로그를 맥락 문장으로 다시 읽은 뒤, 10초의 생각 시간을 거쳐 대응 방향을 적습니다."
+        description="AI 경고가 들어와도 벌점 로그를 바로 띄우지 않습니다. 환경 데이터를 먼저 보고, 로그를 맥락이 담긴 문장으로 다시 읽은 뒤, 10초 동안 생각하고 나서 대응 방향을 적습니다."
         right={<AiNotice />}
       />
 
@@ -82,7 +82,7 @@ export default function ReframingPage() {
           {step === 1 && (
             <div className="card p-6">
               <h3 className="text-lg font-bold text-navy-800">1. 데이터 융합</h3>
-              <p className="mt-1 text-sm text-slate-500">벌점 로그 대신 환경 데이터를 먼저 봅니다. 이 숫자들이 작업자의 하루입니다.</p>
+              <p className="mt-1 text-sm text-slate-500">벌점 로그보다 환경 데이터를 먼저 봅니다. 이 숫자가 작업자의 하루입니다.</p>
               <div className="mt-5 grid grid-cols-5 gap-3">
                 <Env icon={<Clock size={18} />} label="시각" value={log.time} />
                 <Env icon={<Thermometer size={18} />} label="체감온도" value={`${log.feelsLike}°C`} warn={log.feelsLike >= 28} />
@@ -99,7 +99,7 @@ export default function ReframingPage() {
           {step === 2 && (
             <div className="card p-6">
               <h3 className="text-lg font-bold text-navy-800">2. 차가운 로그 Reframing</h3>
-              <p className="mt-1 text-sm text-slate-500">같은 사건을 두 가지 언어로 읽습니다.</p>
+              <p className="mt-1 text-sm text-slate-500">같은 사건을 두 가지 말로 읽습니다.</p>
               <div className="mt-5 grid grid-cols-2 gap-4">
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
                   <p className="label mb-2">원래 로그 (AI 관제)</p>
@@ -122,7 +122,7 @@ export default function ReframingPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-navy-800">3. 관점 전환 프롬프트</h3>
-                  <p className="mt-1 text-sm text-slate-500">생각의 시간 동안 지적 입력은 잠겨 있습니다. 질문을 먼저 읽어 주세요.</p>
+                  <p className="mt-1 text-sm text-slate-500">생각하는 동안에는 지적 입력이 잠겨 있습니다. 질문을 먼저 읽어 주세요.</p>
                 </div>
                 <div className={`flex h-16 w-16 flex-col items-center justify-center rounded-full border-4 ${locked ? 'border-safety-400 text-safety-600' : 'border-teal-400 text-teal-600'}`}>
                   <span className="text-xl font-black leading-none">{countdown}</span>
@@ -147,7 +147,7 @@ export default function ReframingPage() {
                   disabled={locked}
                   value={response}
                   onChange={(e) => setResponse(e.target.value)}
-                  placeholder={locked ? '10초 뒤에 입력할 수 있습니다…' : '예: 벌점 통보 전에 현장에 가서 체감온도와 교대 휴식 여부를 확인하고, 본사에는 환경 데이터를 함께 보낸다.'}
+                  placeholder={locked ? '10초 뒤에 입력할 수 있습니다.' : '예: 벌점을 통보하기 전에 현장에 가서 체감온도와 교대 휴식 여부를 확인하고, 본사에는 환경 데이터를 함께 보낸다.'}
                   className="input mt-1.5 min-h-[110px] resize-none disabled:bg-slate-50"
                 />
                 <PrivacyWarning />
@@ -163,7 +163,7 @@ export default function ReframingPage() {
             </div>
           )}
 
-          <Callout tone="teal">Reframing 문장은 벌점을 없애자는 뜻이 아닙니다. 규정을 지키면서도 그 규정이 작동할 조건을 리더가 먼저 보자는 훈련입니다.</Callout>
+          <Callout tone="teal">Reframing은 벌점을 없애자는 뜻이 아닙니다. 규정은 지키되, 그 규정이 지켜질 조건을 리더가 먼저 살피는 연습입니다.</Callout>
         </section>
       </div>
       <Toast message={toast} />

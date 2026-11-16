@@ -71,8 +71,8 @@ export default function HomePage() {
         </Reveal>
         <Reveal className="mx-auto mt-10 max-w-3xl text-center" delay={200}>
           <p className="text-[15px] leading-relaxed text-slate-700">
-            <b className="text-navy-800">공감 리더십</b>이란, 구성원의 마음을 이해하고 소통하는 <span className="font-semibold text-teal-700">'공감'</span>과, 믿고 따를 수 있는 카리스마와 품격으로 이끄는 <span className="font-semibold text-navy-700">'리더십'</span>을 함께 갖추어 '캡틴'의 역할에서 '리더'의 행동으로 나아가는 것입니다.
-            <br />AI는 대신 판단하는 존재가 아니라 판단을 돕는 조력자입니다.
+            <b className="text-navy-800">공감 리더십</b>이란, 구성원의 마음을 이해하고 소통하는 <span className="font-semibold text-teal-700">'공감'</span>과, 믿고 따를 수 있는 카리스마와 품격으로 이끄는 <span className="font-semibold text-navy-700">'리더십'</span>을 함께 갖추어, 직책으로서의 '캡틴'에서 행동하는 '리더'로 나아가는 것입니다.
+            <br />AI가 대신 판단하지는 않습니다. 판단을 돕는 자리에만 둡니다.
           </p>
         </Reveal>
       </section>
@@ -82,7 +82,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1400px] px-8">
           <SectionHead
             en="My Voyage"
-            ko={isLeader ? <>{profile.name} 리더, 리더 직급을 획득했어요</> : weeksLeft === 0 ? <>{profile.name} 캡틴, 이번 주가 마지막 항해예요</> : <>{profile.name} 캡틴, 리더까지 <span className="text-safety-500">{weeksLeft}주</span> 남았어요</>}
+            ko={isLeader ? <>{profile.name} 리더, 리더 직급을 받았어요</> : weeksLeft === 0 ? <>{profile.name} 캡틴, 이번 주가 마지막 항해예요</> : <>{profile.name} 캡틴, 리더까지 <span className="text-safety-500">{weeksLeft}주</span> 남았어요</>}
             sub={`${profile.org} · ${profile.title} · 현재 ${stage.order}. ${stage.name} 단계 (${stage.weekLabel})`}
           />
           <Reveal className="mt-12" delay={100}><WeekStrip /></Reveal>
@@ -124,7 +124,7 @@ export default function HomePage() {
 
       {/* CURRICULUM */}
       <section className="mx-auto max-w-[1400px] px-8 py-20">
-        <SectionHead en="Curriculum" ko={wl.lectures.length === 0 ? <>이번 주는 강의 없이 진단으로 시작</> : <>이번 주 강의</>} sub="0주차는 강의 없이 진단으로 나를 파악하고, 1주차부터 매주 강의 영상을 듣고 5C 확인 활동으로 잘 받아들였는지 확인한 뒤 현업 과제로 현장에 적용합니다." />
+        <SectionHead en="Curriculum" ko={wl.lectures.length === 0 ? <>이번 주는 강의 없이 진단으로 시작</> : <>이번 주 강의</>} sub="0주차는 강의 없이 진단으로 시작합니다. 1주차부터는 매주 강의를 듣고, 5C 확인 활동으로 내용을 점검한 뒤, 현업 과제로 현장에 적용합니다." />
         <Reveal className="mt-12 grid grid-cols-3 gap-5" delay={100}>
           {wl.lectures.length === 0 && (
             <Link to="/course/construction/diagnosis" className="col-span-2 flex items-center gap-5 rounded-2xl bg-gradient-to-r from-[#7c2d12] to-safety-500 p-6 text-white transition hover:opacity-95">
@@ -197,7 +197,7 @@ export default function HomePage() {
               <span className="flex-1">
                 <span className="text-lg font-bold text-safety-700">Construction</span>
                 <span className="ml-2 badge bg-safety-100 text-safety-700">기초 역량 · 0주차 사전 진단 · 담당 주우상</span>
-                <span className="block text-sm text-slate-600">2축 자기진단 → 현장 딜레마 시나리오 → 작업자에게 첫 마디 건네기. 12주 변화 추적의 기준 데이터.</span>
+                <span className="block text-sm text-slate-600">2축 자기진단 → 현장 딜레마 시나리오 → 작업자에게 첫 마디 건네기. 여기서 나온 점수가 12주 변화를 재는 기준이 됩니다.</span>
               </span>
               <ArrowRight className="text-safety-400" />
             </Link>
@@ -216,7 +216,7 @@ export default function HomePage() {
               <div className="relative flex h-full flex-col">
                 <span className="font-display text-sm uppercase tracking-[0.2em] text-ember-300">Refuge · 핵심 기능 1</span>
                 <h3 className="mt-2 text-2xl font-bold">P난처 2.0</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/75">난처한 상황을 적으면 관점 렌즈 질문과 선배 리더들의 해결 사례를 모닥불 앞에서 들려줍니다. 화면 우측 하단의 불씨가 언제나 입구입니다.</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/75">난처한 상황을 적으면 관점 렌즈 질문과 선배 리더들의 해결 사례를 모닥불 앞에서 보여 줍니다. 입구는 화면 오른쪽 아래의 불씨입니다.</p>
                 <span className="mt-auto flex items-center gap-2 text-sm font-semibold text-ember-300"><Flame size={16} /> 피난처로 들어가기 <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span>
               </div>
             </Link>

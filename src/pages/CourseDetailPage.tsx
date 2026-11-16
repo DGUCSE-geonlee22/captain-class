@@ -40,7 +40,7 @@ const diagrams: Record<string, { title: string; steps: { n: string; label: strin
       { n: '4', label: '다른 리더와 비교', desc: '흰수염(사람부터 지킨다)과 이순신(먼저 살피고 기록한다)처럼 서로 다른 조언을 비교한다' },
       { n: '5', label: '내 결정', desc: '최종 판단은 캡틴이 내리고 판단 기록으로 남긴다' },
     ],
-    note: '교육을 다 이수해도 CC의 존재 의미가 사라지지 않는다. 고민이 생길 때마다 리더 AI에게 다시 물을 수 있다.',
+    note: '교육을 마친 뒤에도 계속 쓰는 기능이다. 고민이 생길 때마다 리더 AI에게 다시 물을 수 있다.',
   },
   coaching: {
     title: '코칭 면담 하나로 · 질문 → 팀원 기준표 → 첫 계획 → 성장 기록',
@@ -59,7 +59,7 @@ const diagrams: Record<string, { title: string; steps: { n: string; label: strin
       { n: '2', label: '현장 딜레마 선택형 진단', desc: '안전·공기 충돌 / 본사-현장 괴리 / 관계 딜레마 중 내 파트와 가장 가까운 것을 고르고, 지금의 나라면 어떻게 대응할지 선택한다' },
       { n: '3', label: '현장 첫 마디', desc: '작업자 1명에게 "가장 힘든 일이나 애로사항이 무엇인가요?" 직접 묻고 반응을 기록한다 → Reframing 모듈로 연계' },
     ],
-    note: '모니터(CCTV·AI 로그) 앞에서만 현장을 보던 시선을 거두고, 현장 바닥의 실상과 노동자의 육체적 고충을 첫날부터 체감하게 하는 장치.',
+    note: '모니터(CCTV·AI 로그)로만 현장을 보던 시선을 거두고, 현장 바닥의 실상과 작업자의 육체적 고충을 첫날부터 직접 느끼게 하는 장치.',
   },
 }
 
@@ -111,7 +111,7 @@ function ReadyBody({ course, completed }: { course: Course; completed: string[] 
   return (
     <div className="space-y-8">
       {course.id === 'construction' && (
-        <Callout tone="info">이 코스는 강의 없이 진단으로만 구성됩니다. 2축 자기진단과 현장 딜레마 선택형 진단으로 나를 파악하고, 현장 첫 마디 미션으로 본 교육(1주차 Compassion)에 들어갑니다.</Callout>
+        <Callout tone="info">이 코스에는 강의가 없고 진단만 있습니다. 2축 자기진단과 현장 딜레마 선택형 진단으로 자기 성향을 확인한 뒤, 현장 첫 마디 미션을 거쳐 본 교육(1주차 Compassion)으로 넘어갑니다.</Callout>
       )}
       {fw && (
         <Reveal className="grid grid-cols-3 gap-4">

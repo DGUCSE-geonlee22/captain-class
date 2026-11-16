@@ -38,7 +38,7 @@ export default function PulsePage() {
         backLabel="Collaboration+Communication 코스"
         eyebrow={<span className="badge bg-teal-50 text-teal-700">레슨 C</span>}
         title="1:1 펄스 면담 질문 카드"
-        description="팀원을 고르면 목업 지표와 함께 정서적 질문 카드 3장을 제안합니다. AI가 대신 묻지 않습니다. 리더가 직접 묻도록 돕는 가이드입니다."
+        description="팀원을 고르면 목업 지표와 함께 정서적 질문 카드 3장을 제안합니다. AI가 대신 묻지 않습니다. 리더가 직접 묻도록 돕는 안내입니다."
         right={<AiNotice />}
       />
       <div className="grid grid-cols-4 gap-6">
@@ -78,7 +78,7 @@ export default function PulsePage() {
 
           <div className="card p-6">
             <p className="flex items-center gap-2 font-bold text-navy-800"><Sparkles size={16} className="text-teal-500" /> 제안된 정서적 질문 카드</p>
-            <p className="mt-1 text-sm text-slate-500">면담에서 직접 물을 카드를 고르세요. 여러 장 선택할 수 있습니다.</p>
+            <p className="mt-1 text-sm text-slate-500">면담에서 직접 물어볼 카드를 고르세요. 여러 장 고를 수 있습니다.</p>
             <div className="mt-4 grid grid-cols-3 gap-3">
               {cards.map((c) => {
                 const on = selected.includes(c)
@@ -92,10 +92,10 @@ export default function PulsePage() {
             </div>
             <div className="mt-4">
               <label className="label">면담 전 메모 (선택)</label>
-              <textarea value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="예: 지연 리포트 기준 문제를 먼저 인정하고 시작하기" className="input mt-1.5 min-h-[70px] resize-none" />
+              <textarea value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="예: 지연 리포트의 기준 문제를 먼저 인정하고 시작하기" className="input mt-1.5 min-h-[70px] resize-none" />
             </div>
             <div className="mt-4 flex items-center justify-between">
-              <Callout tone="info">이 카드는 리더가 직접 묻기 위한 것입니다. 메시지 자동 발송 기능은 없습니다.</Callout>
+              <Callout tone="info">이 카드는 리더가 직접 묻기 위한 것입니다. 메시지를 자동으로 보내는 기능은 없습니다.</Callout>
               <div className="ml-4 flex shrink-0 gap-2">
                 <Link to="/records?tab=interview" className="btn-ghost">내 면담 노트</Link>
                 <button onClick={save} disabled={selected.length === 0} className="btn-teal"><Save size={16} /> 면담 준비 노트에 저장</button>

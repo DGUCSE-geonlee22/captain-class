@@ -42,7 +42,7 @@ export default function CoachingPage() {
         backLabel="Collaboration+Communication 코스"
         eyebrow={<span className="badge bg-teal-50 text-teal-700">레슨 D</span>}
         title="반려문·지적 코칭과 비포/애프터"
-        description="작업 반려 또는 지적 문장 초안을 쓰면 규칙 기반 코칭 포인트 3가지를 점검합니다. AI는 고친 문장을 대신 써 주지 않습니다. 캡틴이 직접 수정합니다."
+        description="반려 또는 지적 문장의 초안을 쓰면 코칭 포인트 3가지를 규칙으로 점검합니다. AI가 고친 문장을 대신 써 주지는 않습니다. 캡틴이 직접 고칩니다."
         right={<AiNotice />}
       />
 
@@ -65,7 +65,7 @@ export default function CoachingPage() {
                 value={before}
                 onChange={(e) => setBefore(e.target.value)}
                 disabled={phase === 'revise'}
-                placeholder="지금 머릿속에 있는 반려·지적 문장을 그대로 적어 보세요."
+                placeholder="지금 머릿속에 있는 반려·지적 문장을 그대로 적습니다."
                 className="input mt-1.5 min-h-[100px] resize-none disabled:bg-slate-50"
               />
               <PrivacyWarning />
@@ -91,7 +91,7 @@ export default function CoachingPage() {
           </div>
           <Callout tone="warn">
             <span className="flex items-center gap-1.5 font-bold"><Ban size={14} /> 대필 금지</span>
-            AI는 문장을 대신 만들어 주지 않습니다. 코칭 포인트는 "무엇이 빠졌는가"만 알려 줍니다. 그 빈칸을 채우는 것은 리더의 일입니다.
+            AI는 문장을 대신 만들지 않습니다. 코칭 포인트는 무엇이 빠졌는지만 알려 주고, 그 빈칸은 리더가 채웁니다.
           </Callout>
         </section>
 
@@ -127,7 +127,7 @@ export default function CoachingPage() {
           </div>
           <div className="card p-6 text-sm text-slate-600">
             <p className="font-bold text-navy-800">목표</p>
-            <p className="mt-1 leading-relaxed">언제나 부드럽게 말하는 것이 아니라, <b>존중하면서 기준을 분명히</b> 전달하는 것입니다.</p>
+            <p className="mt-1 leading-relaxed">부드럽게 말하는 것이 아니라, <b>존중하면서 기준을 분명히</b> 전달하는 것입니다.</p>
           </div>
         </aside>
       </div>

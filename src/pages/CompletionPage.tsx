@@ -10,7 +10,7 @@ export default function CompletionPage() {
 
   return (
     <div>
-      <PageHeader en="Completion" eyebrow={<span className="badge bg-safety-50 text-safety-700">수료 · 리워드</span>} title="캡틴에서 리더로" description="12주 항해를 마치고 사후 진단을 통과하면 '리더' 직급 배지가 부여됩니다." />
+      <PageHeader en="Completion" eyebrow={<span className="badge bg-safety-50 text-safety-700">수료 · 리워드</span>} title="캡틴에서 리더로" description="12주 과정을 마치고 사후 진단을 통과하면 '리더' 직급 배지를 받습니다." />
 
       <div className="grid grid-cols-5 gap-6">
         <section className="col-span-3">
@@ -21,7 +21,7 @@ export default function CompletionPage() {
                 <div>
                   <p className="text-sm text-navy-200">CC · Captain Class 수료</p>
                   <h2 className="mt-1 text-3xl font-black">{profile.name} <span className="text-safety-400">리더</span></h2>
-                  <p className="mt-2 text-navy-100">직책만 받은 캡틴에서 사람을 이끄는 리더로. 사후 진단 통과 · 360 피드백 완료.</p>
+                  <p className="mt-2 text-navy-100">직책만 받은 캡틴에서 사람을 이끄는 리더로. 사후 진단 통과 · 360 피드백 완료</p>
                   <div className="mt-4 flex gap-2 text-xs">
                     <span className="badge bg-white/15 text-white">공감 축 {progress.compassion}%</span>
                     <span className="badge bg-white/15 text-white">리더십 축 {progress.leadership}%</span>
@@ -38,7 +38,7 @@ export default function CompletionPage() {
                 <div className="flex-1">
                   <p className="text-sm text-slate-500">리더 배지까지</p>
                   <h2 className="mt-1 text-3xl font-black text-navy-800">{Math.max(0, TOTAL_WEEKS - week)}주 남음</h2>
-                  <p className="mt-2 text-sm text-slate-600">12주차 말 사후 진단 후 '리더' 직급이 부여됩니다. (데모: 헤더에서 13주차로 바꾸면 배지가 열립니다)</p>
+                  <p className="mt-2 text-sm text-slate-600">12주차 말 사후 진단 뒤 '리더' 직급을 받습니다. (데모: 헤더에서 13주차로 바꾸면 배지가 열립니다)</p>
                   <div className="mt-4"><ProgressBar value={(week / TOTAL_WEEKS) * 100} color="#F28C28" height={10} /></div>
                 </div>
               </div>
@@ -76,7 +76,7 @@ export default function CompletionPage() {
               ))}
             </ul>
           </div>
-          <Callout tone="info">마일리지는 활동 기록용 목업입니다. 실제 포상 연계는 리워드 체계 확정 후 반영됩니다.</Callout>
+          <Callout tone="info">마일리지는 활동 기록용 목업입니다. 실제 포상과의 연계는 리워드 체계가 정해진 뒤 반영합니다.</Callout>
         </aside>
       </div>
     </div>

@@ -53,11 +53,11 @@ export default function PnancheoPage() {
         <div className="mx-auto mt-3 h-[3px] w-14 bg-ember-500" />
         <p className="mt-6 text-[22px] font-medium text-white/90">난처할 땐, 피난처로.</p>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
-          여기서는 아무도 당신을 평가하지 않습니다. 모닥불 앞에 앉아 지금 어떤 상황이 난처한지 천천히 이야기해 주세요. 관점 렌즈가 양쪽 입장을 묻고, 먼저 이 길을 지나간 선배 리더들이 남긴 이야기를 들려드립니다.
+          여기서는 아무도 당신을 평가하지 않습니다. 모닥불 앞에 앉아 지금 무엇이 난처한지 천천히 적어 주세요. 관점 렌즈가 양쪽 입장을 묻고, 먼저 이 길을 지나간 선배 리더들이 남긴 이야기를 보여 드립니다.
         </p>
         <p className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-[11px] text-white/50">
           {shared.live ? <Cloud size={12} className="text-ember-300" /> : <CloudOff size={12} />}
-          {shared.live ? `서버 연결 · 모든 캡틴이 남긴 상황과 리더 솔루션이 함께 보입니다 (${shared.cases.length}건)` : auth.online ? '로그인하면 다른 캡틴의 상황과 리더 솔루션이 함께 보입니다' : '로컬 모드 · 기본 사례만 보입니다'}
+          {shared.live ? `서버 연결 · 다른 캡틴이 남긴 상황과 리더 솔루션이 함께 보입니다 (${shared.cases.length}건)` : auth.online ? '로그인하면 다른 캡틴의 상황과 리더 솔루션이 함께 보입니다' : '로컬 모드 · 기본 사례만 보입니다'}
         </p>
       </div>
 
@@ -77,7 +77,7 @@ export default function PnancheoPage() {
         <div className="mx-auto max-w-[1080px] space-y-6">
           <div className="fadeup fadeup-d2 card-dark p-7">
             <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 text-lg font-bold text-white"><Flame size={18} className="text-ember-400" /> 지금 어떤 상황이 난처하신가요?</label>
+              <label className="flex items-center gap-2 text-lg font-bold text-white"><Flame size={18} className="text-ember-400" /> 지금 어떤 상황이 난처한가요?</label>
               <AiNotice dark />
             </div>
             <textarea
@@ -89,13 +89,13 @@ export default function PnancheoPage() {
                   run()
                 }
               }}
-              placeholder="예: 폭염에 안전모를 올린 작업반장이 AI 경고를 받고 반발합니다. 본사에는 이미 로그가 들어갔고요."
+              placeholder="예: 폭염에 안전모를 올린 작업반장이 AI 경고를 받고 반발합니다. 본사에는 이미 로그가 들어갔습니다."
               className="input-dark mt-4 min-h-[120px] resize-none text-base"
             />
             <div className="mt-2 flex items-start justify-between">
               <div>
                 <PrivacyWarning dark />
-                {looksLikePersonalInfo(text) && <p className="mt-1 text-xs font-semibold text-red-300">연락처·이메일로 보이는 문자열이 있습니다. 개인정보를 지워 주세요.</p>}
+                {looksLikePersonalInfo(text) && <p className="mt-1 text-xs font-semibold text-red-300">연락처나 이메일로 보이는 문자열이 있습니다. 개인정보를 지워 주세요.</p>}
               </div>
               <button onClick={run} disabled={text.trim().length < 2} className="btn-ember">이야기 꺼내기 <ArrowRight size={16} /></button>
             </div>
@@ -127,7 +127,7 @@ export default function PnancheoPage() {
                       <ul className="space-y-2 text-sm text-white/80">{lens.memberQuestions.map((q) => <li key={q}>· {q}</li>)}</ul>
                     </div>
                   </div>
-                  <p className="mt-3 text-[11px] text-white/40">AI의 질문은 정답이 아니라 관점을 넓히는 도구입니다. 상대의 감정을 확정하는 문장은 없습니다.</p>
+                  <p className="mt-3 text-[11px] text-white/40">AI의 질문은 정답이 아니라 관점을 넓히는 도구입니다. 상대의 감정을 단정하는 문장은 쓰지 않습니다.</p>
                 </section>
               )}
 
@@ -140,8 +140,8 @@ export default function PnancheoPage() {
                 </div>
                 {results.length === 0 ? (
                   <div className="card-dark p-6">
-                    <Callout tone="dark">맞는 이야기를 아직 찾지 못했습니다. 새 상황으로 남겨 두면 {shared.live ? '모든 리더에게 보이고, 솔루션이 달리면 "솔루션 기다리는 상황" 탭에서 확인할 수 있습니다.' : '선배 리더들에게 전해집니다. (로컬 모드에서는 이 브라우저에만 저장됩니다)'}</Callout>
-                    <NewCaseForm initial={text} live={shared.live} disabled={auth.online && !auth.user} onSubmit={(t) => guard(async () => { await shared.addCase(t); setTab('waiting') }, shared.live ? '새 상황이 모든 리더에게 전해졌습니다.' : '새 상황이 등록되었습니다.')} />
+                    <Callout tone="dark">맞는 이야기를 아직 찾지 못했습니다. 새 상황으로 남겨 두면 {shared.live ? '모든 리더에게 보이고, 솔루션이 달리면 "솔루션 기다리는 상황" 탭에서 볼 수 있습니다.' : '선배 리더들에게 전해집니다. (로컬 모드에서는 이 브라우저에만 저장됩니다)'}</Callout>
+                    <NewCaseForm initial={text} live={shared.live} disabled={auth.online && !auth.user} onSubmit={(t) => guard(async () => { await shared.addCase(t); setTab('waiting') }, shared.live ? '새 상황을 모든 리더에게 전했습니다.' : '새 상황을 등록했습니다.')} />
                   </div>
                 ) : (
                   <>
@@ -149,15 +149,15 @@ export default function PnancheoPage() {
                       {results.map(({ item }) => (
                         <CaseCard key={item.id} item={item} isLeader={isLeader} live={shared.live} canAct={!auth.online || !!auth.user}
                           onVote={() => guard(() => shared.toggleHelpful(item.id), item.votedByMe ? '도움돼요를 취소했습니다' : '도움돼요를 눌렀습니다')}
-                          onSolution={(t) => guard(() => shared.addSolution(item.id, t), '솔루션이 등록되었습니다 (+50 M)')} />
+                          onSolution={(t) => guard(() => shared.addSolution(item.id, t), '솔루션을 등록했습니다 (+50 M)')} />
                       ))}
                     </div>
                     <div className="card-dark mt-4 p-5">
                       <button onClick={() => setShowNew((v) => !v)} className="flex w-full items-center justify-between text-left text-sm text-white/70 hover:text-white">
-                        <span>딱 맞는 이야기가 없나요? <b className="text-ember-300">내 상황을 새로 남겨 두기</b></span>
+                        <span>맞는 이야기가 없나요? <b className="text-ember-300">내 상황을 새로 남겨 두기</b></span>
                         <PlusCircle size={16} className={`transition ${showNew ? 'rotate-45' : ''}`} />
                       </button>
-                      {showNew && <NewCaseForm initial={text} live={shared.live} disabled={auth.online && !auth.user} onSubmit={(t) => guard(async () => { await shared.addCase(t); setShowNew(false); setTab('waiting') }, shared.live ? '새 상황이 모든 리더에게 전해졌습니다.' : '새 상황이 등록되었습니다.')} />}
+                      {showNew && <NewCaseForm initial={text} live={shared.live} disabled={auth.online && !auth.user} onSubmit={(t) => guard(async () => { await shared.addCase(t); setShowNew(false); setTab('waiting') }, shared.live ? '새 상황을 모든 리더에게 전했습니다.' : '새 상황을 등록했습니다.')} />}
                     </div>
                   </>
                 )}
@@ -169,7 +169,7 @@ export default function PnancheoPage() {
 
       {tab === 'waiting' && (
         <div className="mx-auto max-w-[1080px] space-y-4">
-          <Callout tone="dark">캡틴들이 새로 남긴 상황입니다. 리더(수료자)가 솔루션을 달면 그 사례도 플레이북의 일부가 됩니다. {!shared.live && '로컬 모드에서는 이 브라우저에서 남긴 상황만 보입니다.'}</Callout>
+          <Callout tone="dark">캡틴들이 새로 남긴 상황입니다. 리더(수료자)가 솔루션을 달면 그 사례도 플레이북에 들어갑니다. {!shared.live && '로컬 모드에서는 이 브라우저에서 남긴 상황만 보입니다.'}</Callout>
           {waiting.length === 0 && state.newCases.length === 0 ? (
             <div className="card-dark p-8 text-center text-sm text-white/50">아직 기다리는 상황이 없습니다. 상황 입력에서 맞는 사례가 없을 때 "남겨 두기"를 누르면 여기에 쌓입니다.</div>
           ) : (
@@ -177,13 +177,13 @@ export default function PnancheoPage() {
               {waiting.map((item) => (
                 <CaseCard key={item.id} item={item} isLeader={isLeader} live={shared.live} canAct={!auth.online || !!auth.user}
                   onVote={() => guard(() => shared.toggleHelpful(item.id), '도움돼요를 눌렀습니다')}
-                  onSolution={(t) => guard(() => shared.addSolution(item.id, t), '솔루션이 등록되었습니다 (+50 M)')} />
+                  onSolution={(t) => guard(() => shared.addSolution(item.id, t), '솔루션을 등록했습니다 (+50 M)')} />
               ))}
               {!shared.live && state.newCases.map((c) => (
                 <div key={c.id} className="card-dark p-6">
                   <p className="text-xs text-white/40">내가 남긴 상황 (로컬)</p>
                   <p className="mt-2 text-sm text-white/85">{c.text}</p>
-                  <p className="mt-3 text-[11px] text-white/40">서버에 연결·로그인하면 리더에게 전달되어 솔루션을 받을 수 있습니다.</p>
+                  <p className="mt-3 text-[11px] text-white/40">서버에 연결해 로그인하면 리더에게 전달되어 솔루션을 받을 수 있습니다.</p>
                 </div>
               ))}
             </div>
@@ -201,10 +201,10 @@ function NewCaseForm({ initial, live, disabled, onSubmit }: { initial: string; l
   return (
     <div className="mt-4">
       <label className="text-xs font-semibold uppercase tracking-wider text-white/50">새 상황 등록</label>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} className="input-dark mt-1.5 min-h-[90px] resize-none" placeholder="지금 상황을 5자 이상 적어 주세요" />
+      <textarea value={text} onChange={(e) => setText(e.target.value)} className="input-dark mt-1.5 min-h-[90px] resize-none" placeholder="상황을 5자 이상 적어 주세요" />
       <PrivacyWarning dark />
       <div className="mt-3 flex items-center justify-between">
-        <span className="text-[11px] text-white/40">{live ? '모든 리더에게 익명이 아닌 "캡틴 이름"으로 보입니다 (솔루션 대기)' : disabled ? '서버에 남기려면 로그인하세요' : '로컬 모드: 이 브라우저에만 저장'}</span>
+        <span className="text-[11px] text-white/40">{live ? '익명이 아니라 "캡틴 이름"으로 모든 리더에게 보입니다 (솔루션 대기)' : disabled ? '서버에 남기려면 로그인하세요' : '로컬 모드: 이 브라우저에만 저장'}</span>
         <button onClick={() => onSubmit(text.trim())} disabled={disabled || text.trim().length < 5 || looksLikePersonalInfo(text)} className="btn-ember"><PlusCircle size={16} /> 남겨 두기</button>
       </div>
     </div>

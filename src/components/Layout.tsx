@@ -84,7 +84,7 @@ export default function Layout() {
             {/* 서버 연결 상태 */}
             <button
               onClick={() => setShowLogin(true)}
-              title={auth.online ? `API: ${auth.apiBase || '같은 주소'} · ${auth.lastSyncAt ? '마지막 저장 ' + new Date(auth.lastSyncAt).toLocaleTimeString() : ''}` : '서버에 연결되지 않았습니다. 눌러서 서버 주소를 설정하거나 로컬 모드로 계속 사용하세요.'}
+              title={auth.online ? `API: ${auth.apiBase || '같은 주소'} · ${auth.lastSyncAt ? '마지막 저장 ' + new Date(auth.lastSyncAt).toLocaleTimeString() : ''}` : '서버에 연결되지 않았습니다. 눌러서 서버 주소를 설정하거나, 로컬 모드로 계속 쓸 수 있습니다.'}
               className={`flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1.5 text-[11px] ${pill} hover:opacity-80`}
             >
               {auth.online ? <Cloud size={13} className="text-teal-400" /> : <CloudOff size={13} className="opacity-60" />}

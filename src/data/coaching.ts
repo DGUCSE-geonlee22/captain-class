@@ -10,8 +10,8 @@
 
 export const coachingPrinciple = {
   headline: '리더가 길을 정해 주지 않고, 팀원이 스스로 길을 찾도록 질문하며 함께 만든다.',
-  body: '한국코치협회 인증을 따는 것과 현장에서 코칭을 해내는 것은 다르다. CC는 인증 연계를 유지하면서 코칭의 결과가 현장까지 이어지는지 확인할 수 있게, 팀원이 직접 쓰는 판단 위임 기준표와 단계별 성취 경험 기록을 둔다.',
-  effect: "이 과정이 반복되면 리더는 해결책을 제시하기만 하는 상사에서 방향을 함께 세우고 팀원이 스스로 해내도록 돕는 코치가 된다. 팀원은 AI와의 역할 분담이 분명해져 책임져야 하는 일에 집중하고, 쌓인 기록으로 자신의 성장을 확인하며 판단에 대한 신뢰가 올라간다. 마음은 헤아리지만 방향을 제시하지 못하는 '착한 리더'에서 마음을 이해하면서 올바른 길로 이끄는 '공감 리더'로 간다.",
+  body: '한국코치협회 인증을 따는 것과 현장에서 코칭을 해내는 것은 다른 일이다. CC는 인증 연계를 유지하되, 코칭이 현장까지 이어졌는지 볼 수 있도록 팀원이 직접 쓰는 판단 위임 기준표와 단계별 성취 기록을 둔다.',
+  effect: "이 과정이 반복되면 리더는 해결책을 던져 주는 상사가 아니라, 방향을 함께 세우고 팀원이 스스로 해내도록 돕는 코치가 된다. 팀원은 AI와 역할이 나뉘어 책임질 일에 집중하고, 쌓인 기록으로 자기 성장을 확인하면서 판단에 자신이 붙는다. 마음은 헤아리지만 방향을 주지 못하는 '착한 리더'에서, 마음을 이해하면서 길을 제시하는 '공감 리더'로 가는 과정이다.",
 }
 
 /** 코칭 질문 연습 · 면담 주제 프리셋 (팀원 id는 src/data/team.ts) */
@@ -66,7 +66,7 @@ export const coachingCheckLabels: { key: keyof CoachingQuestionCheck; label: str
  */
 export const delegationGuideQuestions = [
   '이 결정은 현장에서 누가 내려야 할까요?',
-  'AI에 무조건적으로 의존해서 결정하면 어떤 위험이 있을까요?',
+  'AI 판단에만 기대어 결정하면 어떤 위험이 있을까요?',
 ]
 export interface DelegationTask {
   id: string
@@ -107,4 +107,4 @@ export const leaderFeedbackChecks = [
   { key: 'errorFix', label: '오류를 어떻게 바로잡았는지' },
 ] as const
 export type LeaderFeedbackKey = (typeof leaderFeedbackChecks)[number]['key']
-export const growthPlanExample = '다음 협력사 요청이 오면 본사에 올리기 전, 근거 자료 먼저 정리해 보기'
+export const growthPlanExample = '다음 협력사 요청이 오면 본사에 올리기 전에 근거 자료부터 정리해 보기'

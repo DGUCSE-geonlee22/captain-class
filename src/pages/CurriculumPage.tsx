@@ -24,7 +24,7 @@ export default function CurriculumPage() {
       <PageHeader
         en="Curriculum"
         title="CC 리더 과정 · 주차별 강의"
-        description="0주차는 강의 없이 진단으로 나를 파악합니다. 1주차부터 매주 강의 영상을 듣고, 5C 확인 활동으로 잘 받아들였는지 확인하고, 현업 과제로 현장에 적용합니다. 강의를 모두 수강하고 확인 활동을 완료하면 그 주차를 이수합니다."
+        description="0주차는 강의 없이 진단으로 시작합니다. 1주차부터는 매주 강의를 듣고 5C 확인 활동으로 내용을 점검한 뒤 현업 과제로 현장에 적용합니다. 강의를 모두 듣고 확인 활동까지 마치면 그 주차를 이수한 것으로 봅니다."
       />
 
       {/* 과정 요약 + 이어서 수강 */}
@@ -99,7 +99,7 @@ export default function CurriculumPage() {
                       <HardHat size={22} className="text-safety-600" />
                       <div className="flex-1 text-sm">
                         <p className="font-bold text-safety-700">이 주차는 강의 영상이 없습니다</p>
-                        <p className="text-slate-600">Construction은 진단형 코스입니다. 2축 자기진단과 현장 딜레마 선택형 진단으로 나를 파악하고, 현장 첫 마디 미션으로 본 교육을 준비합니다.</p>
+                        <p className="text-slate-600">Construction은 진단 코스입니다. 2축 자기진단과 현장 딜레마 선택형 진단으로 자기 성향을 확인하고, 현장 첫 마디 미션으로 본 교육을 준비합니다.</p>
                       </div>
                     </div>
                   )}

@@ -27,7 +27,7 @@ export default function LeadersPage() {
         backLabel="Charisma+Character 코스"
         eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 A</span>}
         title="리더 카드 도감 — 역사·스포츠·콘텐츠 속 리더의 카리스마와 품격"
-        description="모두 훌륭한 리더이지만 인물마다 지향하는 가치관이 다릅니다. 여러 리더의 성격과 리더십을 살펴보며 내 상황에 맞는 리더십을 찾아보세요. 마음에 드는 리더에게는 바로 고민을 물어볼 수 있습니다."
+        description="모두 뛰어난 리더지만 중요하게 여기는 가치는 저마다 다릅니다. 카드를 넘기며 성격과 리더십을 살펴보고, 내 상황에 맞는 리더를 찾아 보세요. 마음에 드는 리더에게는 바로 고민을 물어볼 수 있습니다."
         right={<Link to={`/course/charisma-character/leader-ai?leader=${selected.id}`} className="btn-orange"><Swords size={16} /> {selected.name}에게 고민 묻기</Link>}
       />
       <LeaderDetail leader={selected} />

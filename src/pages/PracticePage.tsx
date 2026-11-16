@@ -32,7 +32,7 @@ export default function PracticePage() {
           en="Practice Room"
           eyebrow={<span className="badge bg-teal-50 text-teal-700">핵심 기능 2</span>}
           title="캡틴 대화 연습실"
-          description="어려운 대화를 시나리오로 미리 연습합니다. 매 턴 선택지를 고르거나 직접 입력하면, 공감도·명확성·심리적 안전감 지수가 실시간으로 바뀝니다."
+          description="어려운 대화를 시나리오로 미리 연습합니다. 매 턴 선택지를 고르거나 직접 입력하면 공감도·명확성·심리적 안전감 지수가 바뀝니다."
           right={<AiNotice />}
         />
         <div className="grid grid-cols-3 gap-5">
@@ -47,7 +47,7 @@ export default function PracticePage() {
           ))}
         </div>
         <div className="mt-6">
-          <Callout tone="teal">AI가 제안한 표현을 그대로 따라 하지 말고 실제 관계에 맞게 고쳐 쓰세요. 목표는 언제나 부드럽게 말하는 것이 아니라, 존중하면서 기준을 분명히 전달하는 것입니다.</Callout>
+          <Callout tone="teal">AI가 제안한 표현을 그대로 쓰지 말고 실제 관계에 맞게 고쳐 쓰세요. 목표는 부드럽게 말하는 것이 아니라, 존중하면서 기준을 분명히 전하는 것입니다.</Callout>
         </div>
       </div>
     )
@@ -179,11 +179,11 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
                 ))}
               </div>
               <div className="flex gap-2">
-                <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && sendFree()} placeholder="직접 입력하면 가장 가까운 유형으로 매칭됩니다" className="input" />
+                <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && sendFree()} placeholder="직접 입력하면 가장 가까운 유형으로 분류됩니다" className="input" />
                 <button onClick={useHint} className="btn-ghost shrink-0" title="막히면 리더 AI가 짧은 질문을 던집니다"><Lightbulb size={16} /> 리더 AI</button>
                 <button onClick={sendFree} disabled={!input.trim()} className="btn-primary shrink-0"><Send size={16} /></button>
               </div>
-              <PrivacyWarning text="실제 구성원의 실명·개인 사정은 입력하지 마세요. 연습용 상황만 적습니다." />
+              <PrivacyWarning text="실제 구성원의 실명과 개인 사정은 입력하지 마세요. 연습용 상황만 적습니다." />
             </div>
           ) : (
             <div className="flex items-center justify-between border-t border-slate-100 p-4">
@@ -224,7 +224,7 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
                 <p className="mb-1 text-xs font-bold text-navy-500">문장 교정 가이드</p>
                 {scenario.correctionGuide}
               </div>
-              <p className="mt-3 text-[11px] text-slate-500">AI가 제안한 표현을 그대로 따라 하지 말고 실제 관계에 맞게 고쳐 쓰세요. 목표는 언제나 부드럽게 말하는 것이 아니라, 존중하면서 기준을 분명히 전달하는 것입니다.</p>
+              <p className="mt-3 text-[11px] text-slate-500">AI가 제안한 표현을 그대로 쓰지 말고 실제 관계에 맞게 고쳐 쓰세요. 목표는 부드럽게 말하는 것이 아니라, 존중하면서 기준을 분명히 전하는 것입니다.</p>
               <Link to={`/pnancheo?q=${encodeURIComponent(scenario.title)}`} className="btn-ghost mt-4 w-full">이 상황의 선배 사례 다시 보기</Link>
             </div>
           ) : (
@@ -238,11 +238,11 @@ function PracticeRoom({ scenario, onExit }: { scenario: Scenario; onExit: () => 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-900/50 p-6" onClick={() => setShowLog(false)}>
           <div className="card w-[640px] p-7" onClick={(e) => e.stopPropagation()}>
             <p className="text-lg font-bold text-navy-800">실천 Log — 실제 면담·TBM 후 기록</p>
-            <p className="mt-1 text-sm text-slate-500">연습이 아니라 실제 대화를 복기합니다. 비포/애프터와 함께 '내 기록'에 저장됩니다.</p>
+            <p className="mt-1 text-sm text-slate-500">연습이 아니라 실제 대화를 돌아봅니다. 비포/애프터와 함께 '내 기록'에 저장됩니다.</p>
             <div className="mt-5 space-y-3">
-              <Field label="대화 목적" value={log.purpose} onChange={(v) => setLog({ ...log, purpose: v })} placeholder="예: 폭염일 교대 휴식 운영을 반장과 합의" />
+              <Field label="대화 목적" value={log.purpose} onChange={(v) => setLog({ ...log, purpose: v })} placeholder="예: 폭염일 교대 휴식 운영을 반장과 합의하기" />
               <Field label="사용한 표현" value={log.expression} onChange={(v) => setLog({ ...log, expression: v })} placeholder="예: '벌점 얘기 전에, 몇 시간째 쉬지 않고 하신 거예요?'" />
-              <Field label="상대 반응" value={log.reaction} onChange={(v) => setLog({ ...log, reaction: v })} placeholder="예: 처음엔 경계했지만 그늘막 얘기를 먼저 꺼냄" />
+              <Field label="상대 반응" value={log.reaction} onChange={(v) => setLog({ ...log, reaction: v })} placeholder="예: 처음엔 경계하다가 그늘막 얘기를 먼저 꺼냄" />
               <Field label="다음에 바꿀 점" value={log.nextChange} onChange={(v) => setLog({ ...log, nextChange: v })} placeholder="예: 본사 소명 계획을 먼저 말하고 부탁하기" />
             </div>
             <PrivacyWarning />

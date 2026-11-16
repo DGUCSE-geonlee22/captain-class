@@ -35,7 +35,7 @@ export default function LensPage() {
         backLabel="Compassion 코스"
         eyebrow={<span className="badge bg-teal-50 text-teal-700">레슨 B</span>}
         title="관점 렌즈 — 한 상황을 여러 방향에서 보기"
-        description="갈등 상황을 적거나 예시를 고르면 '리더 입장'과 '구성원 입장' 두 열에 탐색 질문이 뜹니다. AI는 감정을 진단하지 않고 질문만 던집니다."
+        description="갈등 상황을 적거나 예시를 고르면 '리더 입장'과 '구성원 입장' 두 열에 살펴볼 질문이 나옵니다. AI는 감정을 판정하지 않고 질문만 합니다."
         right={<AiNotice />}
       />
 
@@ -46,7 +46,7 @@ export default function LensPage() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && analyze()}
-            placeholder="예: 입사동기인 이강 대리에게 작업 지시를 해야 하는데 자꾸 미루게 됩니다"
+            placeholder="예: 입사동기인 이강 대리에게 작업 지시를 해야 하는데 자꾸 미루게 된다"
             className="input"
           />
           <button onClick={analyze} disabled={text.trim().length < 3} className="btn-teal shrink-0"><Search size={16} /> 렌즈 열기</button>
@@ -64,7 +64,7 @@ export default function LensPage() {
 
       {noMatch && (
         <div className="mt-4">
-          <Callout tone="warn">입력한 상황과 가까운 렌즈 프리셋을 찾지 못했습니다. 위 예시 중 가장 비슷한 상황을 고르거나, 키워드(안전모·지연·동기·신입·공문 등)를 포함해 다시 적어 보세요.</Callout>
+          <Callout tone="warn">입력한 상황에 맞는 렌즈를 찾지 못했습니다. 위 예시 중 가장 비슷한 상황을 고르거나, 안전모·지연·동기·신입·공문 같은 단어를 넣어 다시 적어 보세요.</Callout>
         </div>
       )}
 
@@ -80,7 +80,7 @@ export default function LensPage() {
             <LensColumn icon={<Users size={18} />} title="구성원 입장에서 살필 것" hint="노력에 대한 인정, 업무 기준의 명확성" color="teal" questions={preset.memberQuestions} />
           </div>
           <div className="flex items-center justify-between">
-            <Callout tone="info">AI의 질문은 정답이 아니라 관점을 넓히는 도구입니다. 상대의 감정을 확정하는 문장은 이 화면에 없습니다.</Callout>
+            <Callout tone="info">이 질문은 정답이 아니라 관점을 넓히기 위한 것입니다. 상대의 감정을 단정하는 문장은 이 화면에 없습니다.</Callout>
             <Link to={`/pnancheo?q=${encodeURIComponent(preset.title)}`} className="btn-primary ml-4 shrink-0">이 상황의 유사 사례 보기 <ArrowRight size={16} /></Link>
           </div>
         </div>

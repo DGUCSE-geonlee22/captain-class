@@ -80,7 +80,7 @@ export default function LeaderAIPage() {
         backLabel="Charisma+Character 코스"
         eyebrow={<span className="badge bg-navy-50 text-navy-700">레슨 B</span>}
         title="리더 AI에게 묻기 — 흰수염이라면, 이순신이라면 어떻게 했을까?"
-        description="고민을 적고 리더 카드를 골라 보세요. 그 리더의 성격과 리더십을 미리 학습한 AI가 '나라면 이렇게 했을 것'이라고 조언합니다. 여러 리더에게 물어 비교하다 보면 내 상황에 맞는 답이 보입니다. 수료 후에도 계속 쓰는 기능입니다."
+        description="고민을 적고 리더 카드를 고르면, 그 리더의 성격과 리더십을 학습한 AI가 '나라면 이렇게 했을 것'이라고 답합니다. 여러 리더에게 같은 고민을 물어 비교해 보세요. 수료 후에도 계속 쓸 수 있습니다."
         right={<AiNotice />}
       />
 
@@ -105,7 +105,7 @@ export default function LeaderAIPage() {
       {step === 'concern' && (
         <div className="mx-auto max-w-3xl">
           <div className="card p-7">
-            <label className="text-lg font-bold text-navy-800">리더로서 지금 어떤 고민이 있나요?</label>
+            <label className="text-lg font-bold text-navy-800">지금 어떤 고민이 있나요?</label>
             <textarea value={concern} onChange={(e) => setConcern(e.target.value)} placeholder="예: 협력사가 위험을 이유로 작업 중지를 요청했는데 본사는 공기를 재촉합니다." className="input mt-3 min-h-[130px] resize-none text-base" />
             <PrivacyWarning />
             <div className="mt-4 flex flex-wrap gap-2">
@@ -147,7 +147,7 @@ export default function LeaderAIPage() {
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-white/60">카드를 좌우로 넘기며 한 명을 고르세요. ← → 버튼이나 트랙패드로 넘길 수 있습니다.</p>
+              <p className="text-sm text-white/60">카드를 좌우로 넘겨 한 명을 고르세요. ← → 버튼이나 트랙패드로 넘길 수 있습니다.</p>
             )}
             <div className="flex gap-2">
               <button onClick={() => setStep('concern')} className="btn border border-white/20 text-white/80 hover:bg-white/10"><ArrowLeft size={16} /> 고민 수정</button>
@@ -191,7 +191,7 @@ export default function LeaderAIPage() {
               {thinking ? (
                 <div className="card flex items-center gap-3 p-6 text-slate-500">
                   <span className="flex gap-1">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 animate-bounce rounded-full bg-safety-400" style={{ animationDelay: `${i * 150}ms` }} />)}</span>
-                  {curLeader.name} AI가 자신의 리더십으로 상황을 살피는 중…
+                  {curLeader.name} 자신의 리더십으로 상황을 살피는 중…
                 </div>
               ) : (
                 <div className="card relative p-7">
@@ -207,7 +207,7 @@ export default function LeaderAIPage() {
                   </ol>
                   {current.example && <p className="fadeup fadeup-d3 mt-4 rounded-xl border-l-4 border-safety-400 bg-safety-50/70 px-4 py-3 text-sm text-slate-700">{current.example}</p>}
                   <p className="fadeup fadeup-d3 mt-4 text-base font-semibold italic text-navy-700">"{current.closer}"</p>
-                  <p className="fadeup fadeup-d3 mt-4 text-[11px] text-slate-400">실제 인물·캐릭터의 발언이 아니라, 알려진 성격과 리더십을 학습한 가상 리더 AI의 조언입니다. 참고용이며 최종 판단은 캡틴이 합니다.</p>
+                  <p className="fadeup fadeup-d3 mt-4 text-[11px] text-slate-400">실제 인물이나 캐릭터의 발언이 아니라, 알려진 성격과 리더십을 학습한 가상 리더 AI의 조언입니다. 참고용이며 최종 판단은 캡틴이 합니다.</p>
                 </div>
               )}
               {!thinking && (
@@ -219,7 +219,7 @@ export default function LeaderAIPage() {
                   </div>
                   <div className="card p-5">
                     <p className="text-xs font-bold uppercase tracking-wider text-slate-500">내 결정 (최종 판단은 캡틴이)</p>
-                    <textarea value={decision} onChange={(e) => setDecision(e.target.value)} placeholder="조언을 듣고 내가 정한 방향을 적어 보세요" className="input mt-2 min-h-[70px] resize-none text-sm" />
+                    <textarea value={decision} onChange={(e) => setDecision(e.target.value)} placeholder="조언을 듣고 정한 방향을 적어 두세요" className="input mt-2 min-h-[70px] resize-none text-sm" />
                     <div className="mt-2 flex justify-between">
                       <button onClick={reset} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600"><RotateCcw size={12} /> 새 고민</button>
                       <button onClick={save} disabled={decision.trim().length < 5} className="btn-primary"><Save size={16} /> 판단 기록 저장</button>

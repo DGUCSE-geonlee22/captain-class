@@ -81,13 +81,13 @@ export default function WeekPage() {
               <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-[#7c2d12] to-safety-500 p-8 text-white shadow-2xl">
                 <p className="font-display text-sm uppercase tracking-[0.25em] text-white/70">Construction · 강의 없음 · 진단형</p>
                 <h1 className="mt-3 text-[30px] font-black leading-tight">{w.theme}</h1>
-                <p className="mt-3 max-w-2xl text-sm text-white/85">본 교육을 시작하기 전, 강의 대신 두 가지 진단으로 나의 공감·리더십 성향을 파악하고 현장 작업자에게 첫 마디를 건넵니다. 여기서 나온 점수는 12주 동안 내 변화를 추적하는 기준이 됩니다.</p>
+                <p className="mt-3 max-w-2xl text-sm text-white/85">본 교육에 들어가기 전에 강의 대신 두 가지 진단으로 공감·리더십 성향을 확인하고, 현장 작업자에게 첫 마디를 건넵니다. 이때 나온 점수가 12주 동안 변화를 재는 기준이 됩니다.</p>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 {[
                   { n: '①', title: '2축 자기진단', desc: '건설 현장 상황 8가지에서 통제형·회피형·균형형 대응을 고르면 공감·리더십 점수와 집중 보완 축이 나옵니다.', to: '/course/construction/diagnosis', done: diagnosisDone },
                   { n: '②', title: '현장 딜레마 선택형 진단', desc: '안전·공기 충돌 / 본사-현장 괴리 / 관계 딜레마 중 내 파트와 가까운 상황을 고르고, 지금의 나라면 어떻게 대응할지 선택합니다.', to: '/course/construction/diagnosis', done: dilemmaDone },
-                  { n: '③', title: '현장 첫 마디 (현업 과제)', desc: '작업자 1명에게 "가장 힘든 일이나 애로사항이 무엇인가요?"를 직접 묻고 반응을 기록합니다. 1주차 Reframing의 실제 데이터가 됩니다.', to: '/course/construction/field-mission', done: fieldDone },
+                  { n: '③', title: '현장 첫 마디 (현업 과제)', desc: '작업자 1명에게 "가장 힘든 일이나 애로사항이 무엇인가요?"를 직접 묻고 반응을 기록합니다. 이 기록은 1주차 Reframing에서 실제 자료로 씁니다.', to: '/course/construction/field-mission', done: fieldDone },
                 ].map((c) => (
                   <Link key={c.title} to={c.to} className={`card flex flex-col p-5 transition hover:-translate-y-0.5 hover:shadow-md ${c.done ? 'border-teal-200' : ''}`}>
                     <div className="flex items-center justify-between">
@@ -102,7 +102,7 @@ export default function WeekPage() {
               </div>
               <div className="card p-5">
                 <p className="label flex items-center gap-1"><NotebookPen size={12} /> 왜 강의가 없나요</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-700">Construction은 업종 지식을 가르치는 코스가 아니라, 신임 리더가 본 교육에 들어가기 전에 자기 성향과 현장의 딜레마를 미리 마주해 보는 진단 코스입니다. 사전 점수는 12주차 사후 진단과 비교해 변화를 확인합니다.</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">Construction은 업종 지식을 가르치는 코스가 아닙니다. 본 교육에 들어가기 전에 자기 성향과 현장의 딜레마를 먼저 마주해 보는 진단 코스입니다. 사전 점수는 12주차 사후 진단과 비교해 변화를 확인합니다.</p>
               </div>
             </div>
           )}

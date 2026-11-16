@@ -29,15 +29,15 @@ export default function BridgePage() {
         en="Anonymous Bridge"
         eyebrow={<span className="badge bg-safety-50 text-safety-700">핵심 기능 3</span>}
         title="익명 브릿지"
-        description="타 파트·타 부서 구성원과 작업자의 고충이 익명으로 도착합니다. 들어 보고, 답해 보고, 타 부서 리더와 연결됩니다."
+        description="타 파트·타 부서 구성원과 작업자의 고충이 익명으로 들어옵니다. 들어 보고, 답해 보고, 타 부서 리더와 연결됩니다."
         right={<AiNotice />}
       />
       <Callout tone="info">
         <span className="flex items-center gap-1.5 font-bold"><ShieldCheck size={14} /> 익명성 원칙</span>
-        제보자와 상담자는 서로 식별되지 않습니다. 텍스트 고충은 AI가 말투를 가공하고, 음성 제보는 텍스트 변환과 톤 변조를 거칩니다. 실명·소속·개인 식별 정보 입력은 경고됩니다.
+        제보자와 상담자는 서로 누구인지 알 수 없습니다. 텍스트 고충은 AI가 말투를 바꾸고, 음성 제보는 텍스트로 바꾼 뒤 목소리 톤을 바꿉니다. 실명·소속·개인 식별 정보를 적으면 경고가 뜹니다.
         <span className="ml-2 inline-flex items-center gap-1 text-xs opacity-70">
           {shared.live ? <Cloud size={12} /> : <CloudOff size={12} />}
-          {shared.live ? `서버 연결 · 다른 캡틴이 보낸 고충과 답변이 함께 보입니다 (${shared.grievances.length}건)` : auth.online ? '로그인하면 고충을 보내고 다른 캡틴의 답변을 볼 수 있습니다' : '로컬 모드 · 기본 고충만 보입니다'}
+          {shared.live ? `서버 연결 · 다른 캡틴이 보낸 고충과 답변이 함께 보입니다 (${shared.grievances.length}건)` : auth.online ? '로그인하면 고충을 보내고 다른 캡틴의 답변도 볼 수 있습니다' : '로컬 모드 · 기본 고충만 보입니다'}
         </span>
       </Callout>
       <div className="mt-6">
@@ -122,7 +122,7 @@ function SendGrievance({ shared, onSent }: { shared: ReturnType<typeof useShared
       await shared.submit(content.trim(), dept.trim() || '소속 비공개', source)
       setContent('')
       setDept('')
-      setToast('익명으로 전달되었습니다. 다른 캡틴·리더가 답하면 "받은 고충"에서 볼 수 있습니다.')
+      setToast('익명으로 전달했습니다. 다른 캡틴이나 리더가 답하면 "받은 고충"에서 볼 수 있습니다.')
       setTimeout(() => { setToast(null); onSent() }, 1800)
     } catch (e) {
       setToast(e instanceof ApiError ? e.message : '전송에 실패했습니다.')
@@ -134,10 +134,10 @@ function SendGrievance({ shared, onSent }: { shared: ReturnType<typeof useShared
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      {!shared.live && <Callout tone="warn">{auth.online ? '고충을 보내려면 먼저 로그인하세요. 보낸 사람 정보는 다른 사용자에게 절대 노출되지 않습니다.' : '고충 보내기는 서버에 연결됐을 때만 동작합니다. 지금은 로컬 모드입니다.'}</Callout>}
+      {!shared.live && <Callout tone="warn">{auth.online ? '고충을 보내려면 먼저 로그인하세요. 보낸 사람 정보는 다른 사용자에게 표시되지 않습니다.' : '고충 보내기는 서버에 연결된 상태에서만 됩니다. 지금은 로컬 모드입니다.'}</Callout>}
       <div className="card p-6">
         <p className="flex items-center gap-2 font-bold text-navy-800"><Send size={16} className="text-teal-500" /> 익명으로 고충 보내기</p>
-        <p className="mt-1 text-xs text-slate-500">누가 보냈는지는 저장되지만 아무에게도 표시되지 않습니다. 작업자의 음성 제보를 대신 올릴 때는 '음성 제보'를 고르세요.</p>
+        <p className="mt-1 text-xs text-slate-500">누가 보냈는지는 저장되지만 누구에게도 표시되지 않습니다. 작업자의 음성 제보를 대신 올릴 때는 '음성 제보'를 고르세요.</p>
         <div className="mt-4 flex gap-2">
           {(['text', 'voice'] as const).map((s) => (
             <button key={s} onClick={() => setSource(s)} className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${source === s ? 'border-teal-400 bg-teal-50 text-teal-700' : 'border-slate-200 text-slate-600'}`}>{s === 'text' ? '텍스트 (AI 말투 가공)' : '음성 제보 (톤 변조)'}</button>
@@ -146,9 +146,9 @@ function SendGrievance({ shared, onSent }: { shared: ReturnType<typeof useShared
         <label className="label mt-4 block">소속 (선택 · 파트·반 수준까지만)</label>
         <input value={dept} onChange={(e) => setDept(e.target.value)} placeholder="예: C파트 · 타설반 / 본사 공무팀" className="input mt-1" maxLength={30} />
         <label className="label mt-4 block">고충 내용</label>
-        <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="상황, 언제부터, 무엇이 가장 힘든지. 실명과 개인 사정은 빼고 적어 주세요." className="input mt-1 min-h-[130px] resize-none" />
-        <PrivacyWarning text="실명·연락처·특정인을 가리키는 표현은 쓰지 마세요. 연락처가 감지되면 전송이 막힙니다." />
-        {pii && <p className="mt-1 text-xs font-semibold text-red-600">연락처·이메일로 보이는 문자열이 있습니다.</p>}
+        <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="어떤 상황인지, 언제부터인지, 무엇이 가장 힘든지 적습니다. 실명과 개인 사정은 뺍니다." className="input mt-1 min-h-[130px] resize-none" />
+        <PrivacyWarning text="실명, 연락처, 특정인을 가리키는 표현은 쓰지 마세요. 연락처가 감지되면 보낼 수 없습니다." />
+        {pii && <p className="mt-1 text-xs font-semibold text-red-600">연락처나 이메일로 보이는 문자열이 있습니다.</p>}
         <div className="mt-4 flex justify-end">
           <button onClick={send} disabled={!canSend} className="btn-teal"><Send size={16} /> {busy ? '전송 중…' : '익명으로 보내기'}</button>
         </div>
@@ -182,7 +182,7 @@ function Consult({ shared }: { shared: ReturnType<typeof useSharedGrievances> })
     setTimeout(() => setToast(null), 2400)
   }
 
-  if (!g) return <div className="card p-8 text-center text-sm text-slate-500">아직 답할 고충이 없습니다. 다른 캡틴이 고충을 보내면 여기에 나타납니다.</div>
+  if (!g) return <div className="card p-8 text-center text-sm text-slate-500">아직 답할 고충이 없습니다. 다른 캡틴이 고충을 보내면 여기에 보입니다.</div>
 
   return (
     <div className="grid grid-cols-5 gap-6">
@@ -215,9 +215,9 @@ function Consult({ shared }: { shared: ReturnType<typeof useSharedGrievances> })
         </div>
         <div className="card p-6">
           <p className="flex items-center gap-2 font-bold text-navy-800"><MessageCircleHeart size={16} className="text-teal-500" /> 캡틴의 답변</p>
-          <p className="mt-1 text-xs text-slate-500">이 사람의 리더가 아니라, 같은 회사의 다른 리더로서 답합니다. 제출하면 코칭 포인트 3가지를 점검하고, 제보자에게 익명으로 전달됩니다.</p>
-          <textarea value={answer} onChange={(e) => { setAnswer(e.target.value); setSubmitted(null) }} placeholder="노력을 인정하고, 문제를 구체적으로 짚고, 개선 방향을 함께 적어 보세요." className="input mt-3 min-h-[130px] resize-none" />
-          <PrivacyWarning text="실명·소속·개인 식별 정보를 쓰지 마세요. 제보자도 당신도 익명입니다." />
+          <p className="mt-1 text-xs text-slate-500">이 사람의 리더가 아니라 같은 회사의 다른 리더로서 답합니다. 제출하면 코칭 포인트 3가지를 점검한 뒤 제보자에게 익명으로 전달합니다.</p>
+          <textarea value={answer} onChange={(e) => { setAnswer(e.target.value); setSubmitted(null) }} placeholder="노력을 인정하고, 문제를 구체적으로 짚고, 개선 방향을 함께 적습니다." className="input mt-3 min-h-[130px] resize-none" />
+          <PrivacyWarning text="실명·소속·개인 식별 정보는 쓰지 마세요. 제보자도 답하는 사람도 익명입니다." />
           {nameWarn && <p className="mt-1 text-xs font-semibold text-red-600">특정인을 가리키는 표현으로 보입니다. 익명성을 지켜 주세요.</p>}
           {auth.online && !auth.user && <p className="mt-1 text-xs text-slate-500">서버에 전달하려면 로그인하세요.</p>}
           <div className="mt-4 flex justify-end">
@@ -266,7 +266,7 @@ function Matching() {
 
   return (
     <div className="space-y-6">
-      <Callout tone="teal">7주차 미션: 타 부서 리더와 15분 대화 후 함께 바꿀 작은 절차 1개 합의. 프로필을 고르고 교환 인터뷰 질문지로 대화한 뒤 합의서를 씁니다.</Callout>
+      <Callout tone="teal">7주차 미션: 타 부서 리더와 15분 대화한 뒤, 함께 바꿀 작은 절차 하나를 합의합니다. 프로필을 고르고 교환 인터뷰 질문지로 대화한 다음 합의서를 씁니다.</Callout>
       <div className="grid grid-cols-3 gap-4">
         {bridgeProfiles.map((bp) => (
           <button key={bp.id} onClick={() => setProfileId(bp.id)} className={`card p-5 text-left transition ${bp.id === profileId ? 'border-teal-400 ring-2 ring-teal-100' : 'hover:border-slate-300'}`}>
@@ -299,7 +299,7 @@ function Matching() {
             {agreementExamples.map((ex) => <button key={ex} onClick={() => setTask(ex)} className="badge border border-slate-200 bg-white text-slate-600 hover:border-slate-300">{ex}</button>)}
           </div>
           <label className="label mt-4 block">확인 방법·시점</label>
-          <input value={check} onChange={(e) => setCheck(e.target.value)} placeholder="예: 다음 달 첫 주 공문 건수와 현장 확인 기록 대조" className="input mt-1" />
+          <input value={check} onChange={(e) => setCheck(e.target.value)} placeholder="예: 다음 달 첫 주에 공문 건수와 현장 확인 기록을 대조" className="input mt-1" />
           <div className="mt-5 flex items-center justify-between">
             <Link to="/records?tab=agreement" className="text-xs font-semibold text-teal-600">내 합의서 {state.agreements.length}건</Link>
             <button onClick={save} disabled={task.trim().length < 3} className="btn-teal"><Save size={16} /> 합의서 저장</button>
