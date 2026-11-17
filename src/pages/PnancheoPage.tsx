@@ -7,6 +7,7 @@ import { matchLens, looksLikePersonalInfo, matchCases } from '../lib/mockAI'
 import { useApp } from '../context/AppContext'
 import { useSharedCases } from '../lib/shared'
 import { ApiError, type SharedCase } from '../lib/api'
+import FireSound from '../components/FireSound'
 
 type Tab = 'search' | 'waiting'
 
@@ -55,10 +56,13 @@ export default function PnancheoPage() {
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
           여기서는 아무도 당신을 평가하지 않습니다. 모닥불 앞에 앉아 지금 무엇이 난처한지 천천히 적어 주세요. 관점 렌즈가 양쪽 입장을 묻고, 먼저 이 길을 지나간 선배 리더들이 남긴 이야기를 보여 드립니다.
         </p>
-        <p className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-[11px] text-white/50">
-          {shared.live ? <Cloud size={12} className="text-ember-300" /> : <CloudOff size={12} />}
-          {shared.live ? `서버 연결 · 다른 캡틴이 남긴 상황과 리더 솔루션이 함께 보입니다 (${shared.cases.length}건)` : auth.online ? '로그인하면 다른 캡틴의 상황과 리더 솔루션이 함께 보입니다' : '로컬 모드 · 기본 사례만 보입니다'}
-        </p>
+        <div className="mt-3 flex items-center justify-center gap-2">
+          <p className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-[11px] text-white/50">
+            {shared.live ? <Cloud size={12} className="text-ember-300" /> : <CloudOff size={12} />}
+            {shared.live ? `서버 연결 · 다른 캡틴이 남긴 상황과 리더 솔루션이 함께 보입니다 (${shared.cases.length}건)` : auth.online ? '로그인하면 다른 캡틴의 상황과 리더 솔루션이 함께 보입니다' : '로컬 모드 · 기본 사례만 보입니다'}
+          </p>
+          <FireSound />
+        </div>
       </div>
 
       <div className="fadeup fadeup-d1 mx-auto mt-10 max-w-[1080px]">

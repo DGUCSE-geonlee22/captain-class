@@ -79,11 +79,7 @@ export default function CourseDetailPage() {
         eyebrow={
           <>
             <AxisBadge axis={course.axis} />
-            {skeleton ? (
-              <span className="badge bg-slate-100 text-slate-600"><Construction size={12} /> 콘텐츠 준비 중 · 담당: {course.owner}</span>
-            ) : (
-              <span className="badge bg-teal-50 text-teal-700">정리: {course.owner}</span>
-            )}
+            {skeleton && <span className="badge bg-slate-100 text-slate-600"><Construction size={12} /> 콘텐츠 준비 중</span>}
           </>
         }
         title={course.tagline}
@@ -229,7 +225,7 @@ function SkeletonBody({ course }: { course: Course }) {
   return (
     <div className="space-y-6">
       <Callout tone="warn">
-        이 코스는 아직 뼈대만 있습니다. 담당자({course.owner})가 <code className="rounded bg-white/70 px-1">src/data/courses.ts</code>에서 레슨 제목·설명·연결 경로와 코스 프레임(목표·핵심 질문·교육 목적)을 채우면 공감 축 코스와 같은 형식으로 표시됩니다.
+        이 코스는 아직 뼈대만 있습니다. 담당자가 <code className="rounded bg-white/70 px-1">src/data/courses.ts</code>에서 레슨 제목·설명·연결 경로와 코스 프레임(목표·핵심 질문·교육 목적)을 채우면 공감 축 코스와 같은 형식으로 표시됩니다.
       </Callout>
       <div className="grid grid-cols-3 gap-4">
         {['코스 목표', '핵심 질문', '교육 목적'].map((l) => (

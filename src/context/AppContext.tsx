@@ -478,7 +478,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const activityComp = Math.min(1, (state.signalNotes.length + state.beforeAfters.length + state.interviewNotes.length + state.consultAnswers.length) / 8)
     const compassion = Math.round((weekFrac(compassionWeeks) * 0.5 + weekFrac(linkWeeks) * 0.2) * 100 * 1 + (lessonFrac * 0.15 + activityComp * 0.15) * 100)
     const activityLead = Math.min(1, (state.practiceResults.length + state.practiceLogs.length + state.agreements.length + state.judgments.length + state.coachingNotes.length + state.growthPlans.length + state.memberDelegations.length) / 8)
-    const foundation = Math.round(([state.diagnosis, state.dilemma, state.fieldReport].filter(Boolean).length / 3) * 100)
+    // 0주차 진단은 주차 이수 판정과 같은 기준: 데모 주차가 0주차를 지났으면 이수한 것으로 본다
+    const foundation = w > 0 ? 100 : Math.round(([state.diagnosis, state.dilemma, state.fieldReport].filter(Boolean).length / 3) * 100)
     const leadership = Math.round((weekFrac(leadershipWeeks) * 0.5 + weekFrac(linkWeeks) * 0.2) * 100 + activityLead * 30)
 
     const isLeader = user?.role === 'leader' || w >= 13

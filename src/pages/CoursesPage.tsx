@@ -38,14 +38,14 @@ export default function CoursesPage() {
         <PhilosophyBanner
           en="공감 축 교육 철학"
           statement={compassionAxisPhilosophy.statement}
-          note="정리: 곽경은 · Compassion은 '듣기·이해', Collaboration+Communication은 '소통·협업 행동'을 맡습니다."
+          note="Compassion은 '듣기·이해', Collaboration+Communication은 '소통·협업 행동'을 맡습니다."
           steps={compassionAxisPhilosophy.steps}
           className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500"
         />
         <PhilosophyBanner
           en="리더십 축 교육 철학"
           statement={leadershipAxisPhilosophy.statement}
-          note="정리: 장한이 · Coaching은 '질문·계획', Charisma+Character는 '판단·성장'을 맡습니다."
+          note="Coaching은 '질문·계획', Charisma+Character는 '판단·성장'을 맡습니다."
           steps={leadershipAxisPhilosophy.steps}
           className="bg-gradient-to-r from-navy-900 via-navy-800 to-navy-700"
         />
@@ -67,7 +67,7 @@ export default function CoursesPage() {
             <span className="flex items-center gap-2">
               <span className="text-lg font-bold text-safety-700">{foundation.name}</span>
               <span className="badge bg-white text-safety-700">기초 역량 · 0주차 사전 진단 · 강의 없음</span>
-              <span className="badge bg-safety-100 text-safety-700">정리: {foundation.owner} · 진행 {progress.foundation}%</span>
+              <span className="badge bg-safety-100 text-safety-700">진행 {progress.foundation}%</span>
             </span>
             <span className="block text-sm text-slate-600">{foundation.tagline}</span>
           </span>
@@ -131,7 +131,7 @@ function CourseCard({ course, percent }: { course: Course; percent: number }) {
           <p className="mt-0.5 text-sm text-slate-600">{course.tagline}</p>
           {course.framework && <p className="mt-1.5 text-xs text-teal-700">핵심 질문 · {course.framework.keyQuestion}</p>}
         </div>
-        {skeleton ? <span className="badge shrink-0 bg-slate-100 text-slate-600"><Lock size={11} /> 준비 중 · {course.owner}</span> : <span className={`badge shrink-0 ${meta.bg} ${meta.text}`}>레슨 {course.lessons.length}개</span>}
+        {skeleton ? <span className="badge shrink-0 bg-slate-100 text-slate-600"><Lock size={11} /> 준비 중</span> : <span className={`badge shrink-0 ${meta.bg} ${meta.text}`}>레슨 {course.lessons.length}개</span>}
       </div>
       <div className="mt-4 flex items-center gap-3">
         <div className="flex-1"><ProgressBar value={percent} color={skeleton ? '#cbd5e1' : meta.color} height={6} /></div>

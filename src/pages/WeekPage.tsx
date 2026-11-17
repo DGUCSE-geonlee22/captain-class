@@ -30,9 +30,10 @@ export default function WeekPage() {
 
   const complete = () => lecture && markLecture(lecture.id)
   const goNext = next ? () => setParams({ lecture: next.id }) : undefined
-  const diagnosisDone = !!state.diagnosis
-  const dilemmaDone = !!state.dilemma
-  const fieldDone = !!state.fieldReport
+  const pastWeek0 = week === 0 && state.demoWeek > 0
+  const diagnosisDone = pastWeek0 || !!state.diagnosis
+  const dilemmaDone = pastWeek0 || !!state.dilemma
+  const fieldDone = pastWeek0 || !!state.fieldReport
 
   return (
     <div>

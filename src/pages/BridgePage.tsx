@@ -34,7 +34,7 @@ export default function BridgePage() {
       />
       <Callout tone="info">
         <span className="flex items-center gap-1.5 font-bold"><ShieldCheck size={14} /> 익명성 원칙</span>
-        제보자와 상담자는 서로 누구인지 알 수 없습니다. 텍스트 고충은 AI가 말투를 바꾸고, 음성 제보는 텍스트로 바꾼 뒤 목소리 톤을 바꿉니다. 실명·소속·개인 식별 정보를 적으면 경고가 뜹니다.
+        제보자와 상담자는 서로 누구인지 알 수 없습니다. 텍스트 고충은 AI가 말투를 바꾸고, 음성 제보는 텍스트로 바꾼 뒤 목소리 톤을 바꿉니다. 실명·직급·개인 식별 정보를 적으면 경고가 뜹니다. 소속은 파트·부서 수준까지만 남습니다.
         <span className="ml-2 inline-flex items-center gap-1 text-xs opacity-70">
           {shared.live ? <Cloud size={12} /> : <CloudOff size={12} />}
           {shared.live ? `서버 연결 · 다른 캡틴이 보낸 고충과 답변이 함께 보입니다 (${shared.grievances.length}건)` : auth.online ? '로그인하면 고충을 보내고 다른 캡틴의 답변도 볼 수 있습니다' : '로컬 모드 · 기본 고충만 보입니다'}
@@ -217,7 +217,7 @@ function Consult({ shared }: { shared: ReturnType<typeof useSharedGrievances> })
           <p className="flex items-center gap-2 font-bold text-navy-800"><MessageCircleHeart size={16} className="text-teal-500" /> 캡틴의 답변</p>
           <p className="mt-1 text-xs text-slate-500">이 사람의 리더가 아니라 같은 회사의 다른 리더로서 답합니다. 제출하면 코칭 포인트 3가지를 점검한 뒤 제보자에게 익명으로 전달합니다.</p>
           <textarea value={answer} onChange={(e) => { setAnswer(e.target.value); setSubmitted(null) }} placeholder="노력을 인정하고, 문제를 구체적으로 짚고, 개선 방향을 함께 적습니다." className="input mt-3 min-h-[130px] resize-none" />
-          <PrivacyWarning text="실명·소속·개인 식별 정보는 쓰지 마세요. 제보자도 답하는 사람도 익명입니다." />
+          <PrivacyWarning text="실명·직급·개인 식별 정보는 쓰지 마세요. 제보자도 답하는 사람도 익명입니다." />
           {nameWarn && <p className="mt-1 text-xs font-semibold text-red-600">특정인을 가리키는 표현으로 보입니다. 익명성을 지켜 주세요.</p>}
           {auth.online && !auth.user && <p className="mt-1 text-xs text-slate-500">서버에 전달하려면 로그인하세요.</p>}
           <div className="mt-4 flex justify-end">

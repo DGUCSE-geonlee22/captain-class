@@ -8,7 +8,7 @@ export const TOTAL_WEEKS = 12
  * 12주 학습 여정. 홈의 항해 지도와 이번 주 미션 카드가 이 데이터를 읽는다.
  * Construction 코스는 0주차(본 교육 1주 전) 사전 진단 코스다.
  */
-export const construction = { weeks: [0] as number[], note: '0주차 사전 진단 코스 · 담당 주우상' }
+export const construction = { weeks: [0] as number[], note: '0주차 사전 진단 코스 · 강의 없음' }
 
 export const journey: JourneyStage[] = [
   {

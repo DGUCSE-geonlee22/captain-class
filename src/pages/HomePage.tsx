@@ -55,17 +55,17 @@ export default function HomePage() {
         <SectionHead
           en="About"
           ko={<>직책만 받은 캡틴이,<br />사람을 이끄는 리더가 되는 12주</>}
-          sub={`${organization.name}(${organization.size}). ${organization.background}`}
+          sub={`${organization.size}과 함께하는 ${organization.name}입니다. ${organization.background}`}
         />
         <Reveal className="mt-14 grid grid-cols-2 gap-1" delay={100}>
           <div className="relative flex h-[560px] items-center justify-center overflow-hidden rounded-l-3xl bg-gradient-to-br from-navy-900 via-navy-700 to-navy-500">
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 60px), repeating-linear-gradient(0deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 60px)' }} />
-            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">AI는 데이터의 맥락을,</p>
+            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">AI는 데이터의 맥락을</p>
             <span className="absolute bottom-5 left-6 font-display text-sm tracking-[0.06em] text-white/60">Data context</span>
           </div>
           <div className="relative flex h-[560px] items-center justify-center overflow-hidden rounded-r-3xl bg-gradient-to-bl from-teal-700 via-teal-500 to-teal-300">
             <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/15 blur-3xl" />
-            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">리더는 마음의 맥락을 읽는다.</p>
+            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">리더는 마음의 맥락을 읽는다</p>
             <span className="absolute bottom-5 right-6 font-display text-sm tracking-[0.06em] text-white/70">Heart context</span>
           </div>
         </Reveal>
@@ -184,7 +184,7 @@ export default function HomePage() {
                         <span className="block font-bold text-navy-800">{c.name} <span className="ml-1 text-xs font-medium text-slate-400">{c.nameKo}</span></span>
                         <span className="block text-sm text-slate-600">{c.tagline}</span>
                       </span>
-                      {c.status === 'skeleton' ? <span className="badge shrink-0 bg-slate-100 text-slate-500">준비 중 · {c.owner}</span> : <ArrowRight size={16} className="shrink-0 text-slate-300" />}
+                      {c.status === 'skeleton' ? <span className="badge shrink-0 bg-slate-100 text-slate-500">준비 중</span> : <ArrowRight size={16} className="shrink-0 text-slate-300" />}
                     </Link>
                   ))}
                 </div>
@@ -196,7 +196,7 @@ export default function HomePage() {
               <span className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-sm" style={{ background: axisMeta.foundation.color }}><HardHat size={24} /></span>
               <span className="flex-1">
                 <span className="text-lg font-bold text-safety-700">Construction</span>
-                <span className="ml-2 badge bg-safety-100 text-safety-700">기초 역량 · 0주차 사전 진단 · 담당 주우상</span>
+                <span className="ml-2 badge bg-safety-100 text-safety-700">기초 역량 · 0주차 사전 진단</span>
                 <span className="block text-sm text-slate-600">2축 자기진단 → 현장 딜레마 시나리오 → 작업자에게 첫 마디 건네기. 여기서 나온 점수가 12주 변화를 재는 기준이 됩니다.</span>
               </span>
               <ArrowRight className="text-safety-400" />
