@@ -60,12 +60,12 @@ export default function HomePage() {
         <Reveal className="mt-14 grid grid-cols-2 gap-1" delay={100}>
           <div className="relative flex h-[560px] items-center justify-center overflow-hidden rounded-l-3xl bg-gradient-to-br from-navy-900 via-navy-700 to-navy-500">
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 60px), repeating-linear-gradient(0deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 60px)' }} />
-            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">AI는 데이터의 맥락을</p>
+            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.16em] text-white"><span className="upright">AI</span>는 데이터의 맥락을</p>
             <span className="absolute bottom-5 left-6 font-display text-sm tracking-[0.06em] text-white/60">Data context</span>
           </div>
           <div className="relative flex h-[560px] items-center justify-center overflow-hidden rounded-r-3xl bg-gradient-to-bl from-teal-700 via-teal-500 to-teal-300">
             <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/15 blur-3xl" />
-            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.22em] text-white">리더는 마음의 맥락을 읽는다</p>
+            <p className="vertical-rl relative text-[28px] font-medium tracking-[0.16em] text-white">리더는 마음의 맥락을 읽는다</p>
             <span className="absolute bottom-5 right-6 font-display text-sm tracking-[0.06em] text-white/70">Heart context</span>
           </div>
         </Reveal>
